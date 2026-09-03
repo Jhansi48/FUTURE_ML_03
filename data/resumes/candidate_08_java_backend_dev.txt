@@ -1,0 +1,11 @@
+Vikram Patel — Senior Java Backend Developer
+Email: vikram.patel@enterprise.com | Phone: (555) 890-5678
+
+Summary:
+Backend Engineer with 5.5 years of experience building high-throughput financial microservices.
+
+Technical Skills:
+- Java, Spring Boot, PostgreSQL, MySQL, Redis, Kafka, Apache Kafka, REST API, Docker, Kubernetes, Unit Testing, Git
+
+Education:
+Bachelor's Degree in Computer Science (2019)

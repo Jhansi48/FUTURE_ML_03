@@ -1,0 +1,23 @@
+{
+  "job_id": "JOB-FS-002",
+  "title": "Lead Full Stack Software Engineer",
+  "min_experience_years": 5.0,
+  "required_skills": [
+    "typescript",
+    "javascript",
+    "react",
+    "node.js",
+    "postgresql",
+    "rest api",
+    "docker"
+  ],
+  "preferred_skills": [
+    "next.js",
+    "graphql",
+    "redis",
+    "aws",
+    "ci/cd",
+    "system design"
+  ],
+  "description_text": "Looking for an experienced Lead Full Stack Developer to architect modern cloud web applications. \nMust possess expertise in TypeScript, React, Node.js, REST API design, PostgreSQL databases, and Docker containerization. \nPreferred experience includes Next.js, GraphQL, Redis caching, AWS deployments, and CI/CD pipelines."
+}

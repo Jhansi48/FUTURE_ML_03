@@ -1,0 +1,16 @@
+Emily Watson — Frontend React Developer
+Email: emily.watson@webdev.com | Phone: 555-654-3210
+
+Summary:
+Frontend Web Developer with 3.0 years of experience crafting interactive user interfaces in React, TypeScript, and modern CSS.
+
+Technical Skills:
+- React, TypeScript, JavaScript, Next.js, HTML5, CSS3, Tailwind CSS, Redux, Git, Webpack
+
+Experience:
+Frontend Developer at PixelCraft (2021 - Present):
+- Built component libraries in React and Tailwind CSS.
+- Optimized web application performance and accessibility.
+
+Education:
+Bachelor's Degree in Graphic Design & Web Informatics (2021)

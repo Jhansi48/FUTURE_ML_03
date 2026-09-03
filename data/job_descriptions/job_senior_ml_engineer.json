@@ -1,0 +1,24 @@
+{
+  "job_id": "JOB-ML-001",
+  "title": "Senior Machine Learning Engineer (NLP & MLOps)",
+  "min_experience_years": 4.0,
+  "required_skills": [
+    "python",
+    "pytorch",
+    "scikit-learn",
+    "machine learning",
+    "natural language processing",
+    "docker",
+    "aws",
+    "model deployment"
+  ],
+  "preferred_skills": [
+    "transformers",
+    "huggingface",
+    "kubernetes",
+    "mlops",
+    "langchain",
+    "sql"
+  ],
+  "description_text": "We are seeking a Senior Machine Learning Engineer to design and deploy scalable NLP and generative AI models. \nCandidates must have strong hands-on experience with Python, PyTorch, Scikit-learn, and Machine Learning algorithms. \nYou will be responsible for end-to-end model deployment, Docker containerization, and AWS cloud infrastructure. \nPreferred experience includes Transformers, HuggingFace, Kubernetes, and automated MLOps pipelines."
+}

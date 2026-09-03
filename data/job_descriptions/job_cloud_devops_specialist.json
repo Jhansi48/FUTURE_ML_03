@@ -1,0 +1,22 @@
+{
+  "job_id": "JOB-DO-003",
+  "title": "Senior Cloud DevOps & Infrastructure Specialist",
+  "min_experience_years": 4.0,
+  "required_skills": [
+    "aws",
+    "kubernetes",
+    "docker",
+    "terraform",
+    "ci/cd",
+    "linux"
+  ],
+  "preferred_skills": [
+    "python",
+    "prometheus",
+    "grafana",
+    "github actions",
+    "bash",
+    "ansible"
+  ],
+  "description_text": "Seeking a Senior Cloud DevOps Specialist to lead automated cloud infrastructure and CI/CD operations. \nRequired hands-on skills include AWS, Kubernetes cluster management, Docker, Terraform Infrastructure as Code, Linux systems, and CI/CD pipelines. \nPreferred skills include Prometheus monitoring, Grafana dashboards, GitHub Actions, and Python automation scripting."
+}

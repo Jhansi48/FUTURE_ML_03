@@ -1,0 +1,19 @@
+Sarah Chen — Data Scientist & Quantitative Analyst
+Email: schen.ds@gmail.com | Phone: +1-555-876-5432 | LinkedIn: linkedin.com/in/sarahchen-ds
+
+Professional Summary:
+Data Scientist with 4.0 years of experience specializing in predictive modeling, statistical analysis, feature engineering, and time series forecasting.
+
+Technical Skills:
+- Programming: Python, SQL, R
+- Machine Learning: Scikit-learn, XGBoost, LightGBM, Random Forest, Time Series Forecasting, A/B Testing
+- Data Analysis & Tools: Pandas, NumPy, Matplotlib, Seaborn, Tableau, Jupyter
+- Databases & Cloud: PostgreSQL, BigQuery, AWS, Git
+
+Experience:
+Data Scientist at RetailMetrics (2020 - Present):
+- Developed customer churn and weekly demand forecasting models using XGBoost and Pandas.
+- Designed automated A/B testing frameworks improving marketing conversion by 14%.
+
+Education:
+Master's Degree in Applied Statistics, University of Michigan (2020)
