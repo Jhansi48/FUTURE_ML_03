@@ -34,25 +34,22 @@ def extract_text_from_file(filepath: str) -> str:
         return "\n".join(full_text)
         
     elif ext == ".pdf":
-        # Multi-strategy PDF extractor
         try:
             from pypdf import PdfReader
             reader = PdfReader(filepath)
             text = "\n".join([page.extract_text() or "" for page in reader.pages])
             if text.strip():
                 return text
-        except ImportError:
+        except Exception:
             pass
         
         # Fallback reading
         with open(filepath, "rb") as f:
             content = f.read().decode("latin-1", errors="ignore")
-            # Extract plain string blocks
             clean_strings = re.findall(r"\(([\w\s\.,\-\@\/]+)\)", content)
             return "\n".join(clean_strings) if clean_strings else content[:2000]
             
     else:
-        # Fallback generic text read
         with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
             return f.read()
 
@@ -74,6 +71,7 @@ def anonymize_resume_text(text: str) -> str:
     
     # Mask URLs / LinkedIn / GitHub profile links
     clean = re.sub(r"https?://(?:www\.)?(?:linkedin\.com|github\.com)/\S+", "[SOCIAL_PROFILE_MASKED]", clean)
+    clean = re.sub(r"\b(?:github\.com|linkedin\.com)/\S+", "[SOCIAL_PROFILE_MASKED]", clean)
     clean = re.sub(r"https?://\S+|www\.\S+", "[URL_MASKED]", clean)
     
     return clean
@@ -84,7 +82,8 @@ def extract_experience_years(text: str) -> float:
         r"(\d+(?:\.\d+)?)\+?\s*(?:years?|yrs?)(?:\s+of)?\s+(?:experience|exp)",
         r"(?:experience|exp):\s*(\d+(?:\.\d+)?)\+?\s*(?:years?|yrs?)",
         r"(\d+)\s+years?\s+in\s+software",
-        r"over\s+(\d+)\s+years"
+        r"over\s+(\d+)\s+years",
+        r"with\s+(\d+(?:\.\d+)?)\s+years"
     ]
     years_found = []
     for pat in patterns:

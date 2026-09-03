@@ -1,7 +1,7 @@
 ﻿"""
 TalentMatch ML - Data Generation Module
-Generates realistic multi-format candidate resumes (.txt, .docx) and structured
-Job Descriptions across Machine Learning, Full Stack, DevOps, and Analytics roles.
+Generates a controlled, reproducible prototype candidate corpus across PDF, DOCX, and TXT formats,
+and structured Job Descriptions across Machine Learning, Full Stack, and DevOps roles.
 """
 
 import os
@@ -9,7 +9,7 @@ import json
 import docx
 
 def generate_sample_resumes(resumes_dir: str):
-    """Creates realistic candidate resumes across varying seniorities and tech stacks."""
+    """Creates synthetic candidate resumes across varying seniorities and tech stacks."""
     os.makedirs(resumes_dir, exist_ok=True)
     
     # 1. Lead ML Engineer (.docx)
@@ -53,25 +53,44 @@ Master's Degree in Applied Statistics, University of Michigan (2020)
     with open(os.path.join(resumes_dir, "candidate_02_data_scientist.txt"), "w", encoding="utf-8") as f:
         f.write(txt2)
 
-    # 3. Junior ML Intern (.txt)
-    txt3 = """David Kim — Junior Machine Learning Developer
+    # 3. Junior ML Developer (.pdf)
+    try:
+        from reportlab.lib.pagesizes import letter
+        from reportlab.pdfgen import canvas
+        pdf_path = os.path.join(resumes_dir, "candidate_03_junior_ml_intern.pdf")
+        c = canvas.Canvas(pdf_path, pagesize=letter)
+        c.setFont("Helvetica-Bold", 16)
+        c.drawString(50, 750, "David Kim — Junior Machine Learning Developer")
+        c.setFont("Helvetica", 10)
+        c.drawString(50, 735, "Email: dkim.intern@outlook.com | Phone: (555) 901-2345 | GitHub: github.com/dkim-ml")
+        c.setFont("Helvetica-Bold", 12)
+        c.drawString(50, 705, "Summary:")
+        c.setFont("Helvetica", 10)
+        c.drawString(50, 690, "Enthusiastic Junior ML developer with 1.0 year of experience in machine learning algorithms,")
+        c.drawString(50, 678, "data cleaning, model deployment, and Python scripting.")
+        c.setFont("Helvetica-Bold", 12)
+        c.drawString(50, 648, "Technical Skills:")
+        c.setFont("Helvetica", 10)
+        c.drawString(50, 633, "Python, NumPy, Pandas, Matplotlib, Scikit-learn, Basic PyTorch, Docker, Git, Linux")
+        c.setFont("Helvetica-Bold", 12)
+        c.drawString(50, 603, "Projects:")
+        c.setFont("Helvetica", 10)
+        c.drawString(50, 588, "- Image Classification Prototype: Trained CNN in PyTorch on CIFAR-10.")
+        c.drawString(50, 576, "- House Price Prediction: Built regression model using Scikit-learn and Pandas.")
+        c.setFont("Helvetica-Bold", 12)
+        c.drawString(50, 546, "Education:")
+        c.setFont("Helvetica", 10)
+        c.drawString(50, 531, "Bachelor's Degree in Computer Engineering (2024)")
+        c.save()
+    except Exception:
+        # Fallback to TXT if reportlab fails
+        txt3 = """David Kim — Junior Machine Learning Developer
 Email: dkim.intern@outlook.com | Phone: (555) 901-2345
-
-Summary:
-Enthusiastic Junior ML developer with 1.0 year of academic and internship experience in machine learning algorithms, data cleaning, and Python scripting.
-
-Technical Skills:
-- Python, NumPy, Pandas, Matplotlib, Scikit-learn, Basic PyTorch, Git, Linux
-
-Projects:
-- Image Classification Prototype: Trained CNN in PyTorch on CIFAR-10.
-- House Price Prediction: Built regression model using Scikit-learn and Pandas.
-
-Education:
-Bachelor's Degree in Computer Engineering (2024)
+Summary: Enthusiastic Junior ML developer with 1.0 year of experience in Python, Scikit-learn, PyTorch, Docker, Git.
+Education: Bachelor's Degree in Computer Engineering (2024)
 """
-    with open(os.path.join(resumes_dir, "candidate_03_junior_ml_intern.txt"), "w", encoding="utf-8") as f:
-        f.write(txt3)
+        with open(os.path.join(resumes_dir, "candidate_03_junior_ml_intern.txt"), "w", encoding="utf-8") as f:
+            f.write(txt3)
 
     # 4. Lead Full Stack Software Engineer (.docx)
     doc4 = docx.Document()
@@ -153,7 +172,7 @@ Bachelor's Degree in Computer Science (2019)
     with open(os.path.join(resumes_dir, "candidate_08_java_backend_dev.txt"), "w", encoding="utf-8") as f:
         f.write(txt8)
 
-    print(f"[DataGenerator] 8 sample resumes created across DOCX & TXT formats in {resumes_dir}")
+    print(f"[DataGenerator] Sample candidate corpus created across PDF, DOCX, and TXT formats in {resumes_dir}")
 
 def generate_sample_job_descriptions(jd_dir: str):
     """Generates structured Job Descriptions across 3 standard roles."""

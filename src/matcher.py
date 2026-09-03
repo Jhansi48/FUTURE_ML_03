@@ -1,7 +1,7 @@
 ﻿"""
 TalentMatch ML - Multi-Tier Candidate Matching & Skill Gap Analysis Engine
 Combines structured taxonomy extraction, TF-IDF lexical cosine similarity,
-dense semantic vector embeddings, and experience alignment for candidate ranking.
+dense semantic vector embeddings, and experience/education alignment for candidate ranking.
 """
 
 import re
@@ -11,7 +11,7 @@ from typing import Dict, List, Set, Tuple, Any
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from src.taxonomy import get_all_canonical_skills, normalize_skill
+from src.taxonomy import get_all_canonical_skills, normalize_skill, SKILL_ALIASES
 
 class TalentMatcher:
     def __init__(self, use_dense_embeddings: bool = True):
@@ -24,20 +24,20 @@ class TalentMatcher:
         self.use_dense_embeddings = use_dense_embeddings
         self.embedding_model = None
         
-        # Load SentenceTransformer if available
+        # Load SentenceTransformer for dense embeddings
         if use_dense_embeddings:
             try:
                 from sentence_transformers import SentenceTransformer
                 self.embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
                 print("[TalentMatcher] Loaded SentenceTransformer (all-MiniLM-L6-v2) for dense semantic scoring.")
             except Exception as e:
-                print(f"[TalentMatcher] SentenceTransformer unavailable ({e}). Falling back to TF-IDF Latent Semantic model.")
+                print(f"[TalentMatcher] SentenceTransformer fallback ({e}). Using TF-IDF model.")
                 self.use_dense_embeddings = False
 
     def extract_skills_from_text(self, text: str) -> Set[str]:
         """
         Extracts recognized technical skills using regex token boundaries and alias mappings.
-        Handles punctuation variations like c++, scikit-learn, node.js, ci/cd.
+        Handles special characters in skills like c++, scikit-learn, node.js, ci/cd.
         """
         if not isinstance(text, str):
             return set()
@@ -47,13 +47,11 @@ class TalentMatcher:
         
         # Check canonical skills
         for skill in self.canonical_skills:
-            # Escape regex special characters (e.g., +, .)
             pattern = r"(?<!\w)" + re.escape(skill) + r"(?!\w)"
             if re.search(pattern, text_lower):
                 extracted.add(skill)
                 
         # Check aliases
-        from src.taxonomy import SKILL_ALIASES
         for alias, canonical in SKILL_ALIASES.items():
             pattern = r"(?<!\w)" + re.escape(alias) + r"(?!\w)"
             if re.search(pattern, text_lower):
@@ -83,10 +81,10 @@ class TalentMatcher:
         # Preferred match bonus (0.0 to 1.0)
         pref_ratio = len(matched_preferred) / len(pref_norm) if pref_norm else 0.5
         
-        # Weighted Skill Overlap Score (80% Required + 20% Preferred)
+        # Weighted Hard Skill Score (80% Required + 20% Preferred)
         skill_score = 0.80 * req_ratio + 0.20 * pref_ratio
         
-        # Gap severity
+        # Gap severity classification
         if req_ratio >= 0.80:
             severity = "Low"
         elif req_ratio >= 0.50:
@@ -107,7 +105,7 @@ class TalentMatcher:
         return skill_score, gap_details
 
     def compute_lexical_similarity(self, resume_text: str, jd_text: str) -> float:
-        """Computes TF-IDF cosine similarity between resume and job description."""
+        """Computes TF-IDF lexical cosine similarity between resume and job description."""
         try:
             tfidf_mat = self.vectorizer.fit_transform([resume_text, jd_text])
             sim = cosine_similarity(tfidf_mat[0:1], tfidf_mat[1:2])[0][0]
@@ -123,7 +121,6 @@ class TalentMatcher:
             sim = cosine_similarity(emb_cand, emb_jd)[0][0]
             return float(np.clip(sim, 0.0, 1.0))
         else:
-            # Fallback to lexical similarity if embeddings disabled
             return self.compute_lexical_similarity(resume_text, jd_text)
 
     def evaluate_candidate(
@@ -133,45 +130,59 @@ class TalentMatcher:
     ) -> Dict[str, Any]:
         """
         Evaluates an individual candidate against a structured job description.
-        Returns a composite match score, score breakdown, and skill gap explanation.
+        Weights:
+        - Hard Skill Overlap: 40%
+        - Dense Semantic Similarity: 30%
+        - TF-IDF Lexical Similarity: 20%
+        - Experience & Education Alignment: 10%
+        Total: 100%
         """
         resume_text = candidate_profile["anonymized_text"]
         jd_text = job_description["description_text"]
         
-        # 1. Skill Extraction & Overlap
+        # Tier 1: Skill Extraction & Overlap (40%)
         candidate_skills = self.extract_skills_from_text(resume_text)
         required_skills = set(job_description.get("required_skills", []))
         preferred_skills = set(job_description.get("preferred_skills", []))
-        
         skill_score, gap_info = self.compute_skill_overlap_score(candidate_skills, required_skills, preferred_skills)
         
-        # 2. Lexical TF-IDF Similarity
-        lexical_sim = self.compute_lexical_similarity(resume_text, jd_text)
-        
-        # 3. Dense Semantic Similarity
+        # Tier 2: Dense Semantic Similarity (30%)
         semantic_sim = self.compute_semantic_similarity(resume_text, jd_text)
         
-        # 4. Experience Fit
+        # Tier 3: Lexical TF-IDF Similarity (20%)
+        lexical_sim = self.compute_lexical_similarity(resume_text, jd_text)
+        
+        # Tier 4: Experience & Education Alignment (10%)
         cand_exp = candidate_profile.get("experience_years", 2.0)
         req_exp = job_description.get("min_experience_years", 3.0)
-        exp_fit = min(1.0, cand_exp / max(1.0, req_exp))
+        exp_ratio = min(1.0, cand_exp / max(1.0, req_exp))
         
-        # 5. Composite Match Score (0 - 100 scale)
+        edu_level = candidate_profile.get("education_level", "Bachelor's Degree")
+        edu_scores = {
+            "PhD": 1.0,
+            "Master's Degree": 0.95,
+            "Bachelor's Degree": 0.85,
+            "Associate / Certificate": 0.70
+        }
+        edu_factor = edu_scores.get(edu_level, 0.80)
+        exp_edu_fit = 0.70 * exp_ratio + 0.30 * edu_factor
+        
+        # Composite Match Score (0 - 100 scale)
         composite_score = (
             0.40 * skill_score +
             0.30 * semantic_sim +
             0.20 * lexical_sim +
-            0.10 * exp_fit
+            0.10 * exp_edu_fit
         ) * 100.0
         composite_score = round(float(np.clip(composite_score, 0.0, 100.0)), 2)
         
-        # Decision-support recommendation narrative
+        # Decision-support recommendation
         if composite_score >= 80.0 and gap_info["gap_severity"] == "Low":
-            recommendation = "Strong Candidate: High technical alignment with core requirements. Advance to Technical Interview."
+            recommendation = "Strong Candidate: High technical alignment with core requirements. Advance to Technical Screen."
         elif composite_score >= 65.0:
-            recommendation = "Potentially Qualified: Moderate skill match. Review missing skills with hiring manager before screen."
+            recommendation = "Potentially Qualified: Moderate match. Review missing competencies with hiring manager."
         else:
-            recommendation = "Skill Gap Identified: Candidate lacks several mandatory technical competencies for this role."
+            recommendation = "Skill Gap Identified: Candidate lacks several core technical competencies for this position."
             
         return {
             "candidate_id": candidate_profile["candidate_id"],
@@ -180,7 +191,8 @@ class TalentMatcher:
             "semantic_similarity_pct": round(semantic_sim * 100, 1),
             "lexical_similarity_pct": round(lexical_sim * 100, 1),
             "experience_years": cand_exp,
-            "education_level": candidate_profile.get("education_level", "Unknown"),
+            "education_level": edu_level,
+            "exp_edu_fit_pct": round(exp_edu_fit * 100, 1),
             "gap_severity": gap_info["gap_severity"],
             "matched_required": gap_info["matched_required"],
             "missing_required": gap_info["missing_required"],

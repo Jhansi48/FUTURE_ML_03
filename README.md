@@ -1,151 +1,179 @@
-﻿# 🎯 TalentMatch ML — Intelligent Resume Screening, Skill Extraction & Candidate Ranking System
+﻿# 📄 TalentMatch ML — Resume Screening & Candidate Ranking Decision-Support System
 **Future Interns Machine Learning Internship — Task 3 Submission**  
 **Track Code:** `ML` | **CIN:** `FIT/AUG26/ML10465` | **Repository:** `FUTURE_ML_03`
 
 ---
 
 ## 📌 Executive Summary
-In technical recruitment and HR operations, manual resume screening is often time-consuming, prone to cognitive bias, and susceptible to superficial keyword stuffing.
+In high-volume technical talent acquisition, recruiters manually screen hundreds of multi-format resumes against complex job specifications. This manual workflow creates cognitive overload, recruiter fatigue, and vulnerability to unconscious demographic bias.
 
-**TalentMatch ML** is an explainable, decision-support Machine Learning pipeline that screens and ranks candidate resumes against structured job descriptions. The system combines:
-1. **Multi-Format Document Parsing** (`.pdf`, `.docx`, `.txt`) with automatic **PII anonymization** (masking names, emails, phone numbers, and demographics) to ensure non-discriminatory candidate evaluation.
-2. **Controlled Skill Taxonomy (200+ competencies)** with robust alias mapping (e.g., `k8s` -> `kubernetes`, `sklearn` -> `scikit-learn`).
-3. **Multi-Tier Hybrid Scoring Architecture**:
-   - **Tier 1 (40% Weight):** Hard Skill Overlap (Mandatory vs. Preferred Skills).
-   - **Tier 2 (30% Weight):** Dense Semantic Similarity via `SentenceTransformer` (`all-MiniLM-L6-v2`).
-   - **Tier 3 (20% Weight):** TF-IDF Lexical Cosine Similarity.
-   - **Tier 4 (10% Weight):** Experience & Educational Seniority Alignment.
-4. **Transparent Skill-Gap Diagnostics**: Explicitly itemizes missing mandatory skills, preferred bonuses, and actionable hiring recommendations.
+**TalentMatch ML** is a recruiter decision-support system designed to objectively assess candidate alignment against structured technical Job Descriptions (JDs). It combines:
+1. **Multi-Format Parsing**: Automated text extraction from `.pdf`, `.docx`, and `.txt` resumes.
+2. **PII Anonymization & Fairness Safeguards**: Automatic masking of candidate names, emails, phone numbers, and profile URLs prior to scoring.
+3. **Controlled Technical Skill Taxonomy**: 200+ canonical competencies across 5 domains with alias resolution.
+4. **4-Tier Hybrid Scoring Architecture**:
+   - **Hard Skill Overlap ($40\%$)**: Required skill coverage and preferred skill bonus.
+   - **Dense Semantic Similarity ($30\%$)**: Contextual vector cosine similarity via `SentenceTransformer('all-MiniLM-L6-v2')`.
+   - **TF-IDF Lexical Similarity ($20\%$)**: Keyword-level sublinear TF-IDF cosine similarity.
+   - **Experience & Education Alignment ($10\%$)**: Stated tenure and educational attainment scoring.
+5. **Skill Gap Diagnostics & Explainability**: Granular itemization of matched required skills, missing required skills, and recruiter recommendations.
 
 ---
 
-## 🏗️ System Architecture & Hybrid Matching Pipeline
+## 🏗️ System Architecture & 4-Tier Scoring Pipeline
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│           Multi-Format Resumes (PDF/DOCX/TXT)          │
+│        Multi-Format Resumes (PDF, DOCX, TXT)           │
 └───────────────────────────┬────────────────────────────┘
                             │
                             ▼
 ┌────────────────────────────────────────────────────────┐
-│      Document Parser & PII Anonymization Layer         │
-│   - Masks Email, Phone, URLs, Demographic Cues         │
-│   - Extracts Experience Years & Education Level        │
+│          Text Extraction & PII Anonymization           │
+│   - Regex PII Stripping: Emails, Phones, URLs, Links   │
+│   - Experience Years & Education Level Extraction      │
 └───────────────────────────┬────────────────────────────┘
                             │
                             ▼
 ┌────────────────────────────────────────────────────────┐
-│    Controlled Skill Extraction & Alias Resolution      │
-│   (200+ Taxonomy: ML, Cloud, DevOps, Web, Databases)   │
+│     Controlled Technical Taxonomy Extraction (200+)    │
+│   - Canonical Skill Matching & Alias Normalization     │
+│   - Matches Required (80%) and Preferred (20%) Skills  │
 └───────────────────────────┬────────────────────────────┘
                             │
-            ┌───────────────┴───────────────┐
-            │                               │
-            ▼                               ▼
-┌────────────────────────┐      ┌────────────────────────┐
-│  Tier 1: Skill Overlap │      │  Tier 2: Dense Vectors │
-│  (Mandatory/Preferred) │      │  (SentenceTransformer) │
-└───────────┬────────────┘      └───────────┬────────────┘
-            │                               │
-            ├───────────────┬───────────────┤
-            ▼                               ▼
-┌────────────────────────┐      ┌────────────────────────┐
-│  Tier 3: TF-IDF Cosine │      │  Tier 4: Experience    │
-│  (Lexical Context)     │      │  Alignment Factor      │
-└───────────┬────────────┘      └───────────┬────────────┘
-            │                               │
-            └───────────────┬───────────────┘
+        ┌───────────────────┼───────────────────┐
+        ▼                   ▼                   ▼
+┌───────────────┐   ┌───────────────┐   ┌───────────────┐
+│ Tier 1: Skill │   │ Tier 2: Dense │   │ Tier 3: TFIDF │
+│ Overlap (40%) │   │ Semantic (30%)│   │ Lexical (20%) │
+│ (Req & Pref)  │   │ (all-MiniLM)  │   │ (Sublinear)   │
+└───────┬───────┘   └───────┬───────┘   └───────┬───────┘
+        │                   │                   │
+        └───────────────────┼───────────────────┘
                             │
                             ▼
 ┌────────────────────────────────────────────────────────┐
-│          Composite Candidate Ranking (0 - 100%)        │
-│   - Rank Order & Score Breakdown                       │
-│   - Missing Skill Gap Diagnostics & Severity (Low/Mod) │
-│   - Decision-Support Hiring Recommendation Narrative   │
+│    Tier 4: Experience & Education Alignment (10%)      │
+│    - Experience Ratio: min(1.0, Cand_Exp / Req_Exp)    │
+│    - Education Factor: PhD(1.0), MS(0.95), BS(0.85)   │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│             Composite Match Score (0 - 100%)           │
+│       = 0.40*Skill + 0.30*Dense + 0.20*TFIDF + 0.10*Exp│
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│      Recruiter Decision Support & Gap Diagnostics      │
+│   - Candidate Ranking Leaderboard                      │
+│   - Matched vs Missing Skill Breakdown                 │
+│   - Severity Flag (Low / Moderate / High Gap)          │
 └────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 📊 Evaluation Benchmark & Candidate Ranking Results
-Rankings evaluated against the target role: **Senior Machine Learning Engineer (NLP & MLOps)** (`job_senior_ml_engineer.json`):
-
-| Rank | Candidate Profile | Composite Match Score | Skill Match | Semantic Sim | Lexical Sim | Exp (Yrs) | Skill Gap | Decision Recommendation |
-| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| 🥇 | `candidate_01_lead_ml_engineer` | **77.9%** | 86.7% | 76.8% | 45.4% | 6.5 yrs | **Low** | **Strong Match:** Meets all mandatory competencies. Advance to technical round. |
-| 🥈 | `candidate_02_data_scientist` | **40.5%** | 40.0% | 47.9% | 27.2% | 4.0 yrs | Moderate | **Review:** Missing PyTorch, NLP, AWS, Docker. |
-| 🥉 | `candidate_06_devops_cloud_architect` | **40.0%** | 30.0% | 46.2% | 34.0% | 8.0 yrs | High | **Skill Gap:** Strong cloud/DevOps, lacks core ML/NLP frameworks. |
-| 4 | `candidate_03_junior_ml_intern` | **38.5%** | 40.0% | 51.7% | 29.8% | 2.0 yrs | Moderate | **Junior:** High potential, lacks MLOps/cloud production experience. |
-| 5 | `candidate_04_fullstack_lead` | **33.2%** | 20.0% | 43.1% | 27.2% | 7.0 yrs | High | **Mismatch:** Full stack web profile. |
-| 6 | `candidate_08_java_backend_dev` | **28.7%** | 10.0% | 35.8% | 25.1% | 5.5 yrs | High | **Mismatch:** Java backend profile. |
-| 7 | `candidate_07_bi_data_analyst` | **25.8%** | 10.0% | 33.1% | 19.3% | 4.5 yrs | High | **Mismatch:** BI / Tableau profile. |
-| 8 | `candidate_05_frontend_dev` | **17.8%** | 0.0% | 18.2% | 15.6% | 3.0 yrs | High | **Mismatch:** Frontend React profile. |
+## 📊 Dataset Provenance & Controlled Prototype Disclosure
+- **Corpus Nature**: Controlled, synthetic benchmark candidate corpus comprising 8 distinct engineering profiles in `.pdf`, `.docx`, and `.txt` formats across seniorities and domains.
+- **Job Descriptions**: 3 structured technical job descriptions (`Senior Machine Learning Engineer`, `Lead Full Stack Engineer`, `Cloud DevOps Specialist`).
+- **Disclosure & Scope**: This benchmark dataset was generated specifically to demonstrate and validate end-to-end multi-tier scoring logic, multi-format parsing, PII anonymization, and skill gap diagnostics in a controlled prototype environment. It is not an external production recruiting dataset and should not be used as an autonomous hiring tool.
 
 ---
 
-## 🔍 Detailed Skill-Gap Diagnostics for Top Candidates
+## 📈 Real Experimental Ranking Results
 
-### 🥇 Rank 1: Alex Rivera (`candidate_01_lead_ml_engineer.docx`) — **77.9% Match**
-- **Matched Mandatory (8/8):** `python`, `pytorch`, `scikit-learn`, `machine learning`, `natural language processing`, `docker`, `aws`, `model deployment`
-- **Missing Mandatory (0):** *None*
-- **Matched Preferred (5/6):** `transformers`, `huggingface`, `kubernetes`, `mlops`, `langchain`
-- **Gap Severity:** `Low`
+### Target Job: *Senior Machine Learning Engineer (NLP & MLOps)*
+**Required Skills (8):** `python`, `pytorch`, `scikit-learn`, `machine learning`, `natural language processing`, `docker`, `aws`, `model deployment`  
+**Preferred Skills (6):** `transformers`, `huggingface`, `kubernetes`, `mlops`, `langchain`, `sql`
 
-### 🥈 Rank 2: Sarah Chen (`candidate_02_data_scientist.txt`) — **40.5% Match**
-- **Matched Mandatory (4/8):** `python`, `scikit-learn`, `machine learning`, `aws`
-- **Missing Mandatory (4/8):** `pytorch`, `natural language processing`, `docker`, `model deployment`
-- **Gap Severity:** `Moderate`
-
----
-
-## 🛡️ Fairness, Bias Mitigation & Ethical AI
-1. **PII Stripping:** Contact details (emails, phone numbers, addresses, social handles) are masked before feature processing.
-2. **Protected Attribute Isolation:** Gender, age, ethnicity, and personal background are never utilized in model scoring.
-3. **Decision-Support Scope:** Clearly designated as an assistance tool for initial filtering. Final hiring decisions must always incorporate human interview stages.
+| Rank | Candidate Profile | Format | Exp (Yrs) | Education | Skill Overlap | Semantic Sim | Lexical Sim | Composite Score | Gap Severity | Recruiter Recommendation |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| 🥇 1 | `candidate_01_lead_ml_engineer` | `.docx` | 6.5 | Master's | **100.0%** | **70.2%** | **55.7%** | **77.7%** | **Low** | Advance to Technical Screen |
+| 🥈 2 | `candidate_03_junior_ml_intern` | `.pdf` | 1.0 | Bachelor's | **60.0%** | **50.6%** | **37.6%** | **46.2%** | **Moderate** | Potential Fit: Review Exp Gap |
+| 🥉 3 | `candidate_02_data_scientist` | `.txt` | 4.0 | Master's | **40.0%** | **44.9%** | **39.0%** | **40.4%** | **Moderate** | Moderate Match: Review Gaps |
+| 4 | `candidate_06_devops_cloud_architect` | `.docx` | 8.0 | Bachelor's | **30.0%** | **46.4%** | **32.8%** | **39.5%** | **High** | Skill Gap: Lacks Core ML |
+| 5 | `candidate_04_fullstack_lead` | `.docx` | 7.0 | Bachelor's | **20.0%** | **42.2%** | **26.9%** | **32.8%** | **High** | Skill Gap: Lacks Core ML |
+| 6 | `candidate_08_java_backend_dev` | `.txt` | 5.5 | Bachelor's | **10.0%** | **36.9%** | **24.5%** | **28.3%** | **High** | Skill Gap: Lacks Core ML |
+| 7 | `candidate_07_bi_data_analyst` | `.txt` | 4.5 | Bachelor's | **10.0%** | **34.1%** | **19.8%** | **25.3%** | **High** | Skill Gap: Lacks Core ML |
+| 8 | `candidate_05_frontend_dev` | `.txt` | 3.0 | Bachelor's | **0.0%** | **27.4%** | **13.5%** | **18.1%** | **High** | Skill Gap: Lacks Core ML |
 
 ---
 
-## 🖥️ Interactive Streamlit Dashboard
-Recruiters and hiring managers can launch the dashboard (`dashboard/app.py`) to:
-- Select from built-in job descriptions or paste custom job requirements.
-- Inspect live candidate leaderboards with score distributions.
-- View deep-dive **Skill Gap Cards** with green (matched) and red (missing) badges.
-- Export candidate ranking reports directly to CSV.
+## 🔍 Granular Skill Gap & Explainability Breakdown
+
+### Top Candidate: `candidate_01_lead_ml_engineer` (Rank 1 — Score: 77.7%)
+- **Matched Required (8/8):** `aws`, `docker`, `machine learning`, `model deployment`, `natural language processing`, `python`, `pytorch`, `scikit-learn`
+- **Missing Required (0):** None
+- **Matched Preferred (6/6):** `huggingface`, `kubernetes`, `langchain`, `mlops`, `sql`, `transformers`
+- **Recommendation:** Strong Candidate: High technical alignment with core requirements. Advance to Technical Screen.
+
+### Borderline Candidate: `candidate_03_junior_ml_intern` (Rank 2 — Score: 46.2%)
+- **Matched Required (6/8):** `docker`, `machine learning`, `model deployment`, `python`, `pytorch`, `scikit-learn`
+- **Missing Required (2):** `aws`, `natural language processing`
+- **Matched Preferred (0/6):** None
+- **Recommendation:** Potentially Qualified: Possesses solid foundational ML competencies but lacks senior AWS/NLP and MLOps tooling.
+
+---
+
+## 🛡️ Fairness & Ethics Guardrails
+1. **PII Masking**: Candidate names, email addresses, phone numbers, and web links are automatically scrubbed from resume text prior to embedding and scoring.
+2. **Exclusion of Protected Attributes**: Scoring strictly relies on technical competencies, domain relevance, stated experience tenure, and education level. Demographic factors (age, gender, ethnicity, location) are excluded from the ranking formula.
+3. **Decision-Support Framing**: TalentMatch ML is explicitly built as a **recruiter assistance and screening accelerator**, not an autonomous hiring engine. Final interviewing and hiring decisions require human evaluation.
+
+---
+
+## 🖥️ Interactive Streamlit Decision-Support Dashboard
+Launch the web interface under `dashboard/app.py`:
+- Inspect candidate rankings across different Job Descriptions.
+- View interactive radar charts and multi-tier score breakdowns.
+- Review missing vs. matched skills and export candidate evaluations to CSV.
 
 ---
 
 ## 📁 Repository Structure
 ```
 FUTURE_ML_03/
-├── README.md                                  # Comprehensive Documentation
+├── README.md                                  # Comprehensive Task Documentation
 ├── requirements.txt                           # Dependencies
 ├── .gitignore                                 # Ignore Rules
 ├── data/
-│   ├── README.md                              # Dataset & Schema Details
-│   ├── resumes/                               # Candidate Resumes (DOCX & TXT)
-│   └── job_descriptions/                      # Structured Role Requirements (JSON)
+│   ├── README.md                              # Dataset Schema & Sourcing
+│   ├── resumes/                               # Multi-Format Resumes (PDF, DOCX, TXT)
+│   │   ├── candidate_01_lead_ml_engineer.docx
+│   │   ├── candidate_02_data_scientist.txt
+│   │   ├── candidate_03_junior_ml_intern.pdf
+│   │   ├── candidate_04_fullstack_lead.docx
+│   │   ├── candidate_05_frontend_dev.txt
+│   │   ├── candidate_06_devops_cloud_architect.docx
+│   │   ├── candidate_07_bi_data_analyst.txt
+│   │   └── candidate_08_java_backend_dev.txt
+│   └── job_descriptions/                      # Structured Role Descriptions
+│       ├── job_cloud_devops_specialist.json
+│       ├── job_lead_fullstack_engineer.json
+│       └── job_senior_ml_engineer.json
 ├── notebooks/
-│   └── 03_resume_screening_system.ipynb      # Fully Executed Jupyter Notebook
+│   └── 03_resume_screening_system.ipynb       # Fully Executed Notebook
 ├── src/
-│   ├── taxonomy.py                            # 200+ Skills & Alias Mapping
-│   ├── parser.py                              # Document Parsing & PII Anonymizer
-│   ├── matcher.py                             # Hybrid Scoring & Skill-Gap Engine
-│   ├── data_generator.py                      # Multi-Format Resume Generator
-│   ├── visualize.py                           # Leaderboard & Diagnostic Plotter
+│   ├── data_generator.py                      # Multi-Format Generator
+│   ├── parser.py                              # PDF, DOCX, TXT Parser & PII Masker
+│   ├── taxonomy.py                            # 200+ Skill Taxonomy & Aliases
+│   ├── matcher.py                             # 4-Tier Hybrid Matcher & Ranker
+│   ├── visualize.py                           # Leaderboard & Radar Chart Plots
 │   └── pipeline.py                            # End-to-End Execution Pipeline
 ├── dashboard/
-│   └── app.py                                 # Streamlit Screening Web App
+│   └── app.py                                 # Streamlit Recruiter Dashboard
 ├── models/
-│   └── talent_matcher_engine.pkl              # Serialized Matcher Pipeline
+│   └── talent_matcher_engine.pkl              # Serialized Engine
 ├── outputs/
 │   ├── figures/
-│   │   ├── candidate_ranking_leaderboard.png
-│   │   ├── score_component_breakdown.png
-│   │   └── skill_gap_matrix.png
+│   │   ├── candidate_rankings_bar.png
+│   │   └── top_candidates_radar_chart.png
 │   └── metrics/
 │       └── candidate_screening_rankings.csv
 └── reports/
-    └── candidate_screening_decision_report.md # Executive HR Decision Report
+    └── candidate_screening_decision_report.md # Decision Support Report
 ```
 
 ---
@@ -159,12 +187,12 @@ cd FUTURE_ML_03
 pip install -r requirements.txt
 ```
 
-### 2. Run End-to-End Pipeline
+### 2. Run End-to-End Matching Pipeline
 ```bash
 python src/pipeline.py
 ```
 
-### 3. Launch Interactive Streamlit Dashboard
+### 3. Launch Interactive Recruiter Dashboard
 ```bash
 streamlit run dashboard/app.py
 ```
