@@ -1,4 +1,4 @@
-﻿"""
+"""
 TalentMatch ML - Multi-Tier Candidate Matching & Skill Gap Analysis Engine
 Combines structured taxonomy extraction, TF-IDF lexical cosine similarity,
 dense semantic vector embeddings, and experience/education alignment for candidate ranking.
@@ -79,10 +79,17 @@ class TalentMatcher:
         # Required match ratio (0.0 to 1.0)
         req_ratio = len(matched_required) / len(req_norm) if req_norm else 1.0
         # Preferred match bonus (0.0 to 1.0)
-        pref_ratio = len(matched_preferred) / len(pref_norm) if pref_norm else 0.5
+        pref_ratio = len(matched_preferred) / len(pref_norm) if pref_norm else 1.0
         
-        # Weighted Hard Skill Score (80% Required + 20% Preferred)
-        skill_score = 0.80 * req_ratio + 0.20 * pref_ratio
+        # Weighted Hard Skill Score (80% Required + 20% Preferred if both present)
+        if req_norm and pref_norm:
+            skill_score = 0.80 * req_ratio + 0.20 * pref_ratio
+        elif req_norm:
+            skill_score = req_ratio
+        elif pref_norm:
+            skill_score = pref_ratio
+        else:
+            skill_score = 1.0
         
         # Gap severity classification
         if req_ratio >= 0.80:
@@ -98,7 +105,7 @@ class TalentMatcher:
             "matched_preferred": sorted(list(matched_preferred)),
             "missing_preferred": sorted(list(missing_preferred)),
             "required_match_pct": round(req_ratio * 100, 1),
-            "preferred_match_pct": round(pref_ratio * 100, 1),
+            "preferred_match_pct": round(pref_ratio * 100, 1) if pref_norm else 100.0,
             "gap_severity": severity
         }
         
@@ -153,9 +160,12 @@ class TalentMatcher:
         lexical_sim = self.compute_lexical_similarity(resume_text, jd_text)
         
         # Tier 4: Experience & Education Alignment (10%)
-        cand_exp = candidate_profile.get("experience_years", 2.0)
-        req_exp = job_description.get("min_experience_years", 3.0)
-        exp_ratio = min(1.0, cand_exp / max(1.0, req_exp))
+        cand_exp = float(candidate_profile.get("experience_years", 0.0))
+        req_exp = float(job_description.get("min_experience_years", 0.0))
+        if req_exp > 0.0:
+            exp_ratio = min(1.0, cand_exp / req_exp)
+        else:
+            exp_ratio = 1.0
         
         edu_level = candidate_profile.get("education_level", "Bachelor's Degree")
         edu_scores = {
