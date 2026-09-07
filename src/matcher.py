@@ -187,10 +187,14 @@ class TalentMatcher:
         composite_score = round(float(np.clip(composite_score, 0.0, 100.0)), 2)
         
         # Decision-support recommendation
-        if composite_score >= 80.0 and gap_info["gap_severity"] == "Low":
-            recommendation = "Strong Candidate: High technical alignment with core requirements. Advance to Technical Screen."
-        elif composite_score >= 65.0:
-            recommendation = "Potentially Qualified: Moderate match. Review missing competencies with hiring manager."
+        if composite_score >= 75.0 and gap_info["gap_severity"] == "Low" and len(gap_info["missing_required"]) == 0:
+            recommendation = "Strong Technical Fit: All mandatory competencies satisfied. Review overall match components with the hiring manager."
+        elif composite_score >= 75.0 and gap_info["gap_severity"] == "Low":
+            recommendation = "Strong Technical Fit: High technical alignment with core requirements. Advance to Technical Screen."
+        elif composite_score >= 50.0 and len(gap_info["missing_required"]) <= 2:
+            recommendation = "Potentially Qualified: Moderate match. Review specific missing competencies with hiring manager."
+        elif composite_score >= 40.0:
+            recommendation = "Potentially Qualified: Moderate match. Review candidate profile and skill gaps with hiring manager."
         else:
             recommendation = "Skill Gap Identified: Candidate lacks several core technical competencies for this position."
             

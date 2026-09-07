@@ -57,6 +57,8 @@ st.markdown("""
     section[data-testid="stSidebar"] {
         background-color: #EBF0EA !important;
         border-right: 1px solid #D5DDD6 !important;
+        min-width: 330px !important;
+        max-width: 380px !important;
     }
 
     section[data-testid="stSidebar"] .block-container {
@@ -87,7 +89,7 @@ st.markdown("""
 
     section[data-testid="stSidebar"] label p {
         color: #1F2933 !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
         margin-bottom: 4px !important;
     }
 
@@ -286,12 +288,29 @@ st.markdown("""
     /* Selectbox Input Controls */
     div[data-baseweb="select"] {
         background-color: #FFFFFF !important;
+        border: 1px solid #D5DDD6 !important;
         border-radius: 8px !important;
     }
     
     div[data-baseweb="select"] * {
         color: #1F2933 !important;
         background-color: #FFFFFF !important;
+    }
+
+    div[data-baseweb="popover"], div[data-baseweb="menu"], ul[role="listbox"], li[role="option"] {
+        background-color: #FFFFFF !important;
+        color: #1F2933 !important;
+    }
+
+    li[role="option"]:hover, li[role="option"][aria-selected="true"] {
+        background-color: #E7F4F2 !important;
+        color: #075E5B !important;
+    }
+
+    label[data-testid="stWidgetLabel"] p {
+        color: #1F2933 !important;
+        font-weight: 700 !important;
+        font-size: 0.92rem !important;
     }
 
     /* Custom Benchmark Table Styling */
