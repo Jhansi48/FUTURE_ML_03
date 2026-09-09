@@ -1,6 +1,6 @@
 """
-TalentMatch ML - Interactive Candidate Screening & Skill-Gap Analysis Dashboard
-Decision-support Streamlit platform for objective, skill-based candidate screening,
+TalentMatch ML - Recruiter Intelligence & Candidate Screening Workspace
+Interactive Streamlit decision-support platform for objective, skill-based candidate screening,
 semantic job-fit matching, and transparent skill-gap diagnostics.
 """
 
@@ -20,7 +20,7 @@ from src.matcher import TalentMatcher
 
 # Configure Page Layout & Styling
 st.set_page_config(
-    page_title="TalentMatch ML — Candidate Screening Platform",
+    page_title="TalentMatch ML — Recruiter Intelligence Workspace",
     page_icon="🎯",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -30,10 +30,10 @@ st.set_page_config(
 st.markdown("""
 <style>
     /* Global Typography & Canvas */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
     
     html, body, [class*="css"] {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         color: #1F2933;
     }
     
@@ -42,28 +42,28 @@ st.markdown("""
     }
     
     .block-container {
-        padding-top: 1.8rem !important;
-        padding-bottom: 2.5rem !important;
+        padding-top: 1.5rem !important;
+        padding-bottom: 2.8rem !important;
         max-width: 1440px !important;
     }
 
     /* Global Canvas */
     .stApp {
-        background-color: #F8F7F3 !important;
+        background-color: #F8F7F2 !important;
         color: #1F2933 !important;
     }
     
     /* Sidebar Styling */
     section[data-testid="stSidebar"] {
-        background-color: #EBF0EA !important;
+        background-color: #EBEFEA !important;
         border-right: 1px solid #D5DDD6 !important;
-        min-width: 330px !important;
-        max-width: 380px !important;
+        min-width: 340px !important;
+        max-width: 390px !important;
     }
 
     section[data-testid="stSidebar"] .block-container {
         padding-top: 1.2rem !important;
-        padding-bottom: 1.2rem !important;
+        padding-bottom: 1.5rem !important;
     }
     
     section[data-testid="stSidebar"] h1,
@@ -71,6 +71,7 @@ st.markdown("""
     section[data-testid="stSidebar"] h3,
     section[data-testid="stSidebar"] h4 {
         color: #1F2933 !important;
+        font-weight: 800 !important;
         margin-top: 0 !important;
         margin-bottom: 8px !important;
     }
@@ -90,6 +91,7 @@ st.markdown("""
     section[data-testid="stSidebar"] label p {
         color: #1F2933 !important;
         font-weight: 700 !important;
+        font-size: 0.90rem !important;
         margin-bottom: 4px !important;
     }
 
@@ -97,24 +99,140 @@ st.markdown("""
         background-color: #FFFFFF !important;
         color: #075E5B !important;
         border: 1px solid #D5DDD6 !important;
-        padding: 2px 6px !important;
-        border-radius: 4px !important;
-        font-size: 0.82rem !important;
+        padding: 2px 7px !important;
+        border-radius: 5px !important;
+        font-size: 0.80rem !important;
+        font-weight: 600 !important;
     }
 
     section[data-testid="stSidebar"] hr {
-        margin: 12px 0 !important;
+        margin: 14px 0 !important;
         border-color: #D5DDD6 !important;
     }
 
     /* Structured Section Cards */
     .content-box {
         background: #FFFFFF;
+        border: 1px solid #D8E0D8;
+        border-radius: 14px;
+        padding: 22px 24px;
+        box-shadow: 0 3px 12px rgba(31, 41, 51, 0.04), 0 1px 3px rgba(31, 41, 51, 0.02);
+        margin-bottom: 18px;
+    }
+
+    /* Hero Banner */
+    .hero-container {
+        background: #FFFFFF;
+        border: 1px solid #D5DDD6;
+        border-radius: 16px;
+        padding: 22px 26px;
+        margin-bottom: 18px;
+        box-shadow: 0 4px 16px rgba(31, 41, 51, 0.04), 0 1px 3px rgba(31, 41, 51, 0.02);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .hero-title-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero-badge-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 6px;
+    }
+
+    .hero-status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #EAF3ED;
+        color: #2E7D5B;
+        border: 1px solid #BFDEC7;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .pulse-dot {
+        width: 7px;
+        height: 7px;
+        background-color: #2E7D5B;
+        border-radius: 50%;
+    }
+
+    .hero-title {
+        font-size: 2.1rem;
+        font-weight: 900;
+        color: #075E5B;
+        margin: 0;
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+    }
+
+    .hero-subtitle {
+        font-size: 1.0rem;
+        font-weight: 600;
+        color: #53636A;
+        margin-top: 4px;
+    }
+
+    /* Visual Workflow Steps */
+    .workflow-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #FFFFFF;
         border: 1px solid #D5DDD6;
         border-radius: 14px;
-        padding: 20px 22px;
-        box-shadow: 0 2px 8px rgba(31, 41, 51, 0.04), 0 1px 2px rgba(31, 41, 51, 0.02);
-        margin-bottom: 16px;
+        padding: 12px 18px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(31, 41, 51, 0.03);
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .workflow-step {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: #F8F7F2;
+        border: 1px solid #E5EBE5;
+    }
+    
+    .workflow-step-num {
+        background-color: #087F7B;
+        color: #FFFFFF;
+        font-size: 0.70rem;
+        font-weight: 800;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .workflow-step-name {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #1F2933;
+    }
+    
+    .workflow-arrow {
+        color: #087F7B;
+        font-size: 1.1rem;
+        font-weight: 800;
     }
 
     /* Section Number Badges */
@@ -127,83 +245,48 @@ st.markdown("""
     }
     
     .section-num {
-        background-color: #087F7B;
+        background: #087F7B;
         color: #FFFFFF;
-        font-size: 0.74rem;
+        font-size: 0.76rem;
         font-weight: 800;
-        padding: 3px 8px;
+        padding: 3px 9px;
         border-radius: 6px;
         letter-spacing: 0.05em;
     }
     
     .section-title {
-        font-size: 1.15rem;
+        font-size: 1.22rem;
         font-weight: 800;
         color: #1F2933;
         margin: 0;
         letter-spacing: -0.01em;
     }
 
-    /* Visual Workflow Steps */
-    .workflow-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: #FFFFFF;
-        border: 1px solid #D5DDD6;
-        border-radius: 14px;
-        padding: 14px 18px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 8px rgba(31, 41, 51, 0.04);
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-    
-    .workflow-step {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        flex: 1;
-        min-width: 110px;
-    }
-    
-    .workflow-step-num {
-        font-size: 0.70rem;
-        font-weight: 800;
-        color: #087F7B;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
-    
-    .workflow-step-name {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #1F2933;
-        margin-top: 2px;
-    }
-    
-    .workflow-arrow {
-        color: #087F7B;
-        font-size: 1.1rem;
-        font-weight: 700;
-    }
-
     /* KPI Metric Cards */
     .metric-card {
         background: #FFFFFF;
-        border: 1px solid #D5DDD6;
+        border: 1px solid #D8E0D8;
         border-radius: 14px;
         padding: 18px 20px;
-        box-shadow: 0 2px 8px rgba(31, 41, 51, 0.04), 0 1px 2px rgba(31, 41, 51, 0.02);
+        box-shadow: 0 3px 10px rgba(31, 41, 51, 0.03), 0 1px 3px rgba(31, 41, 51, 0.02);
         height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .metric-accent-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
     }
     
     .metric-card-label {
-        font-size: 0.74rem;
+        font-size: 0.75rem;
         font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.06em;
@@ -212,22 +295,21 @@ st.markdown("""
     }
     
     .metric-card-value {
-        font-size: 1.35rem;
+        font-size: 1.6rem;
         font-weight: 800;
         color: #1F2933;
-        line-height: 1.25;
-        word-break: break-word;
+        line-height: 1.2;
     }
     
     .metric-card-sub {
-        font-size: 0.84rem;
+        font-size: 0.82rem;
         font-weight: 600;
-        margin-top: 8px;
-        padding-top: 6px;
+        margin-top: 10px;
+        padding-top: 8px;
         border-top: 1px solid #F1F3EE;
     }
 
-    /* Status Badges */
+    /* Status Badges & Chips */
     .badge-urgent {
         background-color: #FBEAE5;
         color: #D95D39;
@@ -235,7 +317,7 @@ st.markdown("""
         padding: 3px 9px;
         border-radius: 6px;
         font-weight: 800;
-        font-size: 0.82rem;
+        font-size: 0.78rem;
         display: inline-block;
     }
     
@@ -246,18 +328,18 @@ st.markdown("""
         padding: 3px 9px;
         border-radius: 6px;
         font-weight: 800;
-        font-size: 0.82rem;
+        font-size: 0.78rem;
         display: inline-block;
     }
     
     .badge-success {
         background-color: #EAF3ED;
-        color: #5B8C72;
+        color: #2E7D5B;
         border: 1px solid #BFDEC7;
         padding: 3px 9px;
         border-radius: 6px;
         font-weight: 800;
-        font-size: 0.82rem;
+        font-size: 0.78rem;
         display: inline-block;
     }
     
@@ -265,24 +347,55 @@ st.markdown("""
         background-color: #E7F4F2;
         color: #075E5B;
         border: 1px solid #B8E2DC;
-        padding: 4px 10px;
+        padding: 3px 9px;
         border-radius: 6px;
         font-weight: 700;
         font-size: 0.78rem;
         display: inline-block;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.02em;
     }
 
     .badge-neutral {
         background-color: #EBF0EA;
         color: #1F2933;
         border: 1px solid #D5DDD6;
-        padding: 4px 10px;
+        padding: 3px 9px;
         border-radius: 6px;
         font-weight: 600;
         font-size: 0.78rem;
         display: inline-block;
-        letter-spacing: 0.03em;
+    }
+
+    .skill-chip {
+        background-color: #FFFFFF;
+        border: 1px solid #D5DDD6;
+        color: #1F2933;
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin: 2px;
+    }
+
+    .skill-chip-req {
+        background-color: #EAF3ED;
+        border: 1px solid #BFDEC7;
+        color: #2E7D5B;
+    }
+
+    .skill-chip-miss {
+        background-color: #FBEAE5;
+        border: 1px solid #F4C7BA;
+        color: #D95D39;
+    }
+
+    .skill-chip-pref {
+        background-color: #FFF4D8;
+        border: 1px solid #F7DE98;
+        color: #B57E12;
     }
 
     /* Selectbox Input Controls */
@@ -316,10 +429,11 @@ st.markdown("""
     /* Custom Benchmark Table Styling */
     .benchmark-table-container {
         background: #FFFFFF;
-        border: 1px solid #D5DDD6;
+        border: 1px solid #D8E0D8;
         border-radius: 12px;
         overflow-x: auto;
-        margin-bottom: 8px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgba(31, 41, 51, 0.03);
     }
     
     .benchmark-table {
@@ -330,20 +444,21 @@ st.markdown("""
     }
     
     .benchmark-table th {
-        background-color: #F8F7F3;
+        background-color: #F8F7F2;
         color: #1F2933;
-        font-weight: 700;
-        padding: 10px 14px;
+        font-weight: 800;
+        padding: 12px 14px;
         border-bottom: 1px solid #D5DDD6;
-        font-size: 0.82rem;
+        font-size: 0.80rem;
         text-transform: uppercase;
         letter-spacing: 0.04em;
     }
     
     .benchmark-table td {
-        padding: 10px 14px;
+        padding: 12px 14px;
         border-bottom: 1px solid #F1F3EE;
         color: #1F2933;
+        vertical-align: middle;
     }
     
     .benchmark-table tr:last-child td {
@@ -351,9 +466,40 @@ st.markdown("""
     }
     
     .benchmark-table tr.top-candidate-row td {
-        background-color: #E7F4F2 !important;
+        background-color: #EBF5F3 !important;
         color: #075E5B !important;
         font-weight: 700;
+    }
+
+    /* Mini Pillar Cards */
+    .pillar-card {
+        background: #F8F7F2;
+        border: 1px solid #D8E0D8;
+        border-radius: 10px;
+        padding: 12px 14px;
+        text-align: left;
+    }
+
+    .pillar-weight {
+        font-size: 0.70rem;
+        font-weight: 800;
+        color: #087F7B;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .pillar-name {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #1F2933;
+        margin-top: 2px;
+    }
+
+    .pillar-score {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #075E5B;
+        margin-top: 4px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -369,73 +515,78 @@ def load_matcher():
 
 matcher = load_matcher()
 
-# Product Header Section
+# 1. Hero & Visual Pipeline
 st.markdown("""
-<div style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #D5DDD6;">
-    <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
-        <h1 style="font-size: 2.1rem; font-weight: 900; color: #075E5B; margin: 0; letter-spacing: -0.03em;">
-            TALENTMATCH ML
-        </h1>
-        <span style="font-size: 1.15rem; font-weight: 700; color: #1F2933; letter-spacing: -0.01em;">
-            RESUME SCREENING & CANDIDATE RANKING PLATFORM
-        </span>
-    </div>
-    <div style="font-size: 0.95rem; color: #53636A; font-weight: 500; margin-top: 4px; margin-bottom: 10px;">
-        Objective technical resume evaluation, multi-tier semantic matching & skill-gap diagnostics
+<div class="hero-container">
+    <div class="hero-title-group">
+        <div class="hero-badge-row">
+            <span class="hero-status-pill">
+                <span class="pulse-dot"></span>
+                Screening Engine • Ready
+            </span>
+            <span class="badge-neutral" style="font-size: 0.72rem; font-weight: 700;">FIT/AUG26/ML10465</span>
+        </div>
+        <h1 class="hero-title">TALENTMATCH ML</h1>
+        <div class="hero-subtitle">
+            Resume Intelligence & Candidate Decision-Support Platform
+        </div>
     </div>
     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <span class="badge-teal">MULTI-FORMAT PARSING</span>
         <span class="badge-teal">4-TIER HYBRID SCORING</span>
         <span class="badge-teal">PII ANONYMIZATION</span>
         <span class="badge-neutral">CONTROLLED BENCHMARK</span>
-        <span class="badge-neutral">DECISION-SUPPORT PROTOTYPE</span>
+        <span class="badge-neutral">DECISION SUPPORT ONLY</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# Visual Workflow Pipeline Section
 st.markdown("""
 <div class="workflow-container">
     <div class="workflow-step">
-        <span class="workflow-step-num">Step 1</span>
-        <span class="workflow-step-name">Multi-Format Resumes</span>
+        <span class="workflow-step-num">1</span>
+        <span class="workflow-step-name">Multi-Format Ingestion</span>
     </div>
     <div class="workflow-arrow">→</div>
     <div class="workflow-step">
-        <span class="workflow-step-num">Step 2</span>
-        <span class="workflow-step-name">PII Anonymization</span>
+        <span class="workflow-step-num">2</span>
+        <span class="workflow-step-name">PII Privacy Filter</span>
     </div>
     <div class="workflow-arrow">→</div>
     <div class="workflow-step">
-        <span class="workflow-step-num">Step 3</span>
+        <span class="workflow-step-num">3</span>
         <span class="workflow-step-name">Skill Taxonomy (200+)</span>
     </div>
     <div class="workflow-arrow">→</div>
     <div class="workflow-step">
-        <span class="workflow-step-num">Step 4</span>
+        <span class="workflow-step-num">4</span>
         <span class="workflow-step-name">4-Tier Hybrid Match</span>
     </div>
     <div class="workflow-arrow">→</div>
     <div class="workflow-step">
-        <span class="workflow-step-num">Step 5</span>
-        <span class="workflow-step-name">Recruiter Decision Support</span>
+        <span class="workflow-step-num">5</span>
+        <span class="workflow-step-name">Candidate Ranking</span>
+    </div>
+    <div class="workflow-arrow">→</div>
+    <div class="workflow-step">
+        <span class="workflow-step-num">6</span>
+        <span class="workflow-step-name">Recruiter Insights</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 # Sidebar Configuration
 st.sidebar.markdown("""
-<div style="padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid #D5DDD6;">
-    <div style="font-size: 1.15rem; font-weight: 800; color: #075E5B; letter-spacing: -0.02em;">
+<div style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #D5DDD6;">
+    <div style="font-size: 1.2rem; font-weight: 900; color: #075E5B; letter-spacing: -0.02em;">
         TALENTMATCH ML
     </div>
     <div style="font-size: 0.80rem; font-weight: 600; color: #53636A;">
-        Recruiter Decision Support
+        Recruiter Intelligence Workspace
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-st.sidebar.markdown("#### Target Role Configuration")
+st.sidebar.markdown("#### 🎯 Target Role Configuration")
 
 jd_files = glob.glob(os.path.join(jds_dir, "*.json"))
 if not jd_files:
@@ -451,22 +602,24 @@ for jdf in sorted(jd_files):
 selected_jd_title = st.sidebar.selectbox("Select Target Job Specification:", list(jd_options.keys()))
 active_jd = jd_options[selected_jd_title]
 
-st.sidebar.markdown(f"**Required Experience:** `{active_jd['min_experience_years']} Years`")
+st.sidebar.markdown(f"**Target Role ID:** `{active_jd.get('job_id', 'N/A')}`")
+st.sidebar.markdown(f"**Min Required Experience:** `{active_jd['min_experience_years']} Years`")
+
 st.sidebar.markdown(f"**Mandatory Competencies ({len(active_jd['required_skills'])}):**")
-req_pills = " ".join([f"<code style='background:#FFFFFF; color:#075E5B; border:1px solid #D5DDD6; padding:2px 6px; border-radius:4px; font-size:0.78rem; display:inline-block; margin-bottom:3px;'>{s}</code>" for s in active_jd['required_skills']])
+req_pills = " ".join([f"<span class='skill-chip skill-chip-req'>{s}</span>" for s in active_jd['required_skills']])
 st.sidebar.markdown(req_pills, unsafe_allow_html=True)
 
 st.sidebar.markdown(f"**Preferred Competencies ({len(active_jd['preferred_skills'])}):**")
-pref_pills = " ".join([f"<code style='background:#FFFFFF; color:#53636A; border:1px solid #D5DDD6; padding:2px 6px; border-radius:4px; font-size:0.78rem; display:inline-block; margin-bottom:3px;'>{s}</code>" for s in active_jd['preferred_skills']])
+pref_pills = " ".join([f"<span class='skill-chip skill-chip-pref'>{s}</span>" for s in active_jd['preferred_skills']])
 st.sidebar.markdown(pref_pills, unsafe_allow_html=True)
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("#### Hybrid Scoring Formula")
+st.sidebar.markdown("#### ⚖️ Hybrid Scoring Architecture")
 st.sidebar.markdown("""
-- **Hard Skill Overlap:** `40%`
-- **Dense Semantic Fit:** `30%`
-- **TF-IDF Lexical Match:** `20%`
-- **Experience / Education:** `10%`
+- **Hard Skill Overlap:** `40%` (Mandatory & Preferred)
+- **Dense Semantic Fit:** `30%` (Contextual all-MiniLM)
+- **TF-IDF Lexical Match:** `20%` (Sublinear Keyword TF-IDF)
+- **Experience & Education:** `10%` (Tenure & Degree Level)
 """)
 
 # Ingest and Score Resumes
@@ -478,11 +631,21 @@ if not resume_files:
 candidate_profiles = [parse_resume(f) for f in sorted(resume_files)]
 rankings_df = matcher.rank_candidates(candidate_profiles, active_jd)
 
-# Section 01: Screening Summary KPIs
+# Quick CSV Export in Sidebar
+csv_data = rankings_df.to_csv(index=False).encode('utf-8')
+st.sidebar.download_button(
+    label="📥 Export Rankings to CSV",
+    data=csv_data,
+    file_name=f"talentmatch_rankings_{active_jd.get('job_id', 'role').lower()}.csv",
+    mime="text/csv",
+    use_container_width=True
+)
+
+# Section 01: Screening Command Center
 st.markdown(f"""
 <div class="section-header">
     <span class="section-num">01</span>
-    <h3 class="section-title">Screening Overview — {active_jd['title']}</h3>
+    <h3 class="section-title">Screening Command Center — {active_jd['title']}</h3>
 </div>
 """, unsafe_allow_html=True)
 
@@ -496,12 +659,13 @@ high_gaps = len(rankings_df[rankings_df["composite_score"] < 40.0])
 with col1:
     st.markdown(f"""
     <div class="metric-card">
+        <div class="metric-accent-line" style="background-color: #087F7B;"></div>
         <div>
-            <div class="metric-card-label">Total Resumes Screened</div>
+            <div class="metric-card-label">Total Resumes Ingested</div>
             <div class="metric-card-value" style="color: #075E5B;">{total_cands} Profiles</div>
         </div>
         <div class="metric-card-sub" style="color: #075E5B;">
-            Multi-Format: <strong>PDF, DOCX, TXT</strong>
+            Formats: <strong>PDF, DOCX, TXT</strong>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -509,12 +673,13 @@ with col1:
 with col2:
     st.markdown(f"""
     <div class="metric-card">
+        <div class="metric-accent-line" style="background-color: #5B8C72;"></div>
         <div>
-            <div class="metric-card-label">Strong Technical Fit (≥75%)</div>
-            <div class="metric-card-value" style="color: #5B8C72;">{strong_matches} Candidates</div>
+            <div class="metric-card-label">Strong Technical Fits (≥75%)</div>
+            <div class="metric-card-value" style="color: #2E7D5B;">{strong_matches} Candidates</div>
         </div>
-        <div class="metric-card-sub" style="color: #5B8C72;">
-            Status: <strong>Ready for Technical Screen</strong>
+        <div class="metric-card-sub" style="color: #2E7D5B;">
+            Action: <strong>Immediate Technical Screen</strong>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -522,12 +687,13 @@ with col2:
 with col3:
     st.markdown(f"""
     <div class="metric-card">
+        <div class="metric-accent-line" style="background-color: #D99A24;"></div>
         <div>
             <div class="metric-card-label">Review / Moderate (40-74%)</div>
-            <div class="metric-card-value" style="color: #D99A24;">{moderate_matches} Candidates</div>
+            <div class="metric-card-value" style="color: #B57E12;">{moderate_matches} Candidates</div>
         </div>
-        <div class="metric-card-sub" style="color: #D99A24;">
-            Status: <strong>Review Missing Competencies</strong>
+        <div class="metric-card-sub" style="color: #B57E12;">
+            Action: <strong>Review Specific Competency Gaps</strong>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -535,17 +701,18 @@ with col3:
 with col4:
     st.markdown(f"""
     <div class="metric-card">
+        <div class="metric-accent-line" style="background-color: #D95D39;"></div>
         <div>
             <div class="metric-card-label">High Technical Gaps (&lt;40%)</div>
-            <div class="metric-card-value" style="color: #D95D39;">{high_gaps} Candidates</div>
+            <div class="metric-card-value" style="color: #BF4320;">{high_gaps} Candidates</div>
         </div>
-        <div class="metric-card-sub" style="color: #D95D39;">
-            Status: <strong>Core Competency Mismatch</strong>
+        <div class="metric-card-sub" style="color: #BF4320;">
+            Action: <strong>Domain / Competency Mismatch</strong>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-# Section 02: Candidate Ranking Leaderboard
+# Section 02: Candidate Leaderboard & Rankings
 st.markdown("""
 <div class="section-header">
     <span class="section-num">02</span>
@@ -553,7 +720,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-tab_chart, tab_table = st.tabs(["Leaderboard Visual Chart", "Structured Candidate Data Table"])
+tab_chart, tab_table = st.tabs(["📊 Visual Ranking Chart", "📋 Structured Candidate Data Table"])
 
 with tab_chart:
     sorted_chart_df = rankings_df.sort_values(by="composite_score", ascending=True)
@@ -561,7 +728,7 @@ with tab_chart:
     bar_colors = []
     for s in sorted_chart_df["composite_score"]:
         if s >= 75.0:
-            bar_colors.append("#087F7B")
+            bar_colors.append("#2E7D5B")
         elif s >= 40.0:
             bar_colors.append("#D99A24")
         else:
@@ -575,27 +742,28 @@ with tab_chart:
             color=bar_colors,
             line=dict(color="#D5DDD6", width=1)
         ),
-        text=[f"{s:.1f}%" for s in sorted_chart_df["composite_score"]],
+        text=[f"  <b>{s:.1f}%</b> ({g})" for s, g in zip(sorted_chart_df["composite_score"], sorted_chart_df["gap_severity"])],
         textposition="outside",
-        cliponaxis=False
+        cliponaxis=False,
+        hovertemplate="<b>%{y}</b><br>Composite Match: %{x:.1f}%<extra></extra>"
     ))
     
     fig.update_layout(
         paper_bgcolor="#FFFFFF",
         plot_bgcolor="#FFFFFF",
-        margin=dict(l=10, r=40, t=30, b=20),
-        font=dict(family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif", size=11, color="#53636A"),
+        margin=dict(l=10, r=60, t=25, b=20),
+        font=dict(family="Plus Jakarta Sans, Inter, sans-serif", size=12, color="#53636A"),
         xaxis=dict(
-            range=[0, 105],
+            range=[0, 108],
             ticksuffix="%",
             gridcolor="#F1F3EE",
             zerolinecolor="#D5DDD6",
-            tickfont=dict(size=10, color="#53636A")
+            tickfont=dict(size=11, color="#53636A")
         ),
         yaxis=dict(
-            tickfont=dict(size=11, color="#1F2933", weight=600)
+            tickfont=dict(size=12, color="#1F2933", weight=600)
         ),
-        height=320
+        height=340
     )
     st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
@@ -606,6 +774,16 @@ with tab_table:
             is_top = (row["Rank"] == 1)
             row_class = ' class="top-candidate-row"' if is_top else ''
             
+            # Rank medal
+            if row["Rank"] == 1:
+                rank_badge = "🥇 #1"
+            elif row["Rank"] == 2:
+                rank_badge = "🥈 #2"
+            elif row["Rank"] == 3:
+                rank_badge = "🥉 #3"
+            else:
+                rank_badge = f"#{row['Rank']}"
+            
             # Gap Badge
             if row["gap_severity"] == "Low":
                 gap_badge = '<span class="badge-success">LOW GAP</span>'
@@ -615,7 +793,7 @@ with tab_table:
                 gap_badge = '<span class="badge-urgent">HIGH GAP</span>'
                 
             cells = [
-                f"<td style='font-weight:800; text-align:center;'>#{row['Rank']}</td>",
+                f"<td style='font-weight:800; text-align:center;'>{rank_badge}</td>",
                 f"<td><code>{row['candidate_id']}</code></td>",
                 f"<td style='font-weight:800; color:#075E5B;'>{row['composite_score']:.1f}%</td>",
                 f"<td>{gap_badge}</td>",
@@ -649,11 +827,25 @@ with tab_table:
         """
     st.markdown(render_candidate_table(rankings_df), unsafe_allow_html=True)
 
-# Section 03: Deep-Dive Candidate Inspector & Skill Gap Diagnostics
+# Why This Ranking Insight Box
+top_row = rankings_df.iloc[0]
+st.markdown(f"""
+<div style="background-color: #FFFFFF; border: 1px solid #D8E0D8; border-radius: 12px; padding: 14px 18px; margin-top: 6px; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(31, 41, 51, 0.02);">
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+        <span style="font-size: 0.88rem; font-weight: 800; color: #075E5B; text-transform: uppercase; letter-spacing: 0.04em;">💡 Recruiter Decision Context: Why This Ranking?</span>
+    </div>
+    <div style="font-size: 0.86rem; color: #53636A; line-height: 1.45;">
+        Candidates are ranked strictly via the 4-tier objective scoring architecture (<strong>40% Hard Skills</strong>, <strong>30% Dense Semantic Similarity</strong>, <strong>20% TF-IDF Keyword Match</strong>, <strong>10% Experience & Education</strong>). 
+        Top-ranked profile <code>{top_row['candidate_id']}</code> attained the highest composite score (<strong>{top_row['composite_score']:.1f}%</strong>) by satisfying <strong>{len(top_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory competencies</strong> and demonstrating the strongest contextual domain alignment ({top_row['semantic_similarity_pct']:.1f}% semantic fit).
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# Section 03: Candidate Deep-Dive & Skill Gap Diagnostics
 st.markdown("""
 <div class="section-header">
     <span class="section-num">03</span>
-    <h3 class="section-title">Candidate Deep-Dive & Skill Gap Diagnostics</h3>
+    <h3 class="section-title">Candidate Deep-Dive & Profile Analysis Workspace</h3>
 </div>
 """, unsafe_allow_html=True)
 
@@ -664,108 +856,211 @@ selected_cand_id = st.selectbox(
 
 cand_row = rankings_df[rankings_df["candidate_id"] == selected_cand_id].iloc[0]
 
+# Extract format from files
+cand_file_ext = "DOCX"
+for f in resume_files:
+    if cand_row['candidate_id'] in os.path.basename(f):
+        cand_file_ext = os.path.splitext(f)[1].replace(".", "").upper()
+        break
+
 c_col1, c_col2 = st.columns([1, 1])
 
 with c_col1:
+    # Color badge based on score
+    if cand_row['composite_score'] >= 75.0:
+        score_color = "#2E7D5B"
+        gap_pill = '<span class="badge-success">LOW GAP</span>'
+    elif cand_row['composite_score'] >= 40.0:
+        score_color = "#B57E12"
+        gap_pill = '<span class="badge-medium">MODERATE GAP</span>'
+    else:
+        score_color = "#BF4320"
+        gap_pill = '<span class="badge-urgent">HIGH GAP</span>'
+
     st.markdown(f"""
     <div class="content-box">
-        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; border-bottom: 1px solid #F1F3EE; padding-bottom: 8px;">
-            <div style="font-size: 1.15rem; font-weight: 800; color: #075E5B;">
-                <code>{cand_row['candidate_id']}</code>
-            </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #F1F3EE; padding-bottom: 10px;">
             <div>
-                <span class="badge-neutral">Rank #{cand_row['Rank']}</span>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #075E5B;">
+                    <code>{cand_row['candidate_id']}</code>
+                </div>
+                <div style="font-size: 0.78rem; color: #53636A; font-weight: 600; margin-top: 2px;">
+                    Parsed Format: <span class="badge-neutral" style="font-size: 0.72rem; padding: 2px 6px;">.{cand_file_ext}</span> • PII Masked
+                </div>
             </div>
+            <div style="display: flex; gap: 6px; align-items: center;">
+                <span class="badge-teal" style="font-weight: 800;">Rank #{cand_row['Rank']}</span>
+                {gap_pill}
+            </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
+            <div style="background: #F8F7F2; border: 1px solid #E5EBE5; border-radius: 8px; padding: 10px 12px;">
+                <span style="color: #53636A; font-size: 0.76rem; font-weight: 700; text-transform: uppercase;">Composite Match</span><br>
+                <strong style="font-size: 1.45rem; color: {score_color};">{cand_row['composite_score']:.1f}%</strong>
+            </div>
+            <div style="background: #F8F7F2; border: 1px solid #E5EBE5; border-radius: 8px; padding: 10px 12px;">
+                <span style="color: #53636A; font-size: 0.76rem; font-weight: 700; text-transform: uppercase;">Stated Experience</span><br>
+                <strong style="font-size: 1.25rem; color: #1F2933;">{cand_row['experience_years']} Years</strong> 
+                <span style="font-size: 0.76rem; color: #53636A;">(Req: {active_jd['min_experience_years']}y)</span>
+            </div>
+            <div style="background: #F8F7F2; border: 1px solid #E5EBE5; border-radius: 8px; padding: 10px 12px;">
+                <span style="color: #53636A; font-size: 0.76rem; font-weight: 700; text-transform: uppercase;">Highest Education</span><br>
+                <strong style="font-size: 1.05rem; color: #1F2933;">{cand_row['education_level']}</strong>
+            </div>
+            <div style="background: #F8F7F2; border: 1px solid #E5EBE5; border-radius: 8px; padding: 10px 12px;">
+                <span style="color: #53636A; font-size: 0.76rem; font-weight: 700; text-transform: uppercase;">Gap Severity</span><br>
+                <strong style="font-size: 1.05rem; color: #1F2933;">{cand_row['gap_severity']}</strong>
+            </div>
+        </div>
+
+        <div style="font-size: 0.82rem; font-weight: 800; color: #1F2933; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px;">
+            4-Tier Evaluation Pillar Breakdown:
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px;">
-            <div><span style="color: #53636A; font-size: 0.82rem;">Composite Match:</span><br><strong style="font-size: 1.1rem; color: #075E5B;">{cand_row['composite_score']:.1f}%</strong></div>
-            <div><span style="color: #53636A; font-size: 0.82rem;">Gap Severity:</span><br><strong style="font-size: 1.0rem; color: #1F2933;">{cand_row['gap_severity']}</strong></div>
-            <div><span style="color: #53636A; font-size: 0.82rem;">Stated Experience:</span><br><strong>{cand_row['experience_years']} Years</strong></div>
-            <div><span style="color: #53636A; font-size: 0.82rem;">Highest Education:</span><br><strong>{cand_row['education_level']}</strong></div>
+            <div class="pillar-card">
+                <div class="pillar-weight">Tier 1 • Weight 40%</div>
+                <div class="pillar-name">Hard Skill Overlap</div>
+                <div class="pillar-score">{cand_row['skill_score_pct']:.1f}%</div>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-weight">Tier 2 • Weight 30%</div>
+                <div class="pillar-name">Dense Semantic Fit</div>
+                <div class="pillar-score">{cand_row['semantic_similarity_pct']:.1f}%</div>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-weight">Tier 3 • Weight 20%</div>
+                <div class="pillar-name">TF-IDF Lexical Match</div>
+                <div class="pillar-score">{cand_row['lexical_similarity_pct']:.1f}%</div>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-weight">Tier 4 • Weight 10%</div>
+                <div class="pillar-name">Experience & Education</div>
+                <div class="pillar-score">{cand_row['exp_edu_fit_pct']:.1f}%</div>
+            </div>
         </div>
-        <div style="margin-bottom: 12px;">
-            <div style="font-size: 0.84rem; font-weight: 700; color: #1F2933; margin-bottom: 4px;">Decision-Support Recommendation:</div>
-            <div style="background-color: #F8F7F3; border: 1px solid #D5DDD6; border-radius: 8px; padding: 10px 12px; font-size: 0.85rem; color: #1F2933; line-height: 1.4;">
+
+        <div>
+            <div style="font-size: 0.82rem; font-weight: 800; color: #1F2933; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">
+                Operational Recommendation:
+            </div>
+            <div style="background-color: #F8F7F2; border: 1px solid #D5DDD6; border-radius: 8px; padding: 10px 14px; font-size: 0.86rem; color: #1F2933; line-height: 1.45;">
                 {cand_row['recommendation']}
-            </div>
-        </div>
-        <div style="font-size: 0.84rem; font-weight: 700; color: #1F2933; margin-bottom: 6px;">Evaluation Pillar Scores:</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
-            <div style="background:#FFFFFF; border:1px solid #D5DDD6; border-radius:6px; padding:6px 10px;">
-                <span style="font-size:0.75rem; color:#53636A;">Structured Skill:</span> <strong>{cand_row['skill_score_pct']:.1f}%</strong>
-            </div>
-            <div style="background:#FFFFFF; border:1px solid #D5DDD6; border-radius:6px; padding:6px 10px;">
-                <span style="font-size:0.75rem; color:#53636A;">Dense Semantic:</span> <strong>{cand_row['semantic_similarity_pct']:.1f}%</strong>
-            </div>
-            <div style="background:#FFFFFF; border:1px solid #D5DDD6; border-radius:6px; padding:6px 10px;">
-                <span style="font-size:0.75rem; color:#53636A;">TF-IDF Lexical:</span> <strong>{cand_row['lexical_similarity_pct']:.1f}%</strong>
-            </div>
-            <div style="background:#FFFFFF; border:1px solid #D5DDD6; border-radius:6px; padding:6px 10px;">
-                <span style="font-size:0.75rem; color:#53636A;">Exp/Edu Fit:</span> <strong>{cand_row['exp_edu_fit_pct']:.1f}%</strong>
             </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
 with c_col2:
-    matched_req_html = " ".join([f"<span class='badge-success' style='margin-right:4px; margin-bottom:4px;'>✓ {s}</span>" for s in cand_row['matched_required']]) if cand_row['matched_required'] else "<span style='color:#53636A; font-style:italic;'>None identified</span>"
-    missing_req_html = " ".join([f"<span class='badge-urgent' style='margin-right:4px; margin-bottom:4px;'>✗ {s}</span>" for s in cand_row['missing_required']]) if cand_row['missing_required'] else "<span class='badge-success'>🎉 All mandatory competencies satisfied!</span>"
-    matched_pref_html = " ".join([f"<span class='badge-teal' style='margin-right:4px; margin-bottom:4px;'>★ {s}</span>" for s in cand_row['matched_preferred']]) if cand_row['matched_preferred'] else "<span style='color:#53636A; font-style:italic;'>None identified</span>"
+    matched_req_html = " ".join([f"<span class='skill-chip skill-chip-req'>✓ {s}</span>" for s in cand_row['matched_required']]) if cand_row['matched_required'] else "<span style='color:#53636A; font-style:italic; font-size:0.85rem;'>None identified</span>"
+    missing_req_html = " ".join([f"<span class='skill-chip skill-chip-miss'>✗ {s}</span>" for s in cand_row['missing_required']]) if cand_row['missing_required'] else "<span class='badge-success' style='font-size:0.82rem;'>🎉 All mandatory competencies satisfied!</span>"
+    matched_pref_html = " ".join([f"<span class='skill-chip skill-chip-pref'>★ {s}</span>" for s in cand_row['matched_preferred']]) if cand_row['matched_preferred'] else "<span style='color:#53636A; font-style:italic; font-size:0.85rem;'>None identified</span>"
     
+    # Recruiter Insight synthesis
+    if cand_row['composite_score'] >= 75.0 and len(cand_row['missing_required']) == 0:
+        insight_bg = "#EAF3ED"
+        insight_border = "#BFDEC7"
+        insight_title_color = "#2E7D5B"
+        insight_text = f"Candidate satisfies <strong>all {len(active_jd['required_skills'])} mandatory technical skills</strong> with strong domain vector alignment ({cand_row['semantic_similarity_pct']:.1f}%). Recommended to advance immediately to technical screen."
+    elif cand_row['composite_score'] >= 40.0:
+        insight_bg = "#FFF4D8"
+        insight_border = "#F7DE98"
+        insight_title_color = "#B57E12"
+        missing_str = ", ".join(cand_row['missing_required']) if cand_row['missing_required'] else "none"
+        insight_text = f"Candidate displays partial technical alignment ({len(cand_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory skills). Primary gaps to assess: <strong>{missing_str}</strong>. Suitable for hiring manager review or secondary role routing."
+    else:
+        insight_bg = "#FBEAE5"
+        insight_border = "#F4C7BA"
+        insight_title_color = "#BF4320"
+        missing_str = ", ".join(cand_row['missing_required']) if cand_row['missing_required'] else "core skills"
+        insight_text = f"Candidate demonstrates low alignment for this specific role (missing: <strong>{missing_str}</strong>). Profile indicates primary background in adjacent software domains."
+
     st.markdown(f"""
     <div class="content-box">
-        <div style="font-size: 1.05rem; font-weight: 800; color: #1F2933; margin-bottom: 12px; border-bottom: 1px solid #F1F3EE; padding-bottom: 8px;">
-            Granular Skill Competency Matrix
+        <div style="font-size: 1.05rem; font-weight: 800; color: #1F2933; margin-bottom: 14px; border-bottom: 1px solid #F1F3EE; padding-bottom: 8px;">
+            Granular Competency Matrix & Gap Breakdown
         </div>
+        
         <div style="margin-bottom: 14px;">
-            <div style="font-size: 0.82rem; font-weight: 800; color: #5B8C72; text-transform: uppercase; margin-bottom: 6px;">
+            <div style="font-size: 0.80rem; font-weight: 800; color: #2E7D5B; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">
                 ✅ Matched Mandatory Skills ({len(cand_row['matched_required'])} / {len(active_jd['required_skills'])}):
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 4px;">
                 {matched_req_html}
             </div>
         </div>
+        
         <div style="margin-bottom: 14px;">
-            <div style="font-size: 0.82rem; font-weight: 800; color: #D95D39; text-transform: uppercase; margin-bottom: 6px;">
+            <div style="font-size: 0.80rem; font-weight: 800; color: #BF4320; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">
                 ❌ Missing Mandatory Skills ({len(cand_row['missing_required'])}):
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 4px;">
                 {missing_req_html}
             </div>
         </div>
-        <div>
-            <div style="font-size: 0.82rem; font-weight: 800; color: #075E5B; text-transform: uppercase; margin-bottom: 6px;">
+        
+        <div style="margin-bottom: 16px;">
+            <div style="font-size: 0.80rem; font-weight: 800; color: #B57E12; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">
                 ⭐ Matched Preferred Bonus Skills ({len(cand_row['matched_preferred'])}):
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 4px;">
                 {matched_pref_html}
             </div>
         </div>
+
+        <div style="background-color: {insight_bg}; border: 1px solid {insight_border}; border-radius: 10px; padding: 12px 14px;">
+            <div style="font-size: 0.82rem; font-weight: 800; color: {insight_title_color}; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px;">
+                🧠 Recruiter Intelligence Insight
+            </div>
+            <div style="font-size: 0.85rem; color: #1F2933; line-height: 1.45;">
+                {insight_text}
+            </div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
-# Section 04: Data Governance & Ethical AI Notice
+# Section 04: Model Governance & Data Provenance
 st.markdown("""
 <div class="section-header">
     <span class="section-num">04</span>
-    <h3 class="section-title">Data Provenance & Ethical AI Governance</h3>
+    <h3 class="section-title">Model Governance & Data Provenance</h3>
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-<div style="background-color: #FFFFFF; border: 1px solid #D5DDD6; border-radius: 14px; padding: 18px 22px; margin-top: 6px;">
-    <h4 style="color: #1F2933; margin-top: 0; font-size: 0.96rem; font-weight: 700;">
-        Controlled Prototype Scope & Ethical AI Safeguards
-    </h4>
-    <p style="font-size: 0.86rem; color: #53636A; line-height: 1.5; margin-bottom: 8px;">
-        <strong style="color: #1F2933;">Benchmark Corpus:</strong> Controlled, synthetic candidate resume dataset (8 profiles across PDF, DOCX, and TXT formats) curated to validate multi-format parsing, PII anonymization, 4-tier hybrid scoring, and skill-gap extraction in an objective prototype environment.
-    </p>
-    <p style="font-size: 0.86rem; color: #53636A; line-height: 1.5; margin-bottom: 8px;">
-        <strong style="color: #1F2933;">PII Anonymization:</strong> Automatically scrubs candidate names, email addresses, phone numbers, and profile links prior to feature extraction to mitigate demographic and unconscious recruiter bias.
-    </p>
-    <p style="font-size: 0.86rem; color: #53636A; line-height: 1.5; margin-bottom: 0;">
-        <strong style="color: #1F2933;">Decision-Support Notice:</strong> Because this is a curated synthetic prototype dataset, these results should not be interpreted as representative of production recruiting performance. Real-world deployment requires validation on an independently audited candidate pool and must serve strictly as a decision-support filter rather than an autonomous hiring authority.
-    </p>
-</div>
-""", unsafe_allow_html=True)
+gov_col1, gov_col2, gov_col3 = st.columns(3)
 
+with gov_col1:
+    st.markdown("""
+    <div class="content-box" style="height: 100%;">
+        <div style="font-size: 0.90rem; font-weight: 800; color: #075E5B; margin-bottom: 8px;">
+            📊 Controlled Benchmark Scope
+        </div>
+        <div style="font-size: 0.84rem; color: #53636A; line-height: 1.45;">
+            Controlled, synthetic candidate resume dataset (8 profiles across PDF, DOCX, and TXT formats) curated to validate multi-format parsing, PII anonymization, 4-tier hybrid scoring, and skill-gap extraction in an objective prototype environment.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with gov_col2:
+    st.markdown("""
+    <div class="content-box" style="height: 100%;">
+        <div style="font-size: 0.90rem; font-weight: 800; color: #075E5B; margin-bottom: 8px;">
+            🛡️ Zero-PII Fairness Safeguards
+        </div>
+        <div style="font-size: 0.84rem; color: #53636A; line-height: 1.45;">
+            Candidate names, email addresses, phone numbers, and profile URLs are automatically scrubbed from resume text prior to feature extraction to mitigate demographic, gender, and unconscious recruiter bias.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with gov_col3:
+    st.markdown("""
+    <div class="content-box" style="height: 100%;">
+        <div style="font-size: 0.90rem; font-weight: 800; color: #075E5B; margin-bottom: 8px;">
+            ⚖️ Decision-Support Notice
+        </div>
+        <div style="font-size: 0.84rem; color: #53636A; line-height: 1.45;">
+            TalentMatch ML is explicitly engineered as a recruiter decision-support tool, not an autonomous hiring engine. Real-world deployment requires production validation, and human evaluation remains mandatory for all hiring decisions.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
