@@ -1,4 +1,4 @@
-﻿# 📄 TalentMatch ML — Resume Screening & Candidate Ranking Decision-Support System
+# 📄 TalentMatch ML — Resume Screening & Candidate Ranking Decision-Support System
 **Future Interns Machine Learning Internship — Task 3 Submission**  
 **Track Code:** `ML` | **CIN:** `FIT/AUG26/ML10465` | **Repository:** `FUTURE_ML_03`
 
@@ -98,6 +98,8 @@ In high-volume technical talent acquisition, recruiters manually screen hundreds
 | 6 | `candidate_08_java_backend_dev` | `.txt` | 5.5 | Bachelor's | **10.0%** | **36.9%** | **24.5%** | **28.3%** | **High** | Skill Gap: Lacks Core ML |
 | 7 | `candidate_07_bi_data_analyst` | `.txt` | 4.5 | Bachelor's | **10.0%** | **34.1%** | **19.8%** | **25.3%** | **High** | Skill Gap: Lacks Core ML |
 | 8 | `candidate_05_frontend_dev` | `.txt` | 3.0 | Bachelor's | **0.0%** | **27.4%** | **13.5%** | **18.1%** | **High** | Skill Gap: Lacks Core ML |
+
+> **Multi-Job Specification Verification**: Rankings, scores, and skill gap matrices execute successfully and consistently across all three job specifications (`Senior Machine Learning Engineer`, `Lead Full Stack Software Engineer`, `Senior Cloud DevOps & Infrastructure Specialist`).
 
 ---
 
