@@ -8,6 +8,7 @@ import os
 import glob
 import json
 import sys
+import textwrap
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -18,6 +19,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from src.parser import parse_resume
 from src.matcher import TalentMatcher
 
+# Helper function to render HTML cleanly without markdown code block indentation issues
+def html(content: str):
+    st.markdown(textwrap.dedent(content).strip(), unsafe_allow_html=True)
+
 # Configure Page Layout & Styling
 st.set_page_config(
     page_title="TalentMatch ML — Recruiter Intelligence Workspace",
@@ -27,7 +32,7 @@ st.set_page_config(
 )
 
 # Custom Enterprise Light Theme CSS
-st.markdown("""
+html("""
 <style>
     /* Global Typography & Canvas */
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
@@ -57,8 +62,8 @@ st.markdown("""
     section[data-testid="stSidebar"] {
         background-color: #EBEFEA !important;
         border-right: 1px solid #D5DDD6 !important;
-        min-width: 340px !important;
-        max-width: 390px !important;
+        min-width: 350px !important;
+        max-width: 420px !important;
     }
 
     section[data-testid="stSidebar"] .block-container {
@@ -295,7 +300,7 @@ st.markdown("""
     }
     
     .metric-card-value {
-        font-size: 1.6rem;
+        font-size: 1.55rem;
         font-weight: 800;
         color: #1F2933;
         line-height: 1.2;
@@ -370,7 +375,7 @@ st.markdown("""
         background-color: #FFFFFF;
         border: 1px solid #D5DDD6;
         color: #1F2933;
-        padding: 3px 8px;
+        padding: 4px 9px;
         border-radius: 6px;
         font-size: 0.78rem;
         font-weight: 600;
@@ -408,6 +413,8 @@ st.markdown("""
     div[data-baseweb="select"] * {
         color: #1F2933 !important;
         background-color: #FFFFFF !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
     }
 
     div[data-baseweb="popover"], div[data-baseweb="menu"], ul[role="listbox"], li[role="option"] {
@@ -424,6 +431,19 @@ st.markdown("""
         color: #1F2933 !important;
         font-weight: 700 !important;
         font-size: 0.92rem !important;
+    }
+
+    /* Tabs Styling */
+    button[data-baseweb="tab"] {
+        font-weight: 700 !important;
+        font-size: 0.92rem !important;
+        color: #53636A !important;
+        padding: 8px 16px !important;
+    }
+
+    button[data-baseweb="tab"][aria-selected="true"] {
+        color: #075E5B !important;
+        border-bottom-color: #087F7B !important;
     }
 
     /* Custom Benchmark Table Styling */
@@ -448,7 +468,7 @@ st.markdown("""
         color: #1F2933;
         font-weight: 800;
         padding: 12px 14px;
-        border-bottom: 1px solid #D5DDD6;
+        border-bottom: 2px solid #D5DDD6;
         font-size: 0.80rem;
         text-transform: uppercase;
         letter-spacing: 0.04em;
@@ -459,6 +479,7 @@ st.markdown("""
         border-bottom: 1px solid #F1F3EE;
         color: #1F2933;
         vertical-align: middle;
+        background-color: #FFFFFF;
     }
     
     .benchmark-table tr:last-child td {
@@ -501,8 +522,30 @@ st.markdown("""
         color: #075E5B;
         margin-top: 4px;
     }
+
+    /* Download Button Polish */
+    div.stDownloadButton > button {
+        background-color: #087F7B !important;
+        color: #FFFFFF !important;
+        font-weight: 700 !important;
+        border: 1px solid #075E5B !important;
+        border-radius: 8px !important;
+        padding: 8px 16px !important;
+        box-shadow: 0 2px 6px rgba(8, 127, 123, 0.2) !important;
+        transition: all 0.15s ease-in-out !important;
+    }
+
+    div.stDownloadButton > button:hover {
+        background-color: #075E5B !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 4px 10px rgba(8, 127, 123, 0.3) !important;
+    }
+
+    div.stDownloadButton > button p {
+        color: #FFFFFF !important;
+    }
 </style>
-""", unsafe_allow_html=True)
+""")
 
 # Data & Model Setup
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -516,7 +559,7 @@ def load_matcher():
 matcher = load_matcher()
 
 # 1. Hero & Visual Pipeline
-st.markdown("""
+html("""
 <div class="hero-container">
     <div class="hero-title-group">
         <div class="hero-badge-row">
@@ -538,9 +581,9 @@ st.markdown("""
         <span class="badge-neutral">DECISION SUPPORT ONLY</span>
     </div>
 </div>
-""", unsafe_allow_html=True)
+""")
 
-st.markdown("""
+html("""
 <div class="workflow-container">
     <div class="workflow-step">
         <span class="workflow-step-num">1</span>
@@ -572,10 +615,10 @@ st.markdown("""
         <span class="workflow-step-name">Recruiter Insights</span>
     </div>
 </div>
-""", unsafe_allow_html=True)
+""")
 
 # Sidebar Configuration
-st.sidebar.markdown("""
+html("""
 <div style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #D5DDD6;">
     <div style="font-size: 1.2rem; font-weight: 900; color: #075E5B; letter-spacing: -0.02em;">
         TALENTMATCH ML
@@ -584,7 +627,7 @@ st.sidebar.markdown("""
         Recruiter Intelligence Workspace
     </div>
 </div>
-""", unsafe_allow_html=True)
+""")
 
 st.sidebar.markdown("#### 🎯 Target Role Configuration")
 
@@ -642,12 +685,12 @@ st.sidebar.download_button(
 )
 
 # Section 01: Screening Command Center
-st.markdown(f"""
+html(f"""
 <div class="section-header">
     <span class="section-num">01</span>
     <h3 class="section-title">Screening Command Center — {active_jd['title']}</h3>
 </div>
-""", unsafe_allow_html=True)
+""")
 
 col1, col2, col3, col4 = st.columns(4)
 
@@ -657,7 +700,7 @@ moderate_matches = len(rankings_df[(rankings_df["composite_score"] >= 40.0) & (r
 high_gaps = len(rankings_df[rankings_df["composite_score"] < 40.0])
 
 with col1:
-    st.markdown(f"""
+    html(f"""
     <div class="metric-card">
         <div class="metric-accent-line" style="background-color: #087F7B;"></div>
         <div>
@@ -668,10 +711,10 @@ with col1:
             Formats: <strong>PDF, DOCX, TXT</strong>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 with col2:
-    st.markdown(f"""
+    html(f"""
     <div class="metric-card">
         <div class="metric-accent-line" style="background-color: #5B8C72;"></div>
         <div>
@@ -682,10 +725,10 @@ with col2:
             Action: <strong>Immediate Technical Screen</strong>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 with col3:
-    st.markdown(f"""
+    html(f"""
     <div class="metric-card">
         <div class="metric-accent-line" style="background-color: #D99A24;"></div>
         <div>
@@ -696,10 +739,10 @@ with col3:
             Action: <strong>Review Specific Competency Gaps</strong>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 with col4:
-    st.markdown(f"""
+    html(f"""
     <div class="metric-card">
         <div class="metric-accent-line" style="background-color: #D95D39;"></div>
         <div>
@@ -710,15 +753,15 @@ with col4:
             Action: <strong>Domain / Competency Mismatch</strong>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 # Section 02: Candidate Leaderboard & Rankings
-st.markdown("""
+html("""
 <div class="section-header">
     <span class="section-num">02</span>
     <h3 class="section-title">Candidate Ranking Leaderboard</h3>
 </div>
-""", unsafe_allow_html=True)
+""")
 
 tab_chart, tab_table = st.tabs(["📊 Visual Ranking Chart", "📋 Structured Candidate Data Table"])
 
@@ -825,11 +868,11 @@ with tab_table:
             </table>
         </div>
         """
-    st.markdown(render_candidate_table(rankings_df), unsafe_allow_html=True)
+    html(render_candidate_table(rankings_df))
 
 # Why This Ranking Insight Box
 top_row = rankings_df.iloc[0]
-st.markdown(f"""
+html(f"""
 <div style="background-color: #FFFFFF; border: 1px solid #D8E0D8; border-radius: 12px; padding: 14px 18px; margin-top: 6px; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(31, 41, 51, 0.02);">
     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
         <span style="font-size: 0.88rem; font-weight: 800; color: #075E5B; text-transform: uppercase; letter-spacing: 0.04em;">💡 Recruiter Decision Context: Why This Ranking?</span>
@@ -839,15 +882,15 @@ st.markdown(f"""
         Top-ranked profile <code>{top_row['candidate_id']}</code> attained the highest composite score (<strong>{top_row['composite_score']:.1f}%</strong>) by satisfying <strong>{len(top_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory competencies</strong> and demonstrating the strongest contextual domain alignment ({top_row['semantic_similarity_pct']:.1f}% semantic fit).
     </div>
 </div>
-""", unsafe_allow_html=True)
+""")
 
 # Section 03: Candidate Deep-Dive & Skill Gap Diagnostics
-st.markdown("""
+html("""
 <div class="section-header">
     <span class="section-num">03</span>
     <h3 class="section-title">Candidate Deep-Dive & Profile Analysis Workspace</h3>
 </div>
-""", unsafe_allow_html=True)
+""")
 
 selected_cand_id = st.selectbox(
     "Select Candidate Profile to Inspect:",
@@ -877,7 +920,7 @@ with c_col1:
         score_color = "#BF4320"
         gap_pill = '<span class="badge-urgent">HIGH GAP</span>'
 
-    st.markdown(f"""
+    html(f"""
     <div class="content-box">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #F1F3EE; padding-bottom: 10px;">
             <div>
@@ -949,7 +992,7 @@ with c_col1:
             </div>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 with c_col2:
     matched_req_html = " ".join([f"<span class='skill-chip skill-chip-req'>✓ {s}</span>" for s in cand_row['matched_required']]) if cand_row['matched_required'] else "<span style='color:#53636A; font-style:italic; font-size:0.85rem;'>None identified</span>"
@@ -975,7 +1018,7 @@ with c_col2:
         missing_str = ", ".join(cand_row['missing_required']) if cand_row['missing_required'] else "core skills"
         insight_text = f"Candidate demonstrates low alignment for this specific role (missing: <strong>{missing_str}</strong>). Profile indicates primary background in adjacent software domains."
 
-    st.markdown(f"""
+    html(f"""
     <div class="content-box">
         <div style="font-size: 1.05rem; font-weight: 800; color: #1F2933; margin-bottom: 14px; border-bottom: 1px solid #F1F3EE; padding-bottom: 8px;">
             Granular Competency Matrix & Gap Breakdown
@@ -1017,20 +1060,20 @@ with c_col2:
             </div>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 # Section 04: Model Governance & Data Provenance
-st.markdown("""
+html("""
 <div class="section-header">
     <span class="section-num">04</span>
     <h3 class="section-title">Model Governance & Data Provenance</h3>
 </div>
-""", unsafe_allow_html=True)
+""")
 
 gov_col1, gov_col2, gov_col3 = st.columns(3)
 
 with gov_col1:
-    st.markdown("""
+    html("""
     <div class="content-box" style="height: 100%;">
         <div style="font-size: 0.90rem; font-weight: 800; color: #075E5B; margin-bottom: 8px;">
             📊 Controlled Benchmark Scope
@@ -1039,10 +1082,10 @@ with gov_col1:
             Controlled, synthetic candidate resume dataset (8 profiles across PDF, DOCX, and TXT formats) curated to validate multi-format parsing, PII anonymization, 4-tier hybrid scoring, and skill-gap extraction in an objective prototype environment.
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 with gov_col2:
-    st.markdown("""
+    html("""
     <div class="content-box" style="height: 100%;">
         <div style="font-size: 0.90rem; font-weight: 800; color: #075E5B; margin-bottom: 8px;">
             🛡️ Zero-PII Fairness Safeguards
@@ -1051,10 +1094,10 @@ with gov_col2:
             Candidate names, email addresses, phone numbers, and profile URLs are automatically scrubbed from resume text prior to feature extraction to mitigate demographic, gender, and unconscious recruiter bias.
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 with gov_col3:
-    st.markdown("""
+    html("""
     <div class="content-box" style="height: 100%;">
         <div style="font-size: 0.90rem; font-weight: 800; color: #075E5B; margin-bottom: 8px;">
             ⚖️ Decision-Support Notice
@@ -1063,4 +1106,4 @@ with gov_col3:
             TalentMatch ML is explicitly engineered as a recruiter decision-support tool, not an autonomous hiring engine. Real-world deployment requires production validation, and human evaluation remains mandatory for all hiring decisions.
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
