@@ -51,6 +51,7 @@ st.markdown("""
         color: #1F2933 !important;
     }
     
+    /* Sidebar Styling */
     section[data-testid="stSidebar"] {
         background-color: #EBEFEA !important;
         border-right: 1px solid #D5DDD6 !important;
@@ -92,16 +93,6 @@ st.markdown("""
         margin-bottom: 4px !important;
     }
 
-    section[data-testid="stSidebar"] code {
-        background-color: #FFFFFF !important;
-        color: #075E5B !important;
-        border: 1px solid #D5DDD6 !important;
-        padding: 2px 7px !important;
-        border-radius: 5px !important;
-        font-size: 0.80rem !important;
-        font-weight: 600 !important;
-    }
-
     section[data-testid="stSidebar"] hr {
         margin: 14px 0 !important;
         border-color: #D5DDD6 !important;
@@ -116,19 +107,32 @@ st.markdown("""
         padding: 16px !important;
     }
 
-    /* Metric Values */
+    /* Metric Labels - Strong Contrast */
+    div[data-testid="stMetricLabel"] p {
+        font-size: 0.80rem !important;
+        font-weight: 800 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        color: #1F2933 !important;
+    }
+
+    /* Metric Values - Large, Clear, No Truncation */
     div[data-testid="stMetricValue"] {
         font-size: 1.55rem !important;
         font-weight: 800 !important;
         color: #075E5B !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        text-overflow: clip !important;
+        overflow: visible !important;
     }
 
-    div[data-testid="stMetricLabel"] p {
-        font-size: 0.78rem !important;
-        font-weight: 800 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.05em !important;
-        color: #53636A !important;
+    div[data-testid="stMetricValue"] > div {
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        text-overflow: clip !important;
+        overflow: visible !important;
+        font-size: 1.35rem !important;
     }
 
     /* Selectbox Input Controls */
@@ -174,6 +178,130 @@ st.markdown("""
         border-bottom-color: #087F7B !important;
     }
 
+    /* Enterprise Status Pills */
+    .status-pill-ready {
+        background-color: #EAF3ED;
+        color: #2E7D5B;
+        border: 1px solid #BFDEC7;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.74rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .status-pill-teal {
+        background-color: #E7F4F2;
+        color: #075E5B;
+        border: 1px solid #B8E2DC;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.74rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .status-pill-neutral {
+        background-color: #EBF0EA;
+        color: #1F2933;
+        border: 1px solid #D5DDD6;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.74rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    /* Recruiter Skill Tags */
+    .skill-pill-req {
+        background-color: #EAF3ED;
+        color: #2E7D5B;
+        border: 1px solid #BFDEC7;
+        padding: 4px 9px;
+        border-radius: 6px;
+        font-size: 0.80rem;
+        font-weight: 600;
+        display: inline-block;
+        margin: 2px 3px;
+    }
+
+    .skill-pill-miss {
+        background-color: #FBEAE5;
+        color: #D95D39;
+        border: 1px solid #F4C7BA;
+        padding: 4px 9px;
+        border-radius: 6px;
+        font-size: 0.80rem;
+        font-weight: 600;
+        display: inline-block;
+        margin: 2px 3px;
+    }
+
+    .skill-pill-pref {
+        background-color: #FFF4D8;
+        color: #B57E12;
+        border: 1px solid #F7DE98;
+        padding: 4px 9px;
+        border-radius: 6px;
+        font-size: 0.80rem;
+        font-weight: 600;
+        display: inline-block;
+        margin: 2px 3px;
+    }
+
+    /* Candidate Identity Banner */
+    .cand-id-box {
+        background-color: #F8F7F2;
+        border: 1px solid #D5DDD6;
+        border-radius: 8px;
+        padding: 10px 14px;
+        margin-bottom: 12px;
+    }
+
+    .cand-id-label {
+        font-size: 0.72rem;
+        font-weight: 800;
+        color: #53636A;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 2px;
+    }
+
+    .cand-id-name {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #075E5B;
+        word-break: break-word;
+        line-height: 1.25;
+    }
+
+    /* Evaluation Pillar Tile */
+    .pillar-tile {
+        background-color: #F8F7F2;
+        border: 1px solid #D8E0D8;
+        border-radius: 8px;
+        padding: 8px 12px;
+        margin-bottom: 6px;
+    }
+
+    .pillar-tile-title {
+        font-size: 0.74rem;
+        font-weight: 700;
+        color: #53636A;
+    }
+
+    .pillar-tile-value {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #075E5B;
+    }
+
     /* Download Button Polish */
     div.stDownloadButton > button {
         background-color: #087F7B !important;
@@ -214,7 +342,14 @@ hero_col1, hero_col2 = st.columns([3, 1])
 with hero_col1:
     st.markdown("## 🎯 **TALENTMATCH ML** — Recruiter Intelligence Workspace")
     st.markdown("##### *Resume Intelligence & Candidate Decision-Support Platform*")
-    st.caption("`SCREENING ENGINE • READY` | `PII ANONYMIZED` | `4-TIER HYBRID SCORING` | `TRACK: FIT/AUG26/ML10465`")
+    st.markdown("""
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; margin-bottom: 8px;">
+        <span class="status-pill-ready">● Screening Engine Ready</span>
+        <span class="status-pill-teal">✓ PII Anonymized</span>
+        <span class="status-pill-neutral">4-Tier Hybrid Scoring</span>
+        <span class="status-pill-neutral">Decision Support Only</span>
+    </div>
+    """, unsafe_allow_html=True)
 
 with hero_col2:
     st.info("💡 **Decision-Support Prototype**\n\nObjective technical candidate screening and skill-gap diagnostics.")
@@ -250,10 +385,10 @@ st.sidebar.markdown(f"**Target Role ID:** `{active_jd.get('job_id', 'N/A')}`")
 st.sidebar.markdown(f"**Min Required Experience:** `{active_jd['min_experience_years']} Years`")
 
 st.sidebar.markdown(f"**Mandatory Competencies ({len(active_jd['required_skills'])}):**")
-st.sidebar.markdown(" ".join([f"`{s}`" for s in active_jd['required_skills']]))
+st.sidebar.markdown(" ".join([f'<span class="skill-pill-req">{s}</span>' for s in active_jd['required_skills']]), unsafe_allow_html=True)
 
 st.sidebar.markdown(f"**Preferred Competencies ({len(active_jd['preferred_skills'])}):**")
-st.sidebar.markdown(" ".join([f"`{s}`" for s in active_jd['preferred_skills']]))
+st.sidebar.markdown(" ".join([f'<span class="skill-pill-pref">{s}</span>' for s in active_jd['preferred_skills']]), unsafe_allow_html=True)
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("#### ⚖️ Hybrid Scoring Architecture")
@@ -295,7 +430,7 @@ col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     with st.container(border=True):
-        st.metric("Total Resumes Screened", f"{total_cands} Profiles")
+        st.metric("Total Resumes Ingested", f"{total_cands} Profiles")
         st.caption("Formats: **PDF, DOCX, TXT**")
 
 with col2:
@@ -416,8 +551,15 @@ c_col1, c_col2 = st.columns([1, 1])
 
 with c_col1:
     with st.container(border=True):
-        st.markdown(f"#### Profile: `{cand_row['candidate_id']}`")
-        st.caption(f"Parsed Format: **.{cand_file_ext}** | PII Status: **Masked & Anonymized** | Rank: **#{cand_row['Rank']} of {total_cands}**")
+        st.markdown(f"""
+        <div class="cand-id-box">
+            <div class="cand-id-label">Candidate Identity</div>
+            <div class="cand-id-name">{cand_row['candidate_id']}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown(f"**Parsed Format:** `.{cand_file_ext}` &nbsp;|&nbsp; **PII Status:** `Masked & Anonymized` &nbsp;|&nbsp; **Rank:** **#{cand_row['Rank']} of {total_cands}**")
+        st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
         
         m_row1, m_row2 = st.columns(2)
         with m_row1:
@@ -432,19 +574,35 @@ with c_col1:
         
         p1, p2 = st.columns(2)
         with p1:
-            st.markdown(f"**Tier 1 • Hard Skills (40%):** `{cand_row['skill_score_pct']:.1f}%`")
-            st.markdown(f"**Tier 3 • TF-IDF Match (20%):** `{cand_row['lexical_similarity_pct']:.1f}%`")
+            st.markdown(f"""
+            <div class="pillar-tile">
+                <div class="pillar-tile-title">Tier 1 • Hard Skills (40%)</div>
+                <div class="pillar-tile-value">{cand_row['skill_score_pct']:.1f}%</div>
+            </div>
+            <div class="pillar-tile">
+                <div class="pillar-tile-title">Tier 3 • TF-IDF Match (20%)</div>
+                <div class="pillar-tile-value">{cand_row['lexical_similarity_pct']:.1f}%</div>
+            </div>
+            """, unsafe_allow_html=True)
         with p2:
-            st.markdown(f"**Tier 2 • Dense Semantic (30%):** `{cand_row['semantic_similarity_pct']:.1f}%`")
-            st.markdown(f"**Tier 4 • Exp/Edu Fit (10%):** `{cand_row['exp_edu_fit_pct']:.1f}%`")
+            st.markdown(f"""
+            <div class="pillar-tile">
+                <div class="pillar-tile-title">Tier 2 • Dense Semantic (30%)</div>
+                <div class="pillar-tile-value">{cand_row['semantic_similarity_pct']:.1f}%</div>
+            </div>
+            <div class="pillar-tile">
+                <div class="pillar-tile-title">Tier 4 • Exp/Edu Fit (10%)</div>
+                <div class="pillar-tile-value">{cand_row['exp_edu_fit_pct']:.1f}%</div>
+            </div>
+            """, unsafe_allow_html=True)
         
         st.markdown("---")
         if cand_row['composite_score'] >= 75.0:
-            st.success(f"**Operational Recommendation:**\n\n{cand_row['recommendation']}")
+            st.success(f"**Decision-Support Recommendation:**\n\n{cand_row['recommendation']}")
         elif cand_row['composite_score'] >= 40.0:
-            st.warning(f"**Operational Recommendation:**\n\n{cand_row['recommendation']}")
+            st.warning(f"**Decision-Support Recommendation:**\n\n{cand_row['recommendation']}")
         else:
-            st.error(f"**Operational Recommendation:**\n\n{cand_row['recommendation']}")
+            st.error(f"**Decision-Support Recommendation:**\n\n{cand_row['recommendation']}")
 
 with c_col2:
     with st.container(border=True):
@@ -453,25 +611,25 @@ with c_col2:
         # Matched Mandatory
         st.markdown(f"**✅ Matched Mandatory Skills ({len(cand_row['matched_required'])} / {len(active_jd['required_skills'])}):**")
         if cand_row['matched_required']:
-            st.markdown(" ".join([f"`✓ {s}`" for s in cand_row['matched_required']]))
+            st.markdown(" ".join([f'<span class="skill-pill-req">✓ {s}</span>' for s in cand_row['matched_required']]), unsafe_allow_html=True)
         else:
             st.caption("None identified")
             
-        st.markdown("")
+        st.markdown("<div style='margin-bottom: 8px;'></div>", unsafe_allow_html=True)
         
         # Missing Mandatory
         st.markdown(f"**❌ Missing Mandatory Skills ({len(cand_row['missing_required'])}):**")
         if cand_row['missing_required']:
-            st.markdown(" ".join([f"`✗ {s}`" for s in cand_row['missing_required']]))
+            st.markdown(" ".join([f'<span class="skill-pill-miss">✗ {s}</span>' for s in cand_row['missing_required']]), unsafe_allow_html=True)
         else:
             st.success("🎉 All mandatory competencies satisfied!")
             
-        st.markdown("")
+        st.markdown("<div style='margin-bottom: 8px;'></div>", unsafe_allow_html=True)
         
         # Matched Preferred
         st.markdown(f"**⭐ Matched Preferred Bonus Skills ({len(cand_row['matched_preferred'])}):**")
         if cand_row['matched_preferred']:
-            st.markdown(" ".join([f"`★ {s}`" for s in cand_row['matched_preferred']]))
+            st.markdown(" ".join([f'<span class="skill-pill-pref">★ {s}</span>' for s in cand_row['matched_preferred']]), unsafe_allow_html=True)
         else:
             st.caption("None identified")
             
