@@ -20,9 +20,9 @@ $$\text{Composite Match Score} = 0.40 \cdot S_{\text{skill}} + 0.30 \cdot S_{\te
 
 ---
 
-## Canonical Fit Taxonomy
-- **Strong Technical Fit** (Score $\ge 75.0\%$): Core mandatory competencies satisfied with high contextual semantic alignment.
-- **Moderate Fit** (Score $40.0\% - 74.9\%$): Partial technical alignment; review specific skill gaps with hiring manager.
+## Canonical Fit Taxonomy (Composite Alignment)
+- **Strong Overall Match** (Score $\ge 75.0\%$): High multi-factor alignment; core mandatory competencies satisfied with strong domain contextual alignment.
+- **Moderate Match** (Score $40.0\% - 74.9\%$): Partial technical/semantic alignment; review specific skill gaps with hiring manager.
 - **High Technical Gap** (Score $< 40.0\%$): Substantial core skill gaps; profile aligns primarily with adjacent domains.
 
 ---
@@ -33,13 +33,13 @@ $$\text{Composite Match Score} = 0.40 \cdot S_{\text{skill}} + 0.30 \cdot S_{\te
 - **Minimum Experience**: 4.0+ Years
 - **Mandatory Skills**: aws, kubernetes, docker, terraform, ci/cd, linux
 - **Preferred Skills**: python, prometheus, grafana, github actions, bash, ansible
-- **Top Match Candidate**: `candidate_06_devops_cloud_architect` (Score: **75.2%**, Strong Technical Fit)
+- **Top Match Candidate**: `candidate_06_devops_cloud_architect` (Score: **75.2%**, Strong Overall Match)
 
 | Rank | Candidate Profile | Composite Match (%) | Fit Category | Technical Overlap (%) | Semantic Fit (%) | Lexical Match (%) | Experience | Education | Missing Mandatory Skills |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| #1 | `candidate_06_devops_cloud_architect` | **75.2%** | Strong Technical Fit | 100.0% | 70.1% | 23.2% | 8.0 yrs | Bachelor's Degree | None (All Satisfied) |
-| #2 | `candidate_01_lead_ml_engineer` | **56.0%** | Moderate Fit | 70.0% | 55.1% | 8.2% | 6.5 yrs | Master's Degree | terraform |
-| #3 | `candidate_04_fullstack_lead` | **43.9%** | Moderate Fit | 43.3% | 52.1% | 6.9% | 7.0 yrs | Bachelor's Degree | kubernetes, linux, terraform |
+| #1 | `candidate_06_devops_cloud_architect` | **75.2%** | Strong Overall Match | 100.0% | 70.1% | 23.2% | 8.0 yrs | Bachelor's Degree | None (All Satisfied) |
+| #2 | `candidate_01_lead_ml_engineer` | **56.0%** | Moderate Match | 70.0% | 55.1% | 8.2% | 6.5 yrs | Master's Degree | terraform |
+| #3 | `candidate_04_fullstack_lead` | **43.9%** | Moderate Match | 43.3% | 52.1% | 6.9% | 7.0 yrs | Bachelor's Degree | kubernetes, linux, terraform |
 | #4 | `candidate_08_java_backend_dev` | **31.1%** | High Technical Gap | 26.7% | 35.2% | 1.8% | 5.5 yrs | Bachelor's Degree | amazon web services, ci/cd, linux, terraform |
 | #5 | `candidate_02_data_scientist` | **26.0%** | High Technical Gap | 16.7% | 30.5% | 1.9% | 4.0 yrs | Master's Degree | ci/cd, docker, kubernetes, linux, terraform |
 | #6 | `candidate_03_junior_ml_intern` | **25.4%** | High Technical Gap | 30.0% | 28.5% | 2.7% | 1.0 yrs | Bachelor's Degree | amazon web services, ci/cd, kubernetes, terraform |
@@ -51,11 +51,11 @@ $$\text{Composite Match Score} = 0.40 \cdot S_{\text{skill}} + 0.30 \cdot S_{\te
 - **Minimum Experience**: 5.0+ Years
 - **Mandatory Skills**: typescript, javascript, react, node.js, postgresql, rest api, docker
 - **Preferred Skills**: next.js, graphql, redis, aws, ci/cd, system design
-- **Top Match Candidate**: `candidate_04_fullstack_lead` (Score: **72.8%**, Moderate Fit)
+- **Top Match Candidate**: `candidate_04_fullstack_lead` (Score: **72.8%**, Moderate Match)
 
 | Rank | Candidate Profile | Composite Match (%) | Fit Category | Technical Overlap (%) | Semantic Fit (%) | Lexical Match (%) | Experience | Education | Missing Mandatory Skills |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| #1 | `candidate_04_fullstack_lead` | **72.8%** | Moderate Fit | 100.0% | 65.3% | 18.3% | 7.0 yrs | Bachelor's Degree | None (All Satisfied) |
+| #1 | `candidate_04_fullstack_lead` | **72.8%** | Moderate Match | 100.0% | 65.3% | 18.3% | 7.0 yrs | Bachelor's Degree | None (All Satisfied) |
 | #2 | `candidate_01_lead_ml_engineer` | **39.7%** | High Technical Gap | 32.9% | 52.0% | 5.5% | 6.5 yrs | Master's Degree | javascript, node.js, react, rest api, typescript |
 | #3 | `candidate_08_java_backend_dev` | **38.8%** | High Technical Gap | 37.6% | 43.8% | 5.5% | 5.5 yrs | Bachelor's Degree | javascript, node.js, react, typescript |
 | #4 | `candidate_05_frontend_dev` | **36.1%** | High Technical Gap | 37.6% | 42.3% | 7.9% | 3.0 yrs | Bachelor's Degree | docker, node.js, postgresql, rest api |
@@ -69,12 +69,12 @@ $$\text{Composite Match Score} = 0.40 \cdot S_{\text{skill}} + 0.30 \cdot S_{\te
 - **Minimum Experience**: 4.0+ Years
 - **Mandatory Skills**: python, pytorch, scikit-learn, machine learning, natural language processing, docker, aws, model deployment
 - **Preferred Skills**: transformers, huggingface, kubernetes, mlops, langchain, sql
-- **Top Match Candidate**: `candidate_01_lead_ml_engineer` (Score: **76.0%**, Strong Technical Fit)
+- **Top Match Candidate**: `candidate_01_lead_ml_engineer` (Score: **76.0%**, Strong Overall Match)
 
 | Rank | Candidate Profile | Composite Match (%) | Fit Category | Technical Overlap (%) | Semantic Fit (%) | Lexical Match (%) | Experience | Education | Missing Mandatory Skills |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| #1 | `candidate_01_lead_ml_engineer` | **76.0%** | Strong Technical Fit | 100.0% | 72.2% | 22.7% | 6.5 yrs | Master's Degree | None (All Satisfied) |
-| #2 | `candidate_03_junior_ml_intern` | **43.9%** | Moderate Fit | 60.0% | 43.1% | 13.3% | 1.0 yrs | Bachelor's Degree | amazon web services, natural language processing |
+| #1 | `candidate_01_lead_ml_engineer` | **76.0%** | Strong Overall Match | 100.0% | 72.2% | 22.7% | 6.5 yrs | Master's Degree | None (All Satisfied) |
+| #2 | `candidate_03_junior_ml_intern` | **43.9%** | Moderate Match | 60.0% | 43.1% | 13.3% | 1.0 yrs | Bachelor's Degree | amazon web services, natural language processing |
 | #3 | `candidate_02_data_scientist` | **39.2%** | High Technical Gap | 43.3% | 35.8% | 6.7% | 4.0 yrs | Master's Degree | docker, model deployment, natural language processing, pytorch |
 | #4 | `candidate_06_devops_cloud_architect` | **39.0%** | High Technical Gap | 33.3% | 49.3% | 6.8% | 8.0 yrs | Bachelor's Degree | machine learning, model deployment, natural language processing, pytorch, scikit-learn |
 | #5 | `candidate_04_fullstack_lead` | **30.3%** | High Technical Gap | 20.0% | 39.7% | 4.1% | 7.0 yrs | Bachelor's Degree | machine learning, model deployment, natural language processing, python, pytorch, scikit-learn |

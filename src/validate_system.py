@@ -78,6 +78,7 @@ def run_system_validation():
         df = matcher.rank_candidates(candidate_profiles, jd_data)
         assert len(df) == 8, f"Ranking count mismatch for {jd_data['title']}"
         assert df["composite_score"].iloc[0] >= df["composite_score"].iloc[-1], "Ranking not sorted descending"
+        assert df["fit_category"].iloc[0] in ["Strong Overall Match", "Moderate Match", "High Technical Gap"], "Invalid fit category"
         print(f"[PASS] Role verified: {jd_data['title']} (Top: {df['candidate_id'].iloc[0]} - {df['composite_score'].iloc[0]:.1f}%, {df['fit_category'].iloc[0]})")
         
     # 5. Consolidated CSV & Output Artifacts Verification

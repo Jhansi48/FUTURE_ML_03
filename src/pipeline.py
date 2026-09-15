@@ -162,9 +162,9 @@ $$\\text{{Composite Match Score}} = 0.40 \\cdot S_{{\\text{{skill}}}} + 0.30 \\c
 
 ---
 
-## Canonical Fit Taxonomy
-- **Strong Technical Fit** (Score $\\ge 75.0\\%$): Core mandatory competencies satisfied with high contextual semantic alignment.
-- **Moderate Fit** (Score $40.0\\% - 74.9\\%$): Partial technical alignment; review specific skill gaps with hiring manager.
+## Canonical Fit Taxonomy (Composite Alignment)
+- **Strong Overall Match** (Score $\\ge 75.0\\%$): High multi-factor alignment; core mandatory competencies satisfied with strong domain contextual alignment.
+- **Moderate Match** (Score $40.0\\% - 74.9\\%$): Partial technical/semantic alignment; review specific skill gaps with hiring manager.
 - **High Technical Gap** (Score $< 40.0\\%$): Substantial core skill gaps; profile aligns primarily with adjacent domains.
 
 ---

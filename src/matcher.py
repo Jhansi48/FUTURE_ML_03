@@ -186,25 +186,25 @@ class TalentMatcher:
         ) * 100.0
         composite_score = round(float(np.clip(composite_score, 0.0, 100.0)), 2)
         
-        # Canonical Fit Category
+        # Canonical Fit Category (Composite Heuristic Alignment)
         if composite_score >= 75.0:
-            fit_category = "Strong Technical Fit"
+            fit_category = "Strong Overall Match"
         elif composite_score >= 40.0:
-            fit_category = "Moderate Fit"
+            fit_category = "Moderate Match"
         else:
             fit_category = "High Technical Gap"
 
         # Decision-support recommendation (explicit human-in-the-loop review)
         if composite_score >= 75.0 and gap_info["gap_severity"] == "Low" and len(gap_info["missing_required"]) == 0:
-            recommendation = "Strong Technical Fit: All mandatory competencies satisfied. Recommended for recruiter review and technical screening."
+            recommendation = "Strong overall match. All mandatory competencies satisfied. Recommended for recruiter review and technical screening."
         elif composite_score >= 75.0 and gap_info["gap_severity"] == "Low":
-            recommendation = "Strong Technical Fit: High technical alignment with core requirements. Consider for technical screening with hiring manager."
+            recommendation = "Strong overall match. High technical alignment with core requirements. Recommended for technical screening with hiring manager."
         elif composite_score >= 50.0 and len(gap_info["missing_required"]) <= 2:
-            recommendation = "Moderate Fit: Review specific missing competencies with hiring manager."
+            recommendation = "Moderate match. Review specific missing competencies with hiring manager."
         elif composite_score >= 40.0:
-            recommendation = "Moderate Fit: Review candidate profile and skill gaps with hiring manager."
+            recommendation = "Moderate match. Review candidate profile and skill gaps with hiring manager."
         else:
-            recommendation = "High Technical Gap: Candidate lacks several core technical competencies; recruiter decision required."
+            recommendation = "High technical gap. Candidate lacks several core technical competencies; recruiter decision required."
             
         return {
             "candidate_id": candidate_profile["candidate_id"],

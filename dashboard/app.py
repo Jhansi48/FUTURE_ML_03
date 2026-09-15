@@ -99,22 +99,41 @@ st.markdown("""
         border-color: #DDD7EA !important;
     }
 
-    /* Light, Professional Code / Candidate ID Styling - No Black Terminal Blocks */
-    code, .saas-candidate-chip {
+    /* Light, Professional Candidate ID & Role Chips - No Terminal/Code Appearance */
+    .saas-candidate-chip {
+        display: inline-block;
+        background-color: #EDE9FE;
+        color: #5B46D6;
+        border: 1px solid #DDD6FE;
+        border-radius: 6px;
+        padding: 3px 9px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    }
+
+    .saas-id-badge {
+        display: inline-block;
+        background-color: #FFFFFF;
+        color: #5B46D6;
+        border: 1px solid #DDD7EA;
+        border-radius: 6px;
+        padding: 2px 7px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    }
+
+    code {
         background-color: #EDE9FE !important;
         color: #5B46D6 !important;
         border: 1px solid #DDD6FE !important;
         border-radius: 6px !important;
-        padding: 3px 8px !important;
-        font-size: 0.85rem !important;
-        font-weight: 700 !important;
-        font-family: 'Plus Jakarta Sans', 'Inter', monospace !important;
-    }
-
-    section[data-testid="stSidebar"] code {
-        background-color: #FFFFFF !important;
-        color: #5B46D6 !important;
-        border: 1px solid #DDD7EA !important;
+        padding: 2px 6px !important;
+        font-size: 0.84rem !important;
+        font-weight: 600 !important;
+        font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
     }
 
     /* Native Card Containers: White with Lavender-tinted border and soft shadow */
@@ -127,7 +146,7 @@ st.markdown("""
         margin-bottom: 4px !important;
     }
 
-    /* Metric Labels - Strong Charcoal Contrast */
+    /* Metric Labels - Strong Charcoal Contrast Everywhere */
     div[data-testid="stMetricLabel"] p {
         font-size: 0.80rem !important;
         font-weight: 800 !important;
@@ -185,19 +204,6 @@ st.markdown("""
         font-size: 0.92rem !important;
     }
 
-    /* Tabs Styling */
-    button[data-baseweb="tab"] {
-        font-weight: 700 !important;
-        font-size: 0.92rem !important;
-        color: #6E6A7B !important;
-        padding: 8px 16px !important;
-    }
-
-    button[data-baseweb="tab"][aria-selected="true"] {
-        color: #6B5BD6 !important;
-        border-bottom-color: #6B5BD6 !important;
-    }
-
     /* Primary Purple Export Button */
     div.stDownloadButton > button {
         background-color: #6B5BD6 !important;
@@ -225,14 +231,7 @@ st.markdown("""
         background-color: #6B5BD6 !important;
     }
 
-    /* Dataframe table styling: clean light theme */
-    div[data-testid="stDataFrame"] {
-        background-color: #FFFFFF !important;
-        border: 1px solid #DDD7EA !important;
-        border-radius: 8px !important;
-    }
-
-    /* Custom CSS Utility Classes for Cards and Badges */
+    /* Custom CSS Utility Classes for Badges and Chips */
     .saas-badge-pill {
         display: inline-block;
         background-color: #EDE9FE;
@@ -339,6 +338,48 @@ st.markdown("""
         font-size: 0.85rem;
         margin-bottom: 12px;
     }
+
+    /* Light, Professional Leaderboard Table */
+    .saas-table-container {
+        width: 100%;
+        overflow-x: auto;
+        border: 1px solid #DDD7EA;
+        border-radius: 8px;
+        background-color: #FFFFFF;
+    }
+
+    .saas-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+        text-align: left;
+    }
+
+    .saas-table th {
+        background-color: #F6F3FB;
+        color: #25233A;
+        font-weight: 800;
+        padding: 10px 14px;
+        border-bottom: 1px solid #DDD7EA;
+        text-transform: uppercase;
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+    }
+
+    .saas-table td {
+        padding: 10px 14px;
+        color: #25233A;
+        border-bottom: 1px solid #F0ECF7;
+        vertical-align: middle;
+    }
+
+    .saas-table tr:hover {
+        background-color: #FAF8FE;
+    }
+
+    .saas-table tr:last-child td {
+        border-bottom: none;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -346,9 +387,9 @@ st.markdown("""
 def get_fit_category(score: float) -> str:
     """Returns canonical fit category based on composite score."""
     if score >= 75.0:
-        return "Strong Technical Fit"
+        return "Strong Overall Match"
     elif score >= 40.0:
-        return "Moderate Fit"
+        return "Moderate Match"
     else:
         return "High Technical Gap"
 
@@ -422,7 +463,7 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("#### ROLE SNAPSHOT")
 snap_col1, snap_col2 = st.sidebar.columns(2)
 with snap_col1:
-    st.sidebar.markdown(f"**Role ID:** `{active_jd.get('job_id', 'N/A')}`")
+    st.sidebar.markdown(f"**Role ID:** <span class='saas-id-badge'>{active_jd.get('job_id', 'N/A')}</span>", unsafe_allow_html=True)
     st.sidebar.markdown(f"**Mandatory:** `{len(active_jd['required_skills'])} Skills`")
 with snap_col2:
     st.sidebar.markdown(f"**Experience:** `{active_jd['min_experience_years']}+ Yrs`")
@@ -494,7 +535,7 @@ with st.container(border=True):
     
     tr_meta1, tr_meta2, tr_meta3 = st.columns([1, 1, 2])
     with tr_meta1:
-        st.markdown(f"**Role ID:** `{active_jd.get('job_id', 'N/A')}`")
+        st.markdown(f"**Role ID:** <span class='saas-id-badge'>{active_jd.get('job_id', 'N/A')}</span>", unsafe_allow_html=True)
     with tr_meta2:
         st.markdown(f"**Experience:** `{active_jd['min_experience_years']}+ Years`")
     with tr_meta3:
@@ -528,12 +569,12 @@ with kpi1:
 
 with kpi2:
     with st.container(border=True):
-        st.metric("Strong Technical Fit", f"{strong_matches}")
+        st.metric("Strong Overall Match", f"{strong_matches}")
         st.caption("Score ≥75%")
 
 with kpi3:
     with st.container(border=True):
-        st.metric("Moderate Fit", f"{moderate_matches}")
+        st.metric("Moderate Match", f"{moderate_matches}")
         st.caption("Score 40–74%")
 
 with kpi4:
@@ -544,7 +585,7 @@ with kpi4:
 st.markdown("")
 
 # ==================================================
-# SECTION 02: CANDIDATE RANKING (Chart + Top Candidate)
+# SECTION 02: CANDIDATE RANKING (Chart + Top Match)
 # ==================================================
 st.markdown("<div class='section-header'><div class='section-title'>02. CANDIDATE RANKING</div><div class='section-sub'>Technical compatibility across skills, semantic relevance and experience.</div></div>", unsafe_allow_html=True)
 
@@ -570,7 +611,7 @@ with rank_col1:
             text=[f"  <b>{s:.1f}%</b> ({get_fit_category(s)})" for s in sorted_chart_df["composite_score"]],
             textposition="outside",
             cliponaxis=False,
-            hovertemplate="<b>%{y}</b><br>Composite Match: %{x:.1f}%<br>Fit Category: %{text}<extra></extra>"
+            hovertemplate="<b>%{y}</b><br>Composite Match: %{x:.1f}%<br>Fit: %{text}<extra></extra>"
         ))
         
         fig.update_layout(
@@ -595,17 +636,17 @@ with rank_col1:
 with rank_col2:
     with st.container(border=True):
         st.markdown("<p style='color:#6B5BD6; font-weight:800; font-size:0.75rem; letter-spacing:0.06em; margin-bottom:2px;'>🏆 TOP MATCH</p>", unsafe_allow_html=True)
-        st.markdown(f"<h3 style='color:#25233A; margin:0 0 6px 0; font-size:1.15rem;'><code>{top_row['candidate_id']}</code></h3>", unsafe_allow_html=True)
+        st.markdown(f"<div style='margin-bottom:6px;'><span class='saas-candidate-chip'>{top_row['candidate_id']}</span></div>", unsafe_allow_html=True)
         st.markdown(f"<span class='{get_fit_badge_class(top_row['composite_score'])}'>{get_fit_category(top_row['composite_score'])}</span>", unsafe_allow_html=True)
         st.divider()
         
         tc_m1, tc_m2 = st.columns(2)
         with tc_m1:
-            st.metric("Match Score", f"{top_row['composite_score']:.1f}%")
+            st.metric("Composite Match", f"{top_row['composite_score']:.1f}%")
             st.metric("Experience", f"{top_row['experience_years']} Years")
         with tc_m2:
             st.metric("Mandatory Skills", f"{len(top_row['matched_required'])} / {len(active_jd['required_skills'])}")
-            st.metric("Education", f"{top_row['education_level']}")
+            st.metric("Preferred Skills", f"{len(top_row['matched_preferred'])} / {len(active_jd['preferred_skills'])}")
             
         st.divider()
         st.markdown(f"<p style='color:#25233A; font-size:0.88rem; line-height:1.4;'><strong>Recommendation:</strong> {top_row['recommendation']}</p>", unsafe_allow_html=True)
@@ -620,9 +661,9 @@ with st.container(border=True):
     st.markdown("<h4 style='color:#25233A; margin:0 0 6px 0;'>WHY THIS CANDIDATE RANKS FIRST</h4>", unsafe_allow_html=True)
     
     if len(top_row['missing_required']) == 0:
-        insight_summary = f"Candidate <strong>#{top_row['Rank']} (<code>{top_row['candidate_id']}</code>)</strong> satisfies <strong>all {len(active_jd['required_skills'])} mandatory technical competencies</strong> and demonstrates the strongest contextual semantic alignment (<strong>{top_row['semantic_similarity_pct']:.1f}%</strong>) for this role."
+        insight_summary = f"Candidate <strong>#{top_row['Rank']} (<span class='saas-candidate-chip'>{top_row['candidate_id']}</span>)</strong> satisfies <strong>all {len(active_jd['required_skills'])} mandatory technical competencies</strong> and demonstrates the strongest contextual semantic alignment (<strong>{top_row['semantic_similarity_pct']:.1f}%</strong>) for this role."
     else:
-        insight_summary = f"Candidate <strong>#{top_row['Rank']} (<code>{top_row['candidate_id']}</code>)</strong> satisfies <strong>{len(top_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory technical competencies</strong> with an overall composite score of <strong>{top_row['composite_score']:.1f}%</strong>."
+        insight_summary = f"Candidate <strong>#{top_row['Rank']} (<span class='saas-candidate-chip'>{top_row['candidate_id']}</span>)</strong> satisfies <strong>{len(top_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory technical competencies</strong> with an overall composite score of <strong>{top_row['composite_score']:.1f}%</strong>."
         
     st.markdown(f"<p style='color:#25233A; font-size:0.92rem; margin-bottom:14px;'>{insight_summary}</p>", unsafe_allow_html=True)
     
@@ -631,7 +672,7 @@ with st.container(border=True):
         with st.container(border=True):
             st.metric("Hard Skills", f"{top_row['skill_score_pct']:.1f}%")
             st.progress(min(1.0, top_row['skill_score_pct'] / 100.0))
-            st.caption("Weight: 40% • Taxonomy match")
+            st.caption("Weight: 40% • Taxonomy overlap")
     with ins_c2:
         with st.container(border=True):
             st.metric("Semantic Fit", f"{top_row['semantic_similarity_pct']:.1f}%")
@@ -671,7 +712,7 @@ for f in resume_files:
 # Candidate Profile Card Container
 with st.container(border=True):
     # Top Profile Header with Badges
-    st.markdown(f"<h3 style='color:#25233A; margin:0 0 6px 0;'><code>{cand_row['candidate_id']}</code></h3>", unsafe_allow_html=True)
+    st.markdown(f"<div style='margin-bottom:6px;'><span class='saas-candidate-chip' style='font-size:1.05rem; padding:4px 12px;'>{cand_row['candidate_id']}</span></div>", unsafe_allow_html=True)
     st.markdown(f"""
     <div style='margin-bottom:12px;'>
         <span class='saas-badge-pill'>#{cand_row['Rank']} Ranked</span>
@@ -721,7 +762,7 @@ with st.container(border=True):
             miss_chips = "".join([f"<span class='chip-miss'>✕ {s}</span>" for s in cand_row['missing_required']])
             st.markdown(f"<div style='margin-bottom:8px;'>{miss_chips}</div>", unsafe_allow_html=True)
         else:
-            st.markdown("<div style='margin-bottom:8px;'><span class='saas-badge-success'>✓ All mandatory competencies satisfied!</span></div>", unsafe_allow_html=True)
+            st.markdown("<div style='margin-bottom:8px;'><span class='saas-badge-success'>✓ All mandatory competencies satisfied.</span></div>", unsafe_allow_html=True)
             
         # Matched Preferred
         st.markdown(f"**★ MATCHED PREFERRED SKILLS ({len(cand_row['matched_preferred'])})**")
@@ -776,46 +817,64 @@ with side_col2:
             all_miss_chips = "".join([f"<span class='chip-miss'>✕ {s}</span>" for s in cand_row['missing_required']])
             st.markdown(f"<div>{all_miss_chips}</div>", unsafe_allow_html=True)
         else:
-            st.markdown("<span class='saas-badge-success'>✓ None — All mandatory skills covered</span>", unsafe_allow_html=True)
+            st.markdown("<span class='saas-badge-success'>✓ All mandatory competencies satisfied.</span>", unsafe_allow_html=True)
 
 # Recommended Action Card
 with st.container(border=True):
     st.markdown("<p style='color:#6B5BD6; font-weight:800; font-size:0.75rem; letter-spacing:0.06em; margin-bottom:2px;'>RECOMMENDED ACTION</p>", unsafe_allow_html=True)
     if cand_row['composite_score'] >= 75.0 and len(cand_row['missing_required']) == 0:
-        action_text = f"Candidate satisfies <strong>all {len(active_jd['required_skills'])} mandatory technical skills</strong> with strong domain vector alignment ({cand_row['semantic_similarity_pct']:.1f}%). Recommended for recruiter review and technical interview."
+        action_text = f"Strong overall match. Candidate satisfies <strong>all {len(active_jd['required_skills'])} mandatory technical skills</strong> with strong domain vector alignment ({cand_row['semantic_similarity_pct']:.1f}%). Recommended for recruiter review and technical interview."
     elif cand_row['composite_score'] >= 40.0:
         missing_str = ", ".join(cand_row['missing_required']) if cand_row['missing_required'] else "none"
-        action_text = f"Candidate displays moderate technical alignment ({len(cand_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory skills). Primary gaps to assess: <strong>{missing_str}</strong>. Recommended for hiring manager review."
+        action_text = f"Moderate match. Candidate displays technical alignment across {len(cand_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory skills (missing: <strong>{missing_str}</strong>). Recommended for hiring manager review."
     else:
         missing_str = ", ".join(cand_row['missing_required']) if cand_row['missing_required'] else "core skills"
-        action_text = f"Candidate demonstrates low alignment for this specific role (missing: <strong>{missing_str}</strong>). Profile indicates primary background in adjacent domains."
+        action_text = f"High technical gap. Candidate demonstrates low alignment for this specific role (missing: <strong>{missing_str}</strong>). Profile indicates primary background in adjacent domains."
     st.markdown(f"<p style='color:#25233A; font-size:0.90rem; margin:0;'>{action_text}</p>", unsafe_allow_html=True)
 
 st.markdown("")
 
-# Leaderboard Data Table
+# Clean Light Leaderboard Table (100% Light Enterprise Styling)
 with st.container(border=True):
-    st.markdown("<h5 style='color:#25233A; margin:0 0 8px 0;'>Candidate Leaderboard Summary</h5>", unsafe_allow_html=True)
-    display_df = rankings_df[[
-        "Rank", "candidate_id", "composite_score", "fit_category", 
-        "skill_score_pct", "semantic_similarity_pct", "experience_years", "education_level"
-    ]].copy()
-    display_df.columns = [
-        "Rank", "Candidate Profile", "Composite Match (%)", "Fit Category", 
-        "Skill Overlap (%)", "Semantic Fit (%)", "Experience (Yrs)", "Education"
-    ]
-    st.dataframe(
-        display_df,
-        use_container_width=True,
-        hide_index=True,
-        column_config={
-            "Rank": st.column_config.NumberColumn("Rank", format="#%d"),
-            "Composite Match (%)": st.column_config.ProgressColumn("Composite Match", format="%.1f%%", min_value=0, max_value=100),
-            "Skill Overlap (%)": st.column_config.NumberColumn("Skill Overlap", format="%.1f%%"),
-            "Semantic Fit (%)": st.column_config.NumberColumn("Semantic Fit", format="%.1f%%"),
-            "Experience (Yrs)": st.column_config.NumberColumn("Experience", format="%.1f yrs")
-        }
-    )
+    st.markdown("<h5 style='color:#25233A; margin:0 0 10px 0;'>Candidate Leaderboard Summary</h5>", unsafe_allow_html=True)
+    
+    table_rows = []
+    for _, r in rankings_df.iterrows():
+        b_class = get_fit_badge_class(r['composite_score'])
+        req_count = f"{len(r['matched_required'])} / {len(active_jd['required_skills'])}"
+        table_rows.append(f"""
+        <tr>
+            <td style='font-weight:700; color:#6B5BD6;'>#{r['Rank']}</td>
+            <td><span class='saas-candidate-chip'>{r['candidate_id']}</span></td>
+            <td><strong>{r['composite_score']:.1f}%</strong></td>
+            <td><span class='{b_class}'>{r['fit_category']}</span></td>
+            <td>{req_count}</td>
+            <td>{r['semantic_similarity_pct']:.1f}%</td>
+            <td>{r['experience_years']} yrs</td>
+        </tr>
+        """)
+        
+    table_html = f"""
+    <div class='saas-table-container'>
+        <table class='saas-table'>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Candidate</th>
+                    <th>Composite Match</th>
+                    <th>Fit Category</th>
+                    <th>Mandatory Skills</th>
+                    <th>Semantic Fit</th>
+                    <th>Experience</th>
+                </tr>
+            </thead>
+            <tbody>
+                {''.join(table_rows)}
+            </tbody>
+        </table>
+    </div>
+    """
+    st.markdown(table_html, unsafe_allow_html=True)
 
 st.markdown("")
 
@@ -868,7 +927,7 @@ with gov_col1:
 
 with gov_col2:
     with st.container(border=True):
-        st.markdown("<h4 style='color:#25233A; margin:0 0 4px 0;'>🛡️ PRIVACY & FAIRNESS</h4>", unsafe_allow_html=True)
+        st.markdown("<h4 style='color:#25233A; margin:0 0 4px 0;'>🛡️ PRIVACY & RESPONSIBLE USE</h4>", unsafe_allow_html=True)
         st.markdown("<p style='color:#6B5BD6; font-weight:700; font-size:0.85rem; margin-bottom:6px;'>PII reduction & anonymization</p>", unsafe_allow_html=True)
         st.markdown("<p style='color:#25233A; font-size:0.85rem; margin-bottom:4px;'>Candidate names, emails, phone numbers and profile URLs are scrubbed before feature extraction.</p>", unsafe_allow_html=True)
         st.caption("Protected demographic attributes are excluded from ranking. Real-world deployment requires continuous fairness monitoring and audits.")
