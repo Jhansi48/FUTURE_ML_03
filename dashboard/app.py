@@ -528,7 +528,7 @@ with head_col1:
     st.markdown("<p style='color:#4A4658; font-size:0.95rem; margin-bottom:10px;'>Resume intelligence • Candidate ranking • Skill-gap diagnostics</p>", unsafe_allow_html=True)
     st.markdown(
         "<div>"
-        "<span class='saas-badge-pill'>✓ PII Anonymized</span>"
+        "<span class='saas-badge-pill'>✓ PII Scrubbed</span>"
         "<span class='saas-badge-pill'>✓ Multi-format Parsing</span>"
         "<span class='saas-badge-pill'>✓ Hybrid Scoring</span>"
         "<span class='saas-badge-pill'>✓ Decision Support</span>"
@@ -618,6 +618,7 @@ with rank_col1:
         
         sorted_chart_df = rankings_df.sort_values(by="composite_score", ascending=True)
         bar_colors = [get_fit_color(s) for s in sorted_chart_df["composite_score"]]
+        fit_cats = [get_fit_category(s) for s in sorted_chart_df["composite_score"]]
             
         fig = go.Figure(go.Bar(
             x=sorted_chart_df["composite_score"],
@@ -627,19 +628,20 @@ with rank_col1:
                 color=bar_colors,
                 line=dict(color="#DDD7EA", width=1)
             ),
-            text=[f"  <b>{s:.1f}%</b> ({get_fit_category(s)})" for s in sorted_chart_df["composite_score"]],
+            text=[f" <b>{s:.1f}%</b>" for s in sorted_chart_df["composite_score"]],
             textposition="outside",
+            customdata=fit_cats,
             cliponaxis=False,
-            hovertemplate="<b>%{y}</b><br>Composite Match: %{x:.1f}%<br>Fit: %{text}<extra></extra>"
+            hovertemplate="<b>%{y}</b><br>Composite Match: %{x:.1f}%<br>Fit Category: %{customdata}<extra></extra>"
         ))
         
         fig.update_layout(
             paper_bgcolor="#FFFFFF",
             plot_bgcolor="#FFFFFF",
-            margin=dict(l=10, r=90, t=10, b=20),
+            margin=dict(l=10, r=60, t=10, b=20),
             font=dict(family="Plus Jakarta Sans, Inter, sans-serif", size=12, color="#4A4658"),
             xaxis=dict(
-                range=[0, 115],
+                range=[0, 105],
                 ticksuffix="%",
                 gridcolor="#F3F0F9",
                 zerolinecolor="#DDD7EA",
@@ -688,7 +690,7 @@ with st.container(border=True):
     ins_c1, ins_c2, ins_c3, ins_c4 = st.columns(4)
     with ins_c1:
         with st.container(border=True):
-            st.metric("Technical Skill Overlap", f"{top_row['skill_score_pct']:.1f}%")
+            st.metric("Skill Overlap", f"{top_row['skill_score_pct']:.1f}%")
             st.progress(min(1.0, top_row['skill_score_pct'] / 100.0))
             st.caption("Weight: 40% • Taxonomy overlap")
     with ins_c2:
@@ -736,7 +738,7 @@ with st.container(border=True):
         f"<span class='saas-badge-pill'>#{cand_row['Rank']} Ranked</span>"
         f"<span class='saas-badge-pill'>{cand_row['composite_score']:.1f}% Match</span>"
         f"<span class='{get_fit_badge_class(cand_row['composite_score'])}'>{get_fit_category(cand_row['composite_score'])}</span>"
-        "<span class='saas-badge-pill'>PII Masked</span>"
+        "<span class='saas-badge-pill'>PII Scrubbed</span>"
         f"<span class='saas-badge-pill'>.{cand_file_ext}</span>"
         "</div>",
         unsafe_allow_html=True
