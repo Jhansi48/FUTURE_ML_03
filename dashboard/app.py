@@ -26,14 +26,14 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Sophisticated Lavender / Purple Enterprise SaaS Theme CSS
+# Sophisticated Lavender / Off-White Enterprise SaaS Theme CSS
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
     
     html, body, [class*="css"] {
         font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        color: #252334;
+        color: #25233A;
     }
     
     #MainMenu, header, footer {
@@ -48,14 +48,14 @@ st.markdown("""
 
     /* Primary Background: Very Light Lavender / Cool Off-White */
     .stApp {
-        background-color: #F7F5FC !important;
-        color: #252334 !important;
+        background-color: #F6F3FB !important;
+        color: #25233A !important;
     }
     
     /* Sidebar: Deeper Lavender */
     section[data-testid="stSidebar"] {
-        background-color: #F0ECF8 !important;
-        border-right: 1px solid #E5E0EF !important;
+        background-color: #ECE7F5 !important;
+        border-right: 1px solid #DED9EA !important;
         min-width: 340px !important;
         max-width: 390px !important;
     }
@@ -69,7 +69,7 @@ st.markdown("""
     section[data-testid="stSidebar"] h2,
     section[data-testid="stSidebar"] h3,
     section[data-testid="stSidebar"] h4 {
-        color: #252334 !important;
+        color: #25233A !important;
         font-weight: 800 !important;
         margin-top: 0 !important;
         margin-bottom: 8px !important;
@@ -79,16 +79,16 @@ st.markdown("""
     section[data-testid="stSidebar"] span,
     section[data-testid="stSidebar"] label,
     section[data-testid="stSidebar"] li {
-        color: #6F6A7D !important;
+        color: #6F6B7D !important;
     }
 
     section[data-testid="stSidebar"] strong,
     section[data-testid="stSidebar"] b {
-        color: #252334 !important;
+        color: #25233A !important;
     }
 
     section[data-testid="stSidebar"] label p {
-        color: #252334 !important;
+        color: #25233A !important;
         font-weight: 700 !important;
         font-size: 0.90rem !important;
         margin-bottom: 4px !important;
@@ -96,14 +96,14 @@ st.markdown("""
 
     section[data-testid="stSidebar"] hr {
         margin: 14px 0 !important;
-        border-color: #E5E0EF !important;
+        border-color: #DED9EA !important;
     }
 
     /* Modern Professional Tag Styling for Code Elements */
     code {
-        background-color: #F0ECF8 !important;
-        color: #6D5BD0 !important;
-        border: 1px solid #E5E0EF !important;
+        background-color: #E9E3FA !important;
+        color: #6C5CE7 !important;
+        border: 1px solid #DED9EA !important;
         padding: 3px 8px !important;
         border-radius: 6px !important;
         font-size: 0.84rem !important;
@@ -113,8 +113,8 @@ st.markdown("""
 
     section[data-testid="stSidebar"] code {
         background-color: #FFFFFF !important;
-        color: #6D5BD0 !important;
-        border: 1px solid #E5E0EF !important;
+        color: #6C5CE7 !important;
+        border: 1px solid #DED9EA !important;
         padding: 3px 8px !important;
         border-radius: 6px !important;
         font-size: 0.82rem !important;
@@ -125,26 +125,26 @@ st.markdown("""
     /* Native Card Containers: White with Lavender-tinted shadow */
     div[data-testid="stVerticalBlockBorderWrapper"] {
         background-color: #FFFFFF !important;
-        border: 1px solid #E5E0EF !important;
+        border: 1px solid #DED9EA !important;
         border-radius: 14px !important;
-        box-shadow: 0 4px 16px rgba(109, 91, 208, 0.05), 0 1px 3px rgba(37, 35, 52, 0.03) !important;
+        box-shadow: 0 4px 16px rgba(108, 92, 231, 0.05), 0 1px 3px rgba(37, 35, 58, 0.03) !important;
         padding: 18px !important;
     }
 
     /* Metric Labels - Strong Charcoal Contrast */
     div[data-testid="stMetricLabel"] p {
-        font-size: 0.78rem !important;
+        font-size: 0.80rem !important;
         font-weight: 800 !important;
         text-transform: uppercase !important;
         letter-spacing: 0.05em !important;
-        color: #252334 !important;
+        color: #25233A !important;
     }
 
     /* Metric Values - Large, Clear, Primary Purple */
     div[data-testid="stMetricValue"] {
         font-size: 1.55rem !important;
         font-weight: 800 !important;
-        color: #6D5BD0 !important;
+        color: #6C5CE7 !important;
         white-space: normal !important;
         word-wrap: break-word !important;
         text-overflow: clip !important;
@@ -162,12 +162,12 @@ st.markdown("""
     /* Selectbox Input Controls */
     div[data-baseweb="select"] {
         background-color: #FFFFFF !important;
-        border: 1px solid #E5E0EF !important;
+        border: 1px solid #DED9EA !important;
         border-radius: 8px !important;
     }
     
     div[data-baseweb="select"] * {
-        color: #252334 !important;
+        color: #25233A !important;
         background-color: #FFFFFF !important;
         white-space: normal !important;
         word-wrap: break-word !important;
@@ -175,16 +175,16 @@ st.markdown("""
 
     div[data-baseweb="popover"], div[data-baseweb="menu"], ul[role="listbox"], li[role="option"] {
         background-color: #FFFFFF !important;
-        color: #252334 !important;
+        color: #25233A !important;
     }
 
     li[role="option"]:hover, li[role="option"][aria-selected="true"] {
-        background-color: #F0ECF8 !important;
-        color: #6D5BD0 !important;
+        background-color: #E9E3FA !important;
+        color: #6C5CE7 !important;
     }
 
     label[data-testid="stWidgetLabel"] p {
-        color: #252334 !important;
+        color: #25233A !important;
         font-weight: 700 !important;
         font-size: 0.92rem !important;
     }
@@ -193,31 +193,31 @@ st.markdown("""
     button[data-baseweb="tab"] {
         font-weight: 700 !important;
         font-size: 0.92rem !important;
-        color: #6F6A7D !important;
+        color: #6F6B7D !important;
         padding: 8px 16px !important;
     }
 
     button[data-baseweb="tab"][aria-selected="true"] {
-        color: #6D5BD0 !important;
-        border-bottom-color: #6D5BD0 !important;
+        color: #6C5CE7 !important;
+        border-bottom-color: #6C5CE7 !important;
     }
 
     /* Primary Purple Export Button */
     div.stDownloadButton > button {
-        background-color: #6D5BD0 !important;
+        background-color: #6C5CE7 !important;
         color: #FFFFFF !important;
         font-weight: 700 !important;
-        border: 1px solid #5B48B8 !important;
+        border: 1px solid #5A4AD1 !important;
         border-radius: 8px !important;
         padding: 8px 16px !important;
-        box-shadow: 0 2px 6px rgba(109, 91, 208, 0.25) !important;
+        box-shadow: 0 2px 6px rgba(108, 92, 231, 0.25) !important;
         transition: all 0.15s ease-in-out !important;
     }
 
     div.stDownloadButton > button:hover {
-        background-color: #5B48B8 !important;
+        background-color: #5A4AD1 !important;
         color: #FFFFFF !important;
-        box-shadow: 0 4px 12px rgba(109, 91, 208, 0.35) !important;
+        box-shadow: 0 4px 12px rgba(108, 92, 231, 0.35) !important;
     }
 
     div.stDownloadButton > button p {
@@ -232,7 +232,7 @@ st.markdown("""
 
     /* Progress bar color */
     div[data-testid="stProgressBar"] > div > div {
-        background-color: #6D5BD0 !important;
+        background-color: #6C5CE7 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -319,20 +319,22 @@ st.sidebar.download_button(
 # MAIN DASHBOARD CONTENT
 # ==================================================
 
-# 1. TOP HEADER
+# 1. TOP PRODUCT HEADER
 head_col1, head_col2 = st.columns([3, 1])
 with head_col1:
     st.markdown("## 🎯 **TalentMatch ML** — Recruiter Intelligence Platform")
-    st.markdown("##### *Resume intelligence, candidate ranking & skill-gap diagnostics*")
+    st.markdown("##### *Resume intelligence • Candidate ranking • Skill-gap diagnostics*")
     st.caption("● Screening Engine Ready | ✓ PII Anonymized | 4-Tier Hybrid Scoring | Decision Support Only")
 
 with head_col2:
-    st.info("💡 **Decision Support Only**\n\nObjective candidate screening & skill-gap diagnostics.")
+    with st.container(border=True):
+        st.markdown("**DECISION SUPPORT**")
+        st.caption("Human-in-the-loop screening prototype")
 
 st.markdown("")
 
 # ==================================================
-# SECTION 1: TARGET ROLE OVERVIEW
+# TARGET ROLE SUMMARY CARD
 # ==================================================
 with st.container(border=True):
     r_col1, r_col2 = st.columns([2, 1])
@@ -349,21 +351,21 @@ with st.container(border=True):
 st.markdown("")
 
 # ==================================================
-# SECTION 2: SCREENING OVERVIEW (4 KPI CARDS)
+# SECTION 01: SCREENING OVERVIEW (4 KPI CARDS)
 # ==================================================
-st.markdown("### 01. Screening Overview")
+st.markdown("### 01. SCREENING OVERVIEW")
 
 kpi1, kpi2, kpi3, kpi4 = st.columns(4)
 
 with kpi1:
     with st.container(border=True):
         st.metric("Total Resumes", f"{total_cands}")
-        st.caption("Formats: **PDF, DOCX, TXT**")
+        st.caption("PDF • DOCX • TXT")
 
 with kpi2:
     with st.container(border=True):
         st.metric("Strong Technical Fit", f"{strong_matches}")
-        st.caption("Score ≥75% • Ready for Screen")
+        st.caption("Score ≥75% • Ready for screen")
 
 with kpi3:
     with st.container(border=True):
@@ -378,10 +380,10 @@ with kpi4:
 st.markdown("")
 
 # ==================================================
-# SECTION 3: CANDIDATE RANKING (Chart + Top Candidate)
+# SECTION 02: CANDIDATE RANKING (Chart + Top Candidate)
 # ==================================================
-st.markdown("### 02. Candidate Ranking")
-st.caption("Technical compatibility across mandatory skills, dense semantic relevance, keyword overlap, and experience.")
+st.markdown("### 02. CANDIDATE RANKING")
+st.caption("Technical compatibility across mandatory skills, semantic relevance and experience.")
 
 rank_col1, rank_col2 = st.columns([3, 2])
 
@@ -393,11 +395,11 @@ with rank_col1:
     bar_colors = []
     for s in sorted_chart_df["composite_score"]:
         if s >= 75.0:
-            bar_colors.append("#4F8A70")  # Success Green
+            bar_colors.append("#4E8F73")  # Success Green
         elif s >= 40.0:
-            bar_colors.append("#C58A28")  # Warm Amber
+            bar_colors.append("#D59A2B")  # Warm Amber
         else:
-            bar_colors.append("#C85A54")  # Coral
+            bar_colors.append("#D85B5B")  # Coral
             
     fig = go.Figure(go.Bar(
         x=sorted_chart_df["composite_score"],
@@ -405,7 +407,7 @@ with rank_col1:
         orientation="h",
         marker=dict(
             color=bar_colors,
-            line=dict(color="#E5E0EF", width=1)
+            line=dict(color="#DED9EA", width=1)
         ),
         text=[f"  <b>{s:.1f}%</b> ({g})" for s, g in zip(sorted_chart_df["composite_score"], sorted_chart_df["gap_severity"])],
         textposition="outside",
@@ -417,16 +419,16 @@ with rank_col1:
         paper_bgcolor="#FFFFFF",
         plot_bgcolor="#FFFFFF",
         margin=dict(l=10, r=60, t=25, b=20),
-        font=dict(family="Plus Jakarta Sans, Inter, sans-serif", size=12, color="#6F6A7D"),
+        font=dict(family="Plus Jakarta Sans, Inter, sans-serif", size=12, color="#6F6B7D"),
         xaxis=dict(
             range=[0, 108],
             ticksuffix="%",
-            gridcolor="#F0ECF8",
-            zerolinecolor="#E5E0EF",
-            tickfont=dict(size=11, color="#6F6A7D")
+            gridcolor="#F6F3FB",
+            zerolinecolor="#DED9EA",
+            tickfont=dict(size=11, color="#6F6B7D")
         ),
         yaxis=dict(
-            tickfont=dict(size=12, color="#252334", weight=600)
+            tickfont=dict(size=12, color="#25233A", weight=600)
         ),
         height=340
     )
@@ -434,7 +436,7 @@ with rank_col1:
 
 with rank_col2:
     with st.container(border=True):
-        st.markdown("#### 🥇 Top Ranked Candidate")
+        st.markdown("#### 🥇 TOP RANKED CANDIDATE")
         st.markdown(f"### `{top_row['candidate_id']}`")
         
         tc_m1, tc_m2 = st.columns(2)
@@ -451,7 +453,7 @@ with rank_col2:
 st.markdown("")
 
 # ==================================================
-# SECTION 4: RECRUITER INSIGHT
+# SECTION 03: RECRUITER INSIGHT
 # ==================================================
 with st.container(border=True):
     st.markdown("### 💡 Recruiter Insight: Why This Candidate Ranks First")
@@ -475,15 +477,15 @@ with st.container(border=True):
         st.metric("TF-IDF Match (20%)", f"{top_row['lexical_similarity_pct']:.1f}%")
         st.progress(min(1.0, top_row['lexical_similarity_pct'] / 100.0))
     with ins_c4:
-        st.metric("Experience/Edu (10%)", f"{top_row['exp_edu_fit_pct']:.1f}%")
+        st.metric("Experience / Education (10%)", f"{top_row['exp_edu_fit_pct']:.1f}%")
         st.progress(min(1.0, top_row['exp_edu_fit_pct'] / 100.0))
 
 st.markdown("")
 
 # ==================================================
-# SECTION 5: CANDIDATE PROFILE DEEP-DIVE
+# SECTION 04: CANDIDATE PROFILE DEEP DIVE
 # ==================================================
-st.markdown("### 03. Candidate Profile Deep-Dive")
+st.markdown("### 04. CANDIDATE PROFILE")
 
 selected_cand_id = st.selectbox(
     "Select Candidate Profile to Inspect:",
@@ -502,9 +504,9 @@ c_col1, c_col2 = st.columns([1, 1])
 
 with c_col1:
     with st.container(border=True):
-        st.caption("CANDIDATE PROFILE")
+        st.caption("CANDIDATE SUMMARY")
         st.subheader(cand_row['candidate_id'])
-        st.markdown(f"**Rank:** `#{cand_row['Rank']} of {total_cands}` &nbsp;|&nbsp; **Gap:** `{cand_row['gap_severity']}` &nbsp;|&nbsp; **PII:** `Masked` &nbsp;|&nbsp; **Format:** `.{cand_file_ext}`")
+        st.markdown(f"**Rank:** `#{cand_row['Rank']} of {total_cands}` &nbsp;|&nbsp; **Match:** `{cand_row['composite_score']:.1f}%` &nbsp;|&nbsp; **Gap:** `{cand_row['gap_severity']}` &nbsp;|&nbsp; **PII:** `Masked` &nbsp;|&nbsp; **Format:** `.{cand_file_ext}`")
         st.divider()
         
         m_row1, m_row2 = st.columns(2)
@@ -570,9 +572,10 @@ with c_col2:
 st.markdown("")
 
 # ==================================================
-# SECTION 6: SKILL GAP ANALYSIS & FULL TABLE
+# SECTION 05: SKILL GAP ANALYSIS & FULL TABLE
 # ==================================================
-st.markdown("### 04. Skill Gap Analysis & Evaluation Breakdown")
+st.markdown("### 05. SKILL GAP ANALYSIS")
+st.caption("Granular 4-tier match breakdown and candidate evaluation diagnostics.")
 
 tab_pillars, tab_table = st.tabs(["📊 Evaluation Pillar Breakdown", "📋 Full Candidate Leaderboard Data"])
 
@@ -594,7 +597,7 @@ with tab_pillars:
             st.progress(min(1.0, cand_row['lexical_similarity_pct'] / 100.0))
             st.caption("Sublinear TF-IDF similarity")
         with pil_c4:
-            st.metric("Experience/Edu (10%)", f"{cand_row['exp_edu_fit_pct']:.1f}%")
+            st.metric("Experience / Education (10%)", f"{cand_row['exp_edu_fit_pct']:.1f}%")
             st.progress(min(1.0, cand_row['exp_edu_fit_pct'] / 100.0))
             st.caption(f"{cand_row['experience_years']}y exp • {cand_row['education_level']}")
 
@@ -623,10 +626,10 @@ with tab_table:
 st.markdown("")
 
 # ==================================================
-# SECTION 7: SCORING ARCHITECTURE
+# SECTION 06: SCORING ARCHITECTURE
 # ==================================================
-st.markdown("### 05. Scoring Architecture")
-st.caption("Transparent, multi-tier scoring methodology designed for recruiter interpretability.")
+st.markdown("### 06. SCORING ARCHITECTURE")
+st.caption("Transparent multi-factor candidate evaluation designed for recruiter interpretability.")
 
 arch_c1, arch_c2, arch_c3, arch_c4 = st.columns(4)
 
@@ -634,58 +637,59 @@ with arch_c1:
     with st.container(border=True):
         st.markdown("#### 40%")
         st.markdown("**Hard Skill Overlap**")
-        st.caption("Direct matching against mandatory (80%) and preferred (20%) technical competencies using a 200+ skill taxonomy with alias resolution.")
+        st.caption("Mandatory (80%) and preferred (20%) technical competency matching with 200+ taxonomy resolution.")
 
 with arch_c2:
     with st.container(border=True):
         st.markdown("#### 30%")
         st.markdown("**Dense Semantic Fit**")
-        st.caption("Contextual vector cosine similarity via `SentenceTransformer('all-MiniLM-L6-v2')` to evaluate domain experience depth.")
+        st.caption("Contextual vector similarity using `SentenceTransformer('all-MiniLM-L6-v2')` to evaluate domain depth.")
 
 with arch_c3:
     with st.container(border=True):
         st.markdown("#### 20%")
         st.markdown("**TF-IDF Keyword Match**")
-        st.caption("Sublinear term-frequency inverse-document frequency cosine similarity for exact technical keyword alignment.")
+        st.caption("Sublinear term-frequency inverse-document frequency cosine similarity for exact keyword alignment.")
 
 with arch_c4:
     with st.container(border=True):
         st.markdown("#### 10%")
         st.markdown("**Experience & Education**")
-        st.caption("Stated professional experience ratio against job requirements combined with educational degree attainment.")
+        st.caption("Experience tenure ratio against job requirements combined with educational degree attainment.")
 
 st.markdown("")
 
 # ==================================================
-# SECTION 8: GOVERNANCE & DATA PROVENANCE
+# SECTION 07: GOVERNANCE & DATA PROVENANCE
 # ==================================================
-st.markdown("### 06. Governance & Data Provenance")
+st.markdown("### 07. GOVERNANCE & DATA PROVENANCE")
+st.caption("Ethical AI safeguards and dataset transparency.")
 
 gov_col1, gov_col2, gov_col3 = st.columns(3)
 
 with gov_col1:
     with st.container(border=True):
-        st.markdown("##### 📊 Data Provenance")
+        st.markdown("##### 📊 DATA PROVENANCE")
+        st.markdown("**Controlled synthetic candidate corpus**")
         st.caption(
-            "Controlled, synthetic candidate resume dataset (8 profiles across PDF, DOCX, and TXT formats) "
-            "curated to validate multi-format parsing, PII anonymization, 4-tier hybrid scoring, and "
-            "skill-gap extraction in an objective prototype environment."
+            "8 multi-format profiles (PDF • DOCX • TXT) curated to validate multi-format parsing, "
+            "PII anonymization, skill extraction, and hybrid scoring in an objective prototype environment."
         )
 
 with gov_col2:
     with st.container(border=True):
-        st.markdown("##### 🛡️ Privacy & Fairness")
+        st.markdown("##### 🛡️ PRIVACY & FAIRNESS")
+        st.markdown("**Zero-PII evaluation**")
         st.caption(
-            "Candidate names, email addresses, phone numbers, and profile URLs are automatically scrubbed "
-            "from resume text prior to feature extraction to mitigate demographic, gender, and unconscious "
-            "recruiter bias."
+            "Candidate names, emails, phone numbers, and profile URLs are automatically scrubbed prior to feature "
+            "extraction. Protected demographic attributes are excluded from ranking."
         )
 
 with gov_col3:
     with st.container(border=True):
-        st.markdown("##### ⚖️ Decision Support")
+        st.markdown("##### ⚖️ DECISION SUPPORT")
+        st.markdown("**Human-in-the-loop**")
         st.caption(
-            "TalentMatch ML is explicitly engineered as a recruiter decision-support tool, not an autonomous "
-            "hiring engine. Real-world deployment requires production validation, and human evaluation remains "
-            "mandatory for all hiring decisions."
+            "TalentMatch ML is explicitly built as a recruiter decision-support tool, NOT an autonomous hiring engine. "
+            "Real-world deployment requires production validation and human evaluation."
         )
