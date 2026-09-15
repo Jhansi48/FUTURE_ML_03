@@ -1,0 +1,11 @@
+PII AUDIT ---------
+Profiles checked: 8
+PDF: PASS
+DOCX: PASS
+TXT: PASS
+Names masked: PASS
+Emails masked: PASS
+Phones masked: PASS
+URLs masked: PASS
+Residual PII detected: 0
+Overall: PASS

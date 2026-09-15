@@ -576,30 +576,31 @@ st.markdown("")
 # ==================================================
 # SECTION 01: SCREENING OVERVIEW (4 KPI CARDS)
 # ==================================================
-st.markdown("<div class='section-header'><div class='section-title'>01. SCREENING OVERVIEW</div><div class='section-sub'>Quick view of candidate-pool alignment.</div></div>", unsafe_allow_html=True)
+st.markdown("<div class='section-header'><div class='section-title'>01. SCREENING OVERVIEW</div><div class='section-sub'>Candidate-pool alignment based on prototype heuristic composite match scores.</div></div>", unsafe_allow_html=True)
 
 kpi1, kpi2, kpi3, kpi4 = st.columns(4)
 
 with kpi1:
     with st.container(border=True):
         st.metric("Total Resumes", f"{total_cands}")
-        st.caption("PDF • DOCX • TXT")
+        st.caption("All parsed candidate files")
 
 with kpi2:
     with st.container(border=True):
         st.metric("Strong Overall Match", f"{strong_matches}")
-        st.caption("Score ≥75%")
+        st.caption("Score ≥ 75%")
 
 with kpi3:
     with st.container(border=True):
         st.metric("Moderate Match", f"{moderate_matches}")
-        st.caption("Score 40–74%")
+        st.caption("Score 40%–74.9%")
 
 with kpi4:
     with st.container(border=True):
         st.metric("High Technical Gap", f"{high_gaps}")
-        st.caption("Score <40%")
+        st.caption("Score < 40%")
 
+st.caption("📌 *Thresholds are prototype decision-support bands, not validated hiring cutoffs.*")
 st.markdown("")
 
 # ==================================================
@@ -607,7 +608,7 @@ st.markdown("")
 # ==================================================
 st.markdown("<div class='section-header'><div class='section-title'>02. CANDIDATE RANKING</div><div class='section-sub'>Technical compatibility across skills, semantic relevance and experience.</div></div>", unsafe_allow_html=True)
 
-rank_col1, rank_col2 = st.columns([65, 35])
+rank_col1, rank_col2 = st.columns([60, 40])
 
 top_row = rankings_df.iloc[0]
 
@@ -636,13 +637,13 @@ with rank_col1:
             paper_bgcolor="#FFFFFF",
             plot_bgcolor="#FFFFFF",
             margin=dict(l=10, r=90, t=10, b=20),
-            font=dict(family="Plus Jakarta Sans, Inter, sans-serif", size=12, color="#6E6A7B"),
+            font=dict(family="Plus Jakarta Sans, Inter, sans-serif", size=12, color="#4A4658"),
             xaxis=dict(
                 range=[0, 115],
                 ticksuffix="%",
                 gridcolor="#F3F0F9",
                 zerolinecolor="#DDD7EA",
-                tickfont=dict(size=11, color="#6E6A7B")
+                tickfont=dict(size=11, color="#4A4658")
             ),
             yaxis=dict(
                 tickfont=dict(size=12, color="#25233A", weight=600)
@@ -654,16 +655,18 @@ with rank_col1:
 with rank_col2:
     with st.container(border=True):
         st.markdown("<p style='color:#6B5BD6; font-weight:800; font-size:0.75rem; letter-spacing:0.06em; margin-bottom:2px;'>🏆 TOP MATCH</p>", unsafe_allow_html=True)
-        st.markdown(f"<div style='margin-bottom:6px;'><span class='saas-candidate-chip'>{top_row['candidate_id']}</span></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='margin-bottom:6px;'><span class='saas-badge-pill'>Rank #{top_row['Rank']}</span><span class='saas-candidate-chip'>{top_row['candidate_id']}</span></div>", unsafe_allow_html=True)
         st.markdown(f"<span class='{get_fit_badge_class(top_row['composite_score'])}'>{get_fit_category(top_row['composite_score'])}</span>", unsafe_allow_html=True)
         st.divider()
         
-        tc_m1, tc_m2 = st.columns(2)
+        tc_m1, tc_m2, tc_m3 = st.columns(3)
         with tc_m1:
             st.metric("Composite Match", f"{top_row['composite_score']:.1f}%")
-            st.metric("Experience", f"{top_row['experience_years']} Years")
+            st.metric("Experience", f"{top_row['experience_years']} Yrs")
         with tc_m2:
             st.metric("Mandatory Skills", f"{len(top_row['matched_required'])} / {len(active_jd['required_skills'])}")
+            st.metric("Semantic Fit", f"{top_row['semantic_similarity_pct']:.1f}%")
+        with tc_m3:
             st.metric("Preferred Skills", f"{len(top_row['matched_preferred'])} / {len(active_jd['preferred_skills'])}")
             
         st.divider()
@@ -678,10 +681,7 @@ with st.container(border=True):
     st.markdown("<p style='color:#6B5BD6; font-weight:800; font-size:0.75rem; letter-spacing:0.06em; margin-bottom:2px;'>💡 RECRUITER INSIGHT</p>", unsafe_allow_html=True)
     st.markdown("<h4 style='color:#25233A; margin:0 0 6px 0;'>WHY THIS CANDIDATE RANKS FIRST</h4>", unsafe_allow_html=True)
     
-    if len(top_row['missing_required']) == 0:
-        insight_summary = f"Candidate <strong>#{top_row['Rank']} (<span class='saas-candidate-chip'>{top_row['candidate_id']}</span>)</strong> satisfies <strong>all {len(active_jd['required_skills'])} mandatory technical competencies</strong> and demonstrates the strongest contextual semantic alignment (<strong>{top_row['semantic_similarity_pct']:.1f}%</strong>) for this role."
-    else:
-        insight_summary = f"Candidate <strong>#{top_row['Rank']} (<span class='saas-candidate-chip'>{top_row['candidate_id']}</span>)</strong> satisfies <strong>{len(top_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory technical competencies</strong> with an overall composite score of <strong>{top_row['composite_score']:.1f}%</strong>."
+    insight_summary = f"Candidate <strong>#{top_row['Rank']} (<span class='saas-candidate-chip'>{top_row['candidate_id']}</span>)</strong> satisfies <strong>{len(top_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory technical competencies</strong> with a dense semantic fit of <strong>{top_row['semantic_similarity_pct']:.1f}%</strong> and an overall composite match score of <strong>{top_row['composite_score']:.1f}%</strong>."
         
     st.markdown(f"<p style='color:#25233A; font-size:0.92rem; margin-bottom:14px;'>{insight_summary}</p>", unsafe_allow_html=True)
     
@@ -801,18 +801,21 @@ st.markdown("<div class='section-header'><div class='section-title'>05. SKILL GA
 
 # Four Metric Cards
 gap_c1, gap_c2, gap_c3, gap_c4 = st.columns(4)
+mand_pct = (len(cand_row['matched_required']) / len(active_jd['required_skills'])) * 100.0 if active_jd['required_skills'] else 100.0
+pref_pct = (len(cand_row['matched_preferred']) / len(active_jd['preferred_skills'])) * 100.0 if active_jd['preferred_skills'] else 100.0
+
 with gap_c1:
     with st.container(border=True):
-        st.metric("TECHNICAL SKILL COVERAGE", f"{cand_row['skill_score_pct']:.1f}%")
-        st.caption(f"Matched {len(cand_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory skills")
+        st.metric("MANDATORY SKILL COVERAGE", f"{mand_pct:.1f}%")
+        st.caption(f"{len(cand_row['matched_required'])} / {len(active_jd['required_skills'])} mandatory skills")
 with gap_c2:
+    with st.container(border=True):
+        st.metric("PREFERRED SKILL COVERAGE", f"{pref_pct:.1f}%")
+        st.caption(f"{len(cand_row['matched_preferred'])} / {len(active_jd['preferred_skills'])} preferred skills")
+with gap_c3:
     with st.container(border=True):
         st.metric("SEMANTIC FIT", f"{cand_row['semantic_similarity_pct']:.1f}%")
         st.caption("Dense vector alignment")
-with gap_c3:
-    with st.container(border=True):
-        st.metric("KEYWORD MATCH", f"{cand_row['lexical_similarity_pct']:.1f}%")
-        st.caption("TF-IDF cosine similarity")
 with gap_c4:
     with st.container(border=True):
         st.metric("EXPERIENCE / EDUCATION", f"{cand_row['exp_edu_fit_pct']:.1f}%")
@@ -843,25 +846,25 @@ with side_col2:
 with st.container(border=True):
     st.markdown("<p style='color:#6B5BD6; font-weight:800; font-size:0.75rem; letter-spacing:0.06em; margin-bottom:2px;'>RECOMMENDED ACTION</p>", unsafe_allow_html=True)
     if cand_row['composite_score'] >= 75.0 and len(cand_row['missing_required']) == 0:
-        action_text = f"Strong overall match. Candidate satisfies <strong>all {len(active_jd['required_skills'])} mandatory technical skills</strong> with strong domain vector alignment ({cand_row['semantic_similarity_pct']:.1f}%). Recommended for recruiter review and technical interview."
+        action_text = f"Strong overall match. Candidate satisfies <strong>all {len(active_jd['required_skills'])} mandatory technical skills</strong> with strong domain vector alignment ({cand_row['semantic_similarity_pct']:.1f}%). Recommended for recruiter review and technical screening."
     elif cand_row['composite_score'] >= 40.0:
         missing_str = ", ".join(cand_row['missing_required']) if cand_row['missing_required'] else "none"
-        action_text = f"Moderate match. Candidate displays technical alignment across {len(cand_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory skills (missing: <strong>{missing_str}</strong>). Recommended for hiring manager review."
+        action_text = f"Moderate match. Candidate satisfies <strong>{len(cand_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory technical skills</strong> (missing: <strong>{missing_str}</strong>). Recommended for recruiter review and hiring manager evaluation."
     else:
         missing_str = ", ".join(cand_row['missing_required']) if cand_row['missing_required'] else "core skills"
-        action_text = f"High technical gap. Candidate demonstrates low alignment for this specific role (missing: <strong>{missing_str}</strong>). Profile indicates primary background in adjacent domains."
+        action_text = f"High technical gap. Candidate satisfies only <strong>{len(cand_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory technical skills</strong> (missing: <strong>{missing_str}</strong>). Profile indicates primary background in adjacent domains."
     st.markdown(f"<p style='color:#25233A; font-size:0.90rem; margin:0;'>{action_text}</p>", unsafe_allow_html=True)
 
 st.markdown("")
 
-# Clean Light Leaderboard Table (100% Light Enterprise Styling, Zero Indent for Clean HTML Parsing)
+# Clean Light Leaderboard Table (100% Light Enterprise Styling, Zero Indent for Clean HTML Parsing, Full Responsive Wrap)
 with st.container(border=True):
     st.markdown("<h5 style='color:#25233A; margin:0 0 10px 0;'>Candidate Leaderboard Summary</h5>", unsafe_allow_html=True)
     
     table_rows_html = "".join([
         f"<tr>"
         f"<td style='font-weight:700; color:#6B5BD6;'>#{r['Rank']}</td>"
-        f"<td><span class='saas-candidate-chip'>{r['candidate_id']}</span></td>"
+        f"<td style='white-space:normal; overflow-wrap:anywhere; word-break:break-word;'><span class='saas-candidate-chip'>{r['candidate_id']}</span></td>"
         f"<td><strong>{r['composite_score']:.1f}%</strong></td>"
         f"<td><span class='{get_fit_badge_class(r['composite_score'])}'>{r['fit_category']}</span></td>"
         f"<td>{len(r['matched_required'])} / {len(active_jd['required_skills'])}</td>"
@@ -902,7 +905,7 @@ with arch_c1:
     with st.container(border=True):
         st.markdown("<h2 style='color:#6B5BD6; font-weight:800; margin:0 0 4px 0;'>40%</h2>", unsafe_allow_html=True)
         st.markdown("<p style='color:#25233A; font-weight:800; font-size:0.90rem; margin-bottom:4px;'>TECHNICAL SKILL OVERLAP</p>", unsafe_allow_html=True)
-        st.caption("Mandatory (80% of component) and preferred (20% of component) technical competency matching against domain taxonomy.")
+        st.caption("Mandatory skills = 80% of this component. Preferred skills = 20% of this component.")
 
 with arch_c2:
     with st.container(border=True):
@@ -922,7 +925,7 @@ with arch_c4:
         st.markdown("<p style='color:#25233A; font-weight:800; font-size:0.90rem; margin-bottom:4px;'>EXPERIENCE & EDUCATION</p>", unsafe_allow_html=True)
         st.caption("Experience tenure ratio against job requirements with informational degree heuristic.")
 
-st.caption("📌 *Note: Composite Match Score is a transparent heuristic ranking score for decision support; it is not a hiring probability or calibrated confidence score.*")
+st.caption("📌 *Note: Composite Match Score is a transparent heuristic ranking score for decision support; it is not a hiring probability or calibrated confidence score. Weights are prototype design choices and have not been statistically calibrated against hiring outcomes.*")
 
 st.markdown("")
 
@@ -937,19 +940,19 @@ with gov_col1:
     with st.container(border=True):
         st.markdown("<h4 style='color:#25233A; margin:0 0 4px 0;'>📊 DATA PROVENANCE</h4>", unsafe_allow_html=True)
         st.markdown("<p style='color:#6B5BD6; font-weight:700; font-size:0.85rem; margin-bottom:6px;'>Controlled synthetic candidate corpus</p>", unsafe_allow_html=True)
-        st.markdown("<p style='color:#25233A; font-size:0.85rem; margin-bottom:4px;'><strong>8 multi-format profiles</strong> (PDF • DOCX • TXT)</p>", unsafe_allow_html=True)
+        st.markdown("<p style='color:#25233A; font-size:0.85rem; margin-bottom:4px;'><strong>8 multi-format profiles</strong> (PDF • DOCX • TXT) across 3 synthetic job descriptions.</p>", unsafe_allow_html=True)
         st.caption("These profiles are synthetic benchmark data created for prototype evaluation and are not representative of a production hiring population.")
 
 with gov_col2:
     with st.container(border=True):
         st.markdown("<h4 style='color:#25233A; margin:0 0 4px 0;'>🛡️ PRIVACY & RESPONSIBLE USE</h4>", unsafe_allow_html=True)
         st.markdown("<p style='color:#6B5BD6; font-weight:700; font-size:0.85rem; margin-bottom:6px;'>PII reduction & anonymization</p>", unsafe_allow_html=True)
-        st.markdown("<p style='color:#25233A; font-size:0.85rem; margin-bottom:4px;'>Candidate names, emails, phone numbers and profile URLs are scrubbed before feature extraction.</p>", unsafe_allow_html=True)
+        st.markdown("<p style='color:#25233A; font-size:0.85rem; margin-bottom:4px;'>Candidate names, email addresses, phone numbers and profile URLs are masked before feature extraction and scoring.</p>", unsafe_allow_html=True)
         st.caption("Protected demographic attributes are excluded from ranking. Fairness performance cannot be validated from this small controlled synthetic corpus; real-world deployment would require independent fairness evaluation, monitoring and governance.")
 
 with gov_col3:
     with st.container(border=True):
         st.markdown("<h4 style='color:#25233A; margin:0 0 4px 0;'>⚖️ DECISION SUPPORT</h4>", unsafe_allow_html=True)
         st.markdown("<p style='color:#6B5BD6; font-weight:700; font-size:0.85rem; margin-bottom:6px;'>Human-in-the-loop requirement</p>", unsafe_allow_html=True)
-        st.markdown("<p style='color:#25233A; font-size:0.85rem; margin-bottom:4px;'>TalentMatch ML is a recruiter decision-support prototype, NOT an autonomous hiring engine.</p>", unsafe_allow_html=True)
+        st.markdown("<p style='color:#25233A; font-size:0.85rem; margin-bottom:4px;'>TalentMatch ML is a recruiter decision-support prototype, not an autonomous hiring engine.</p>", unsafe_allow_html=True)
         st.caption("Scores represent prototype heuristic alignment and must always be validated by recruiters and hiring managers.")
