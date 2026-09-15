@@ -99,6 +99,24 @@ st.markdown("""
         border-color: #DDD7EA !important;
     }
 
+    /* Light, Professional Code / Candidate ID Styling - No Black Terminal Blocks */
+    code, .saas-candidate-chip {
+        background-color: #EDE9FE !important;
+        color: #5B46D6 !important;
+        border: 1px solid #DDD6FE !important;
+        border-radius: 6px !important;
+        padding: 3px 8px !important;
+        font-size: 0.85rem !important;
+        font-weight: 700 !important;
+        font-family: 'Plus Jakarta Sans', 'Inter', monospace !important;
+    }
+
+    section[data-testid="stSidebar"] code {
+        background-color: #FFFFFF !important;
+        color: #5B46D6 !important;
+        border: 1px solid #DDD7EA !important;
+    }
+
     /* Native Card Containers: White with Lavender-tinted border and soft shadow */
     div[data-testid="stVerticalBlockBorderWrapper"] {
         background-color: #FFFFFF !important;
@@ -207,16 +225,14 @@ st.markdown("""
         background-color: #6B5BD6 !important;
     }
 
-    /* Custom CSS Utility Classes for Cards and Badges */
-    .saas-card {
-        background-color: #FFFFFF;
-        border: 1px solid #DDD7EA;
-        border-radius: 12px;
-        padding: 18px 20px;
-        box-shadow: 0 4px 16px rgba(107, 91, 214, 0.05), 0 1px 3px rgba(37, 35, 58, 0.03);
-        margin-bottom: 16px;
+    /* Dataframe table styling: clean light theme */
+    div[data-testid="stDataFrame"] {
+        background-color: #FFFFFF !important;
+        border: 1px solid #DDD7EA !important;
+        border-radius: 8px !important;
     }
 
+    /* Custom CSS Utility Classes for Cards and Badges */
     .saas-badge-pill {
         display: inline-block;
         background-color: #EDE9FE;
@@ -554,7 +570,7 @@ with rank_col1:
             text=[f"  <b>{s:.1f}%</b> ({get_fit_category(s)})" for s in sorted_chart_df["composite_score"]],
             textposition="outside",
             cliponaxis=False,
-            hovertemplate="<b>%{y}</b><br>Composite Match: %{x:.1f}%<br>Fit: %{text}<extra></extra>"
+            hovertemplate="<b>%{y}</b><br>Composite Match: %{x:.1f}%<br>Fit Category: %{text}<extra></extra>"
         ))
         
         fig.update_layout(
@@ -615,29 +631,29 @@ with st.container(border=True):
         with st.container(border=True):
             st.metric("Hard Skills", f"{top_row['skill_score_pct']:.1f}%")
             st.progress(min(1.0, top_row['skill_score_pct'] / 100.0))
-            st.caption("Weight: 40%")
+            st.caption("Weight: 40% • Taxonomy match")
     with ins_c2:
         with st.container(border=True):
             st.metric("Semantic Fit", f"{top_row['semantic_similarity_pct']:.1f}%")
             st.progress(min(1.0, top_row['semantic_similarity_pct'] / 100.0))
-            st.caption("Weight: 30%")
+            st.caption("Weight: 30% • MiniLM-L6 vector")
     with ins_c3:
         with st.container(border=True):
             st.metric("TF-IDF Match", f"{top_row['lexical_similarity_pct']:.1f}%")
             st.progress(min(1.0, top_row['lexical_similarity_pct'] / 100.0))
-            st.caption("Weight: 20%")
+            st.caption("Weight: 20% • Keyword cosine")
     with ins_c4:
         with st.container(border=True):
             st.metric("Exp / Edu", f"{top_row['exp_edu_fit_pct']:.1f}%")
             st.progress(min(1.0, top_row['exp_edu_fit_pct'] / 100.0))
-            st.caption("Weight: 10%")
+            st.caption("Weight: 10% • Tenure heuristic")
 
 st.markdown("")
 
 # ==================================================
 # SECTION 04: CANDIDATE PROFILE DEEP DIVE
 # ==================================================
-st.markdown("<div class='section-header'><div class='section-title'>03. CANDIDATE PROFILE</div><div class='section-sub'>Individual candidate inspection and structured competency diagnostics.</div></div>", unsafe_allow_html=True)
+st.markdown("<div class='section-header'><div class='section-title'>04. CANDIDATE PROFILE</div><div class='section-sub'>Individual candidate inspection and structured competency diagnostics.</div></div>", unsafe_allow_html=True)
 
 selected_cand_id = st.selectbox(
     "Select Candidate Profile to Inspect:",
@@ -720,7 +736,7 @@ st.markdown("")
 # ==================================================
 # SECTION 05: SKILL GAP ANALYSIS & FULL TABLE
 # ==================================================
-st.markdown("<div class='section-header'><div class='section-title'>04. SKILL GAP ANALYSIS</div><div class='section-sub'>Candidate evaluation diagnostics and skill gap resolution.</div></div>", unsafe_allow_html=True)
+st.markdown("<div class='section-header'><div class='section-title'>05. SKILL GAP ANALYSIS</div><div class='section-sub'>Candidate evaluation diagnostics and skill gap resolution.</div></div>", unsafe_allow_html=True)
 
 # Four Metric Cards
 gap_c1, gap_c2, gap_c3, gap_c4 = st.columns(4)
@@ -766,10 +782,10 @@ with side_col2:
 with st.container(border=True):
     st.markdown("<p style='color:#6B5BD6; font-weight:800; font-size:0.75rem; letter-spacing:0.06em; margin-bottom:2px;'>RECOMMENDED ACTION</p>", unsafe_allow_html=True)
     if cand_row['composite_score'] >= 75.0 and len(cand_row['missing_required']) == 0:
-        action_text = f"Candidate satisfies <strong>all {len(active_jd['required_skills'])} mandatory technical skills</strong> with strong domain vector alignment ({cand_row['semantic_similarity_pct']:.1f}%). Recommended to advance immediately to technical screen."
+        action_text = f"Candidate satisfies <strong>all {len(active_jd['required_skills'])} mandatory technical skills</strong> with strong domain vector alignment ({cand_row['semantic_similarity_pct']:.1f}%). Recommended for recruiter review and technical interview."
     elif cand_row['composite_score'] >= 40.0:
         missing_str = ", ".join(cand_row['missing_required']) if cand_row['missing_required'] else "none"
-        action_text = f"Candidate displays moderate technical alignment ({len(cand_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory skills). Primary gaps to assess: <strong>{missing_str}</strong>. Suitable for hiring manager review."
+        action_text = f"Candidate displays moderate technical alignment ({len(cand_row['matched_required'])}/{len(active_jd['required_skills'])} mandatory skills). Primary gaps to assess: <strong>{missing_str}</strong>. Recommended for hiring manager review."
     else:
         missing_str = ", ".join(cand_row['missing_required']) if cand_row['missing_required'] else "core skills"
         action_text = f"Candidate demonstrates low alignment for this specific role (missing: <strong>{missing_str}</strong>). Profile indicates primary background in adjacent domains."
@@ -806,7 +822,7 @@ st.markdown("")
 # ==================================================
 # SECTION 06: SCORING ARCHITECTURE (4 REAL CARDS)
 # ==================================================
-st.markdown("<div class='section-header'><div class='section-title'>05. SCORING ARCHITECTURE</div><div class='section-sub'>Transparent multi-factor candidate evaluation.</div></div>", unsafe_allow_html=True)
+st.markdown("<div class='section-header'><div class='section-title'>06. SCORING ARCHITECTURE</div><div class='section-sub'>Transparent multi-factor candidate evaluation heuristic.</div></div>", unsafe_allow_html=True)
 
 arch_c1, arch_c2, arch_c3, arch_c4 = st.columns(4)
 
@@ -814,32 +830,32 @@ with arch_c1:
     with st.container(border=True):
         st.markdown("<h2 style='color:#6B5BD6; font-weight:800; margin:0 0 4px 0;'>40%</h2>", unsafe_allow_html=True)
         st.markdown("<p style='color:#25233A; font-weight:800; font-size:0.90rem; margin-bottom:4px;'>HARD SKILL OVERLAP</p>", unsafe_allow_html=True)
-        st.caption("Mandatory and preferred technical competency matching.")
+        st.caption("Mandatory (80%) and preferred (20%) technical competency matching against domain taxonomy.")
 
 with arch_c2:
     with st.container(border=True):
         st.markdown("<h2 style='color:#6B5BD6; font-weight:800; margin:0 0 4px 0;'>30%</h2>", unsafe_allow_html=True)
         st.markdown("<p style='color:#25233A; font-weight:800; font-size:0.90rem; margin-bottom:4px;'>DENSE SEMANTIC FIT</p>", unsafe_allow_html=True)
-        st.caption("Contextual similarity using all-MiniLM-L6-v2.")
+        st.caption("Contextual vector similarity using SentenceTransformer (all-MiniLM-L6-v2).")
 
 with arch_c3:
     with st.container(border=True):
         st.markdown("<h2 style='color:#6B5BD6; font-weight:800; margin:0 0 4px 0;'>20%</h2>", unsafe_allow_html=True)
         st.markdown("<p style='color:#25233A; font-weight:800; font-size:0.90rem; margin-bottom:4px;'>TF-IDF KEYWORD MATCH</p>", unsafe_allow_html=True)
-        st.caption("Keyword similarity using TF-IDF cosine similarity.")
+        st.caption("Sublinear term-frequency inverse document frequency cosine similarity.")
 
 with arch_c4:
     with st.container(border=True):
         st.markdown("<h2 style='color:#6B5BD6; font-weight:800; margin:0 0 4px 0;'>10%</h2>", unsafe_allow_html=True)
         st.markdown("<p style='color:#25233A; font-weight:800; font-size:0.90rem; margin-bottom:4px;'>EXPERIENCE & EDUCATION</p>", unsafe_allow_html=True)
-        st.caption("Experience and education alignment.")
+        st.caption("Experience tenure ratio against job requirements with informational degree heuristic.")
 
 st.markdown("")
 
 # ==================================================
-# SECTION 07: GOVERNANCE & DATA PROVENANCE (3 REAL CARDS)
+# SECTION 07: PRIVACY & RESPONSIBLE USE (3 REAL CARDS)
 # ==================================================
-st.markdown("<div class='section-header'><div class='section-title'>06. GOVERNANCE & DATA PROVENANCE</div><div class='section-sub'>Transparency, privacy and responsible decision support.</div></div>", unsafe_allow_html=True)
+st.markdown("<div class='section-header'><div class='section-title'>07. PRIVACY & RESPONSIBLE USE</div><div class='section-sub'>Transparency, privacy protection and responsible decision support.</div></div>", unsafe_allow_html=True)
 
 gov_col1, gov_col2, gov_col3 = st.columns(3)
 
@@ -848,18 +864,18 @@ with gov_col1:
         st.markdown("<h4 style='color:#25233A; margin:0 0 4px 0;'>📊 DATA PROVENANCE</h4>", unsafe_allow_html=True)
         st.markdown("<p style='color:#6B5BD6; font-weight:700; font-size:0.85rem; margin-bottom:6px;'>Controlled synthetic candidate corpus</p>", unsafe_allow_html=True)
         st.markdown("<p style='color:#25233A; font-size:0.85rem; margin-bottom:4px;'><strong>8 multi-format profiles</strong> (PDF • DOCX • TXT)</p>", unsafe_allow_html=True)
-        st.caption("Skill extraction and hybrid scoring validation in an objective prototype environment.")
+        st.caption("Generated specifically to demonstrate parsing, skill extraction, semantic matching, and skill gap diagnostics in an objective prototype environment.")
 
 with gov_col2:
     with st.container(border=True):
         st.markdown("<h4 style='color:#25233A; margin:0 0 4px 0;'>🛡️ PRIVACY & FAIRNESS</h4>", unsafe_allow_html=True)
-        st.markdown("<p style='color:#6B5BD6; font-weight:700; font-size:0.85rem; margin-bottom:6px;'>PII protection</p>", unsafe_allow_html=True)
-        st.markdown("<p style='color:#25233A; font-size:0.85rem; margin-bottom:4px;'>Names, emails, phone numbers and profile URLs are scrubbed before feature extraction.</p>", unsafe_allow_html=True)
-        st.caption("Demographic attributes are strictly excluded from candidate ranking.")
+        st.markdown("<p style='color:#6B5BD6; font-weight:700; font-size:0.85rem; margin-bottom:6px;'>PII reduction & anonymization</p>", unsafe_allow_html=True)
+        st.markdown("<p style='color:#25233A; font-size:0.85rem; margin-bottom:4px;'>Candidate names, emails, phone numbers and profile URLs are scrubbed before feature extraction.</p>", unsafe_allow_html=True)
+        st.caption("Protected demographic attributes are excluded from ranking. Real-world deployment requires continuous fairness monitoring and audits.")
 
 with gov_col3:
     with st.container(border=True):
         st.markdown("<h4 style='color:#25233A; margin:0 0 4px 0;'>⚖️ DECISION SUPPORT</h4>", unsafe_allow_html=True)
-        st.markdown("<p style='color:#6B5BD6; font-weight:700; font-size:0.85rem; margin-bottom:6px;'>Human-in-the-loop</p>", unsafe_allow_html=True)
+        st.markdown("<p style='color:#6B5BD6; font-weight:700; font-size:0.85rem; margin-bottom:6px;'>Human-in-the-loop requirement</p>", unsafe_allow_html=True)
         st.markdown("<p style='color:#25233A; font-size:0.85rem; margin-bottom:4px;'>TalentMatch ML is a recruiter decision-support prototype, NOT an autonomous hiring engine.</p>", unsafe_allow_html=True)
-        st.caption("Production use requires validation and human evaluation.")
+        st.caption("Scores represent prototype heuristic alignment and must always be validated by recruiters and hiring managers.")

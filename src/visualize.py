@@ -1,4 +1,4 @@
-﻿"""
+"""
 TalentMatch ML - Visualization & Diagnostic Reporting Module
 Generates visual leaderboards, skill gap heatmaps, and score component breakdowns.
 """
@@ -19,11 +19,11 @@ def plot_candidate_leaderboard(rankings_df: pd.DataFrame, jd_title: str, output_
     plt.figure(figsize=(12, 6))
     
     df_plot = rankings_df.sort_values(by="composite_score", ascending=True)
-    colors = ["#2ca02c" if s >= 80 else ("#ff7f0e" if s >= 65 else "#d62728") for s in df_plot["composite_score"]]
+    colors = ["#4C9073" if s >= 75.0 else ("#D39A2B" if s >= 40.0 else "#D45B61") for s in df_plot["composite_score"]]
     
-    bars = plt.barh(df_plot["candidate_id"], df_plot["composite_score"], color=colors, edgecolor="#333333", height=0.6)
-    plt.axvline(80, color="#2ca02c", linestyle="--", alpha=0.7, label="Strong Match Threshold (80%)")
-    plt.axvline(65, color="#ff7f0e", linestyle="--", alpha=0.7, label="Review Threshold (65%)")
+    bars = plt.barh(df_plot["candidate_id"], df_plot["composite_score"], color=colors, edgecolor="#DDD7EA", height=0.6)
+    plt.axvline(75.0, color="#4C9073", linestyle="--", alpha=0.8, label="Strong Technical Fit (≥75%)")
+    plt.axvline(40.0, color="#D39A2B", linestyle="--", alpha=0.8, label="Moderate Fit Threshold (40%)")
     
     for bar, score in zip(bars, df_plot["composite_score"]):
         plt.text(score + 1.0, bar.get_y() + bar.get_height()/2, f"{score:.1f}%", va="center", fontweight="bold", fontsize=10)

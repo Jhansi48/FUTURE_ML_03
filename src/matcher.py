@@ -186,21 +186,30 @@ class TalentMatcher:
         ) * 100.0
         composite_score = round(float(np.clip(composite_score, 0.0, 100.0)), 2)
         
-        # Decision-support recommendation
-        if composite_score >= 75.0 and gap_info["gap_severity"] == "Low" and len(gap_info["missing_required"]) == 0:
-            recommendation = "Strong Technical Fit: All mandatory competencies satisfied. Review overall match components with the hiring manager."
-        elif composite_score >= 75.0 and gap_info["gap_severity"] == "Low":
-            recommendation = "Strong Technical Fit: High technical alignment with core requirements. Advance to Technical Screen."
-        elif composite_score >= 50.0 and len(gap_info["missing_required"]) <= 2:
-            recommendation = "Potentially Qualified: Moderate match. Review specific missing competencies with hiring manager."
+        # Canonical Fit Category
+        if composite_score >= 75.0:
+            fit_category = "Strong Technical Fit"
         elif composite_score >= 40.0:
-            recommendation = "Potentially Qualified: Moderate match. Review candidate profile and skill gaps with hiring manager."
+            fit_category = "Moderate Fit"
         else:
-            recommendation = "Skill Gap Identified: Candidate lacks several core technical competencies for this position."
+            fit_category = "High Technical Gap"
+
+        # Decision-support recommendation (explicit human-in-the-loop review)
+        if composite_score >= 75.0 and gap_info["gap_severity"] == "Low" and len(gap_info["missing_required"]) == 0:
+            recommendation = "Strong Technical Fit: All mandatory competencies satisfied. Recommended for recruiter review and technical screening."
+        elif composite_score >= 75.0 and gap_info["gap_severity"] == "Low":
+            recommendation = "Strong Technical Fit: High technical alignment with core requirements. Consider for technical screening with hiring manager."
+        elif composite_score >= 50.0 and len(gap_info["missing_required"]) <= 2:
+            recommendation = "Moderate Fit: Review specific missing competencies with hiring manager."
+        elif composite_score >= 40.0:
+            recommendation = "Moderate Fit: Review candidate profile and skill gaps with hiring manager."
+        else:
+            recommendation = "High Technical Gap: Candidate lacks several core technical competencies; recruiter decision required."
             
         return {
             "candidate_id": candidate_profile["candidate_id"],
             "composite_score": composite_score,
+            "fit_category": fit_category,
             "skill_score_pct": round(skill_score * 100, 1),
             "semantic_similarity_pct": round(semantic_sim * 100, 1),
             "lexical_similarity_pct": round(lexical_sim * 100, 1),
